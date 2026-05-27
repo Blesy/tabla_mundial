@@ -1,0 +1,409 @@
+---
+interface Partido {
+  id: string;
+  descLocal: string;
+  descVisitante: string;
+  local: string | null;
+  visitante: string | null;
+  golesLocal: number | null;
+  golesVisitante: number | null;
+  penalesLocal: number | null;
+  penalesVisitante: number | null;
+}
+
+interface PartidoSimple {
+  id: string;
+  descLocal: string;
+  descVisitante: string;
+  local: string | null;
+  visitante: string | null;
+  golesLocal: number | null;
+  golesVisitante: number | null;
+  penalesLocal: number | null;
+  penalesVisitante: number | null;
+}
+
+interface Props {
+  treintaDos: Partido[];
+  dieciseis: Partido[];
+  cuartos: Partido[];
+  semis: Partido[];
+  tercerLugar: PartidoSimple;
+  final: PartidoSimple;
+  participantes: { nombre: string; equipos: string[] }[];
+  equiposInfo: Record<string, { nombre: string; bandera: string }>;
+}
+
+const { treintaDos, dieciseis, cuartos, semis, tercerLugar, final: partidoFinal, participantes, equiposInfo } = Astro.props;
+
+function getApostador(equipoId: string | null): string {
+  if (!equipoId) return '';
+  const p = participantes.find(p => p.equipos.includes(equipoId));
+  return p ? p.nombre : '';
+}
+
+function getEquipoLabel(partido: PartidoSimple | Partido, side: 'local' | 'visitante'): { nombre: string; bandera: string; apostador: string } {
+  const id = side === 'local' ? partido.local : partido.visitante;
+  const desc = side === 'local' ? partido.descLocal : partido.descVisitante;
+  if (id && equiposInfo[id]) {
+    return { nombre: equiposInfo[id].nombre, bandera: equiposInfo[id].bandera, apostador: getApostador(id) };
+  }
+  return { nombre: desc, bandera: '', apostador: '' };
+}
+
+function marcador(p: PartidoSimple | Partido): string {
+  if (p.golesLocal === null || p.golesVisitante === null) return 'vs';
+  let m = `${p.golesLocal} - ${p.golesVisitante}`;
+  if (p.penalesLocal !== null && p.penalesVisitante !== null) {
+    m += ` (${p.penalesLocal}-${p.penalesVisitante} pen)`;
+  }
+  return m;
+}
+
+function ganador(p: PartidoSimple | Partido): string | null {
+  if (p.golesLocal === null || p.golesVisitante === null) return null;
+  if (p.golesLocal > p.golesVisitante) return p.local;
+  if (p.golesLocal < p.golesVisitante) return p.visitante;
+  if (p.penalesLocal !== null && p.penalesVisitante !== null) {
+    return p.penalesLocal > p.penalesVisitante ? p.local : p.visitante;
+  }
+  return null;
+}
+---
+
+<div class="bracket-wrapper">
+
+  <!-- Ronda de 32 -->
+  <section class="ronda">
+    <h3 class="ronda-titulo">Ronda de 32</h3>
+    <div class="partidos-grid">
+      {treintaDos.map(p => {
+        const l = getEquipoLabel(p, 'local');
+        const v = getEquipoLabel(p, 'visitante');
+        const win = ganador(p);
+        const jugado = p.golesLocal !== null;
+        return (
+          <div class:list={['match-card', jugado ? 'jugado' : 'pendiente']}>
+            <div class:list={['team', win === p.local ? 'winner' : (win ? 'loser' : '')]}>
+              <span class="flag">{l.bandera}</span>
+              <span class="tname">{l.nombre}</span>
+              {l.apostador && <span class="ap">{l.apostador}</span>}
+              {jugado && <span class="score">{p.golesLocal}</span>}
+            </div>
+            <div class:list={['team', win === p.visitante ? 'winner' : (win ? 'loser' : '')]}>
+              <span class="flag">{v.bandera}</span>
+              <span class="tname">{v.nombre}</span>
+              {v.apostador && <span class="ap">{v.apostador}</span>}
+              {jugado && <span class="score">{p.golesVisitante}</span>}
+            </div>
+            {p.penalesLocal !== null && (
+              <div class="pen-note">Penales: {p.penalesLocal}-{p.penalesVisitante}</div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  </section>
+
+  <!-- Octavos -->
+  <section class="ronda">
+    <h3 class="ronda-titulo">Octavos de Final</h3>
+    <div class="partidos-grid">
+      {dieciseis.map(p => {
+        const l = getEquipoLabel(p, 'local');
+        const v = getEquipoLabel(p, 'visitante');
+        const win = ganador(p);
+        const jugado = p.golesLocal !== null;
+        return (
+          <div class:list={['match-card', jugado ? 'jugado' : 'pendiente']}>
+            <div class:list={['team', win === p.local ? 'winner' : (win ? 'loser' : '')]}>
+              <span class="flag">{l.bandera}</span>
+              <span class="tname">{l.nombre}</span>
+              {l.apostador && <span class="ap">{l.apostador}</span>}
+              {jugado && <span class="score">{p.golesLocal}</span>}
+            </div>
+            <div class:list={['team', win === p.visitante ? 'winner' : (win ? 'loser' : '')]}>
+              <span class="flag">{v.bandera}</span>
+              <span class="tname">{v.nombre}</span>
+              {v.apostador && <span class="ap">{v.apostador}</span>}
+              {jugado && <span class="score">{p.golesVisitante}</span>}
+            </div>
+            {p.penalesLocal !== null && (
+              <div class="pen-note">Penales: {p.penalesLocal}-{p.penalesVisitante}</div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  </section>
+
+  <!-- Cuartos -->
+  <section class="ronda">
+    <h3 class="ronda-titulo">Cuartos de Final</h3>
+    <div class="partidos-grid partidos-grid-4">
+      {cuartos.map(p => {
+        const l = getEquipoLabel(p, 'local');
+        const v = getEquipoLabel(p, 'visitante');
+        const win = ganador(p);
+        const jugado = p.golesLocal !== null;
+        return (
+          <div class:list={['match-card', jugado ? 'jugado' : 'pendiente']}>
+            <div class:list={['team', win === p.local ? 'winner' : (win ? 'loser' : '')]}>
+              <span class="flag">{l.bandera}</span>
+              <span class="tname">{l.nombre}</span>
+              {l.apostador && <span class="ap">{l.apostador}</span>}
+              {jugado && <span class="score">{p.golesLocal}</span>}
+            </div>
+            <div class:list={['team', win === p.visitante ? 'winner' : (win ? 'loser' : '')]}>
+              <span class="flag">{v.bandera}</span>
+              <span class="tname">{v.nombre}</span>
+              {v.apostador && <span class="ap">{v.apostador}</span>}
+              {jugado && <span class="score">{p.golesVisitante}</span>}
+            </div>
+            {p.penalesLocal !== null && (
+              <div class="pen-note">Penales: {p.penalesLocal}-{p.penalesVisitante}</div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  </section>
+
+  <!-- Semis -->
+  <section class="ronda">
+    <h3 class="ronda-titulo">Semifinales</h3>
+    <div class="partidos-grid partidos-grid-2">
+      {semis.map(p => {
+        const l = getEquipoLabel(p, 'local');
+        const v = getEquipoLabel(p, 'visitante');
+        const win = ganador(p);
+        const jugado = p.golesLocal !== null;
+        return (
+          <div class:list={['match-card match-card-lg', jugado ? 'jugado' : 'pendiente']}>
+            <div class:list={['team', win === p.local ? 'winner' : (win ? 'loser' : '')]}>
+              <span class="flag">{l.bandera}</span>
+              <span class="tname">{l.nombre}</span>
+              {l.apostador && <span class="ap">{l.apostador}</span>}
+              {jugado && <span class="score">{p.golesLocal}</span>}
+            </div>
+            <div class:list={['team', win === p.visitante ? 'winner' : (win ? 'loser' : '')]}>
+              <span class="flag">{v.bandera}</span>
+              <span class="tname">{v.nombre}</span>
+              {v.apostador && <span class="ap">{v.apostador}</span>}
+              {jugado && <span class="score">{p.golesVisitante}</span>}
+            </div>
+            {p.penalesLocal !== null && (
+              <div class="pen-note">Penales: {p.penalesLocal}-{p.penalesVisitante}</div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  </section>
+
+  <!-- Tercer lugar -->
+  <section class="ronda">
+    <h3 class="ronda-titulo">3° y 4° Lugar</h3>
+    <div class="partidos-grid partidos-grid-1">
+      {(() => {
+        const p = tercerLugar;
+        const l = getEquipoLabel(p, 'local');
+        const v = getEquipoLabel(p, 'visitante');
+        const win = ganador(p);
+        const jugado = p.golesLocal !== null;
+        return (
+          <div class:list={['match-card match-card-lg', jugado ? 'jugado' : 'pendiente']}>
+            <div class:list={['team', win === p.local ? 'winner' : (win ? 'loser' : '')]}>
+              <span class="flag">{l.bandera}</span>
+              <span class="tname">{l.nombre}</span>
+              {l.apostador && <span class="ap">{l.apostador}</span>}
+              {jugado && <span class="score">{p.golesLocal}</span>}
+            </div>
+            <div class:list={['team', win === p.visitante ? 'winner' : (win ? 'loser' : '')]}>
+              <span class="flag">{v.bandera}</span>
+              <span class="tname">{v.nombre}</span>
+              {v.apostador && <span class="ap">{v.apostador}</span>}
+              {jugado && <span class="score">{p.golesVisitante}</span>}
+            </div>
+            {p.penalesLocal !== null && (
+              <div class="pen-note">Penales: {p.penalesLocal}-{p.penalesVisitante}</div>
+            )}
+          </div>
+        );
+      })()}
+    </div>
+  </section>
+
+  <!-- Final -->
+  <section class="ronda final-ronda">
+    <h3 class="ronda-titulo final-titulo">🏆 Final</h3>
+    <div class="partidos-grid partidos-grid-1">
+      {(() => {
+        const p = partidoFinal;
+        const l = getEquipoLabel(p, 'local');
+        const v = getEquipoLabel(p, 'visitante');
+        const win = ganador(p);
+        const jugado = p.golesLocal !== null;
+        return (
+          <div class:list={['match-card match-card-final', jugado ? 'jugado' : 'pendiente']}>
+            <div class:list={['team', win === p.local ? 'winner champion' : (win ? 'loser' : '')]}>
+              <span class="flag">{l.bandera}</span>
+              <span class="tname">{l.nombre}</span>
+              {l.apostador && <span class="ap">{l.apostador}</span>}
+              {jugado && <span class="score">{p.golesLocal}</span>}
+              {win === p.local && <span class="crown">🏆</span>}
+            </div>
+            <div class:list={['team', win === p.visitante ? 'winner champion' : (win ? 'loser' : '')]}>
+              <span class="flag">{v.bandera}</span>
+              <span class="tname">{v.nombre}</span>
+              {v.apostador && <span class="ap">{v.apostador}</span>}
+              {jugado && <span class="score">{p.golesVisitante}</span>}
+              {win === p.visitante && <span class="crown">🏆</span>}
+            </div>
+            {p.penalesLocal !== null && (
+              <div class="pen-note">Penales: {p.penalesLocal}-{p.penalesVisitante}</div>
+            )}
+          </div>
+        );
+      })()}
+    </div>
+  </section>
+
+</div>
+
+<style>
+  .bracket-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .ronda {}
+
+  .ronda-titulo {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .final-ronda .final-titulo { color: var(--color-accent); }
+
+  .partidos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 0.6rem;
+  }
+
+  .partidos-grid-4 { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+  .partidos-grid-2 { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+  .partidos-grid-1 { grid-template-columns: minmax(280px, 400px); }
+
+  .match-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .match-card.jugado { border-color: var(--color-border); }
+
+  .match-card-lg .team { padding: 0.55rem 0.75rem; }
+
+  .match-card-final {
+    border: 2px solid var(--color-accent);
+    box-shadow: 0 0 20px rgba(245, 197, 24, 0.15);
+  }
+
+  .team {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 0.65rem;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 0.82rem;
+    transition: background 0.1s;
+  }
+
+  .team:last-of-type { border-bottom: none; }
+
+  .team.winner {
+    background: rgba(34, 197, 94, 0.1);
+    color: var(--color-green);
+    font-weight: 700;
+  }
+
+  .team.winner.champion {
+    background: rgba(245, 197, 24, 0.15);
+    color: var(--color-gold);
+  }
+
+  .team.loser {
+    opacity: 0.45;
+  }
+
+  .flag { font-size: 1.1rem; flex-shrink: 0; }
+
+  .tname {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.82rem;
+  }
+
+  .ap {
+    font-size: 0.65rem;
+    padding: 0.1rem 0.35rem;
+    border-radius: 3px;
+    background: var(--color-surface2);
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border);
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  .team.winner .ap {
+    background: rgba(34, 197, 94, 0.2);
+    border-color: var(--color-green);
+    color: var(--color-green);
+  }
+
+  .team.winner.champion .ap {
+    background: rgba(245, 197, 24, 0.2);
+    border-color: var(--color-gold);
+    color: var(--color-gold);
+  }
+
+  .score {
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin-left: auto;
+    padding-left: 0.5rem;
+    flex-shrink: 0;
+    color: var(--color-accent);
+  }
+
+  .crown {
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .pen-note {
+    text-align: center;
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    padding: 0.25rem;
+    background: var(--color-surface2);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .match-card.pendiente .team {
+    opacity: 0.7;
+  }
+</style>

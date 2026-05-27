@@ -1,0 +1,278 @@
+---
+interface Equipo {
+  id: string;
+  nombre: string;
+  bandera: string;
+}
+
+interface Partido {
+  local: string;
+  visitante: string;
+  golesLocal: number | null;
+  golesVisitante: number | null;
+}
+
+interface Props {
+  letra: string;
+  equipos: Equipo[];
+  partidos: Partido[];
+  participantes: { nombre: string; equipos: string[] }[];
+}
+
+const { letra, equipos, partidos, participantes } = Astro.props;
+
+// Calcular standings desde los resultados de partidos
+const stats: Record<string, { pj: number; pg: number; pe: number; pp: number; gf: number; gc: number; pts: number }> = {};
+for (const eq of equipos) {
+  stats[eq.id] = { pj: 0, pg: 0, pe: 0, pp: 0, gf: 0, gc: 0, pts: 0 };
+}
+
+for (const p of partidos) {
+  if (p.golesLocal !== null && p.golesVisitante !== null) {
+    const l = stats[p.local];
+    const v = stats[p.visitante];
+    l.pj++; v.pj++;
+    l.gf += p.golesLocal;  l.gc += p.golesVisitante;
+    v.gf += p.golesVisitante; v.gc += p.golesLocal;
+    if (p.golesLocal > p.golesVisitante) { l.pg++; l.pts += 3; v.pp++; }
+    else if (p.golesLocal < p.golesVisitante) { v.pg++; v.pts += 3; l.pp++; }
+    else { l.pe++; l.pts++; v.pe++; v.pts++; }
+  }
+}
+
+const clasificados = [...equipos].sort((a, b) => {
+  const sa = stats[a.id], sb = stats[b.id];
+  if (sb.pts !== sa.pts) return sb.pts - sa.pts;
+  const gdA = sa.gf - sa.gc, gdB = sb.gf - sb.gc;
+  if (gdB !== gdA) return gdB - gdA;
+  return sb.gf - sa.gf;
+});
+
+function getApostador(equipoId: string): string {
+  const p = participantes.find(p => p.equipos.includes(equipoId));
+  return p ? p.nombre : '';
+}
+
+function resultadoPartido(p: Partido): string {
+  if (p.golesLocal === null || p.golesVisitante === null) return 'vs';
+  return `${p.golesLocal} - ${p.golesVisitante}`;
+}
+
+function getEquipo(id: string): Equipo {
+  return equipos.find(e => e.id === id)!;
+}
+---
+
+<div class="grupo-card">
+  <h3 class="grupo-titulo">Grupo {letra}</h3>
+
+  <div class="grupo-body">
+    <!-- Tabla de clasificación -->
+    <div class="standings">
+      <table>
+        <thead>
+          <tr>
+            <th class="pos">#</th>
+            <th class="equipo-col">Equipo</th>
+            <th title="Partidos jugados">PJ</th>
+            <th title="Ganados">PG</th>
+            <th title="Empatados">PE</th>
+            <th title="Perdidos">PP</th>
+            <th title="Goles a favor">GF</th>
+            <th title="Goles en contra">GC</th>
+            <th title="Diferencia de goles">DG</th>
+            <th title="Puntos">Pts</th>
+          </tr>
+        </thead>
+        <tbody>
+          {clasificados.map((eq, i) => {
+            const s = stats[eq.id];
+            const apostador = getApostador(eq.id);
+            const avanza = i < 2;
+            return (
+              <tr class:list={[avanza ? 'avanza' : '']}>
+                <td class="pos">{i + 1}</td>
+                <td class="equipo-col">
+                  <span class="bandera">{eq.bandera}</span>
+                  <span class="nombre">{eq.nombre}</span>
+                  {apostador && <span class="apostador-badge">{apostador}</span>}
+                </td>
+                <td>{s.pj}</td>
+                <td>{s.pg}</td>
+                <td>{s.pe}</td>
+                <td>{s.pp}</td>
+                <td>{s.gf}</td>
+                <td>{s.gc}</td>
+                <td>{s.gf - s.gc > 0 ? `+${s.gf - s.gc}` : s.gf - s.gc}</td>
+                <td class="pts">{s.pts}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Partidos -->
+    <div class="partidos">
+      {partidos.map(p => {
+        const lEq = getEquipo(p.local);
+        const vEq = getEquipo(p.visitante);
+        const jugado = p.golesLocal !== null && p.golesVisitante !== null;
+        return (
+          <div class:list={['partido', jugado ? 'jugado' : 'pendiente']}>
+            <span class="equipo-partido">
+              <span>{lEq.bandera}</span>
+              <span class="nombre-corto">{lEq.nombre}</span>
+            </span>
+            <span class="marcador">{resultadoPartido(p)}</span>
+            <span class="equipo-partido right">
+              <span class="nombre-corto">{vEq.nombre}</span>
+              <span>{vEq.bandera}</span>
+            </span>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</div>
+
+<style>
+  .grupo-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .grupo-titulo {
+    background: var(--color-surface2);
+    padding: 0.6rem 1rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--color-accent);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .grupo-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .standings {
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+  }
+
+  thead tr {
+    background: var(--color-surface2);
+  }
+
+  th {
+    padding: 0.4rem 0.5rem;
+    text-align: center;
+    color: var(--color-text-muted);
+    font-weight: 600;
+    font-size: 0.75rem;
+    white-space: nowrap;
+  }
+
+  th.equipo-col { text-align: left; }
+
+  td {
+    padding: 0.45rem 0.5rem;
+    text-align: center;
+    border-top: 1px solid var(--color-border);
+    font-size: 0.82rem;
+  }
+
+  td.equipo-col { text-align: left; }
+  td.pos { color: var(--color-text-muted); font-size: 0.75rem; }
+  td.pts { font-weight: 700; color: var(--color-accent); }
+
+  tr.avanza { border-left: 3px solid var(--color-green); }
+
+  .equipo-col {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-width: 0;
+  }
+
+  .bandera { font-size: 1.1rem; flex-shrink: 0; }
+  .nombre { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  .apostador-badge {
+    font-size: 0.65rem;
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    background: var(--color-surface2);
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .partidos {
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .partido {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 0.4rem;
+    align-items: center;
+    padding: 0.3rem 0.5rem;
+    border-radius: 5px;
+    font-size: 0.78rem;
+  }
+
+  .partido.jugado { background: var(--color-surface2); }
+  .partido.pendiente { opacity: 0.6; }
+
+  .equipo-partido {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    overflow: hidden;
+  }
+
+  .equipo-partido.right {
+    justify-content: flex-end;
+    text-align: right;
+  }
+
+  .nombre-corto {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0.75rem;
+  }
+
+  .marcador {
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--color-accent);
+    text-align: center;
+    white-space: nowrap;
+    padding: 0.1rem 0.5rem;
+    background: var(--color-bg);
+    border-radius: 4px;
+    min-width: 3rem;
+  }
+
+  .partido.pendiente .marcador {
+    color: var(--color-text-muted);
+    font-weight: 400;
+  }
+</style>

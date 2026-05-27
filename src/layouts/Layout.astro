@@ -1,0 +1,134 @@
+---
+interface Props {
+  title?: string;
+}
+const { title = "Quiniela Mundial 2026" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+    <style>
+      :root {
+        --color-bg: #0a0a0f;
+        --color-surface: #13131a;
+        --color-surface2: #1c1c26;
+        --color-border: #2a2a3a;
+        --color-text: #e8e8f0;
+        --color-text-muted: #7070a0;
+        --color-accent: #f5c518;
+        --color-green: #22c55e;
+        --color-red: #ef4444;
+        --color-gold: #f5c518;
+        --color-tab-active: #f5c518;
+      }
+
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+      body {
+        font-family: 'Segoe UI', system-ui, sans-serif;
+        background: var(--color-bg);
+        color: var(--color-text);
+        min-height: 100vh;
+        line-height: 1.5;
+      }
+
+      header {
+        background: var(--color-surface);
+        border-bottom: 2px solid var(--color-accent);
+        padding: 1rem 1.5rem;
+        text-align: center;
+      }
+
+      header h1 {
+        font-size: 1.6rem;
+        font-weight: 800;
+        letter-spacing: 0.05em;
+        color: var(--color-accent);
+      }
+
+      header p {
+        color: var(--color-text-muted);
+        font-size: 0.85rem;
+        margin-top: 0.2rem;
+      }
+
+      nav.tabs {
+        display: flex;
+        justify-content: center;
+        gap: 0.25rem;
+        background: var(--color-surface);
+        padding: 0.5rem 1rem;
+        border-bottom: 1px solid var(--color-border);
+        flex-wrap: wrap;
+      }
+
+      nav.tabs button {
+        background: transparent;
+        border: 1px solid var(--color-border);
+        color: var(--color-text-muted);
+        padding: 0.5rem 1.25rem;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-weight: 600;
+        transition: all 0.15s;
+      }
+
+      nav.tabs button:hover {
+        border-color: var(--color-accent);
+        color: var(--color-text);
+      }
+
+      nav.tabs button.active {
+        background: var(--color-accent);
+        border-color: var(--color-accent);
+        color: #000;
+      }
+
+      main {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 1.5rem;
+      }
+
+      .tab-panel { display: none; }
+      .tab-panel.active { display: block; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>⚽ Quiniela Mundial 2026</h1>
+      <p>Edita <code>src/data/mundial.json</code> para actualizar resultados</p>
+    </header>
+
+    <nav class="tabs">
+      <button class="active" data-tab="grupos">🏟️ Fase de Grupos</button>
+      <button data-tab="eliminatorias">🏆 Eliminatorias</button>
+      <button data-tab="quiniela">🎯 Quiniela</button>
+    </nav>
+
+    <main>
+      <slot />
+    </main>
+
+    <script>
+      const buttons = document.querySelectorAll('nav.tabs button');
+      const panels = document.querySelectorAll('.tab-panel');
+
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const target = (btn as HTMLElement).dataset.tab;
+          buttons.forEach(b => b.classList.remove('active'));
+          panels.forEach(p => p.classList.remove('active'));
+          btn.classList.add('active');
+          document.getElementById(`tab-${target}`)?.classList.add('active');
+        });
+      });
+    </script>
+  </body>
+</html>

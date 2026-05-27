@@ -1,17 +1,146 @@
 ---
+import Layout from '../layouts/Layout.astro';
+import TablaGrupo from '../components/TablaGrupo.astro';
+import BracketEliminatorias from '../components/BracketEliminatorias.astro';
+import TablaQuiniela from '../components/TablaQuiniela.astro';
+import mundialData from '../data/mundial.json';
 
+const { participantes, grupos, eliminatorias } = mundialData;
+
+// Construir lookup de equipos (id -> info)
+const equiposInfo: Record<string, { nombre: string; bandera: string }> = {};
+for (const grupoKey of Object.keys(grupos)) {
+  const grupo = grupos[grupoKey as keyof typeof grupos];
+  for (const eq of grupo.equipos) {
+    equiposInfo[eq.id] = { nombre: eq.nombre, bandera: eq.bandera };
+  }
+}
+
+// Determinar campeón
+const campeon: string | null = (() => {
+  const f = eliminatorias.final;
+  if (f.golesLocal === null || f.golesVisitante === null) return null;
+  if (f.golesLocal > f.golesVisitante) return f.local;
+  if (f.golesLocal < f.golesVisitante) return f.visitante;
+  if (f.penalesLocal !== null && f.penalesVisitante !== null) {
+    return f.penalesLocal > f.penalesVisitante ? f.local : f.visitante;
+  }
+  return null;
+})();
+
+// Determinar perdedor de un partido de eliminatorias
+function getLoser(p: { local: string | null; visitante: string | null; golesLocal: number | null; golesVisitante: number | null; penalesLocal: number | null; penalesVisitante: number | null }): string | null {
+  if (!p.local || !p.visitante || p.golesLocal === null || p.golesVisitante === null) return null;
+  if (p.golesLocal > p.golesVisitante) return p.visitante;
+  if (p.golesLocal < p.golesVisitante) return p.local;
+  if (p.penalesLocal !== null && p.penalesVisitante !== null) {
+    return p.penalesLocal > p.penalesVisitante ? p.visitante : p.local;
+  }
+  return null;
+}
+
+// Equipos que aparecen en eliminatorias (clasificaron de grupos)
+const enEliminatorias = new Set<string>();
+for (const p of eliminatorias.treintaDos) {
+  if (p.local) enEliminatorias.add(p.local);
+  if (p.visitante) enEliminatorias.add(p.visitante);
+}
+
+// Detectar eliminados en fase de grupos cuando todos los partidos del grupo están jugados
+const grupoLetras = Object.keys(grupos) as Array<keyof typeof grupos>;
+const gruposEliminados = new Set<string>();
+
+for (const letra of grupoLetras) {
+  const grupo = grupos[letra];
+  const stats: Record<string, { pts: number; gf: number; gc: number }> = {};
+  for (const eq of grupo.equipos) stats[eq.id] = { pts: 0, gf: 0, gc: 0 };
+
+  let todosJugados = true;
+  for (const p of grupo.partidos) {
+    if (p.golesLocal === null || p.golesVisitante === null) { todosJugados = false; continue; }
+    stats[p.local].gf += p.golesLocal; stats[p.local].gc += p.golesVisitante;
+    stats[p.visitante].gf += p.golesVisitante; stats[p.visitante].gc += p.golesLocal;
+    if (p.golesLocal > p.golesVisitante) stats[p.local].pts += 3;
+    else if (p.golesLocal < p.golesVisitante) stats[p.visitante].pts += 3;
+    else { stats[p.local].pts++; stats[p.visitante].pts++; }
+  }
+
+  if (todosJugados) {
+    const sorted = grupo.equipos.slice().sort((a, b) => {
+      const sa = stats[a.id], sb = stats[b.id];
+      if (sb.pts !== sa.pts) return sb.pts - sa.pts;
+      const gdA = sa.gf - sa.gc, gdB = sb.gf - sb.gc;
+      if (gdB !== gdA) return gdB - gdA;
+      return sb.gf - sa.gf;
+    });
+    for (let i = 2; i < sorted.length; i++) {
+      if (!enEliminatorias.has(sorted[i].id)) {
+        gruposEliminados.add(sorted[i].id);
+      }
+    }
+  }
+}
+
+// Consolidar todos los eliminados
+const eliminados = new Set<string>(gruposEliminados);
+for (const ronda of [eliminatorias.treintaDos, eliminatorias.dieciseis, eliminatorias.cuartos, eliminatorias.semis]) {
+  for (const p of ronda) {
+    const loser = getLoser(p);
+    if (loser) eliminados.add(loser);
+  }
+}
+const loser3 = getLoser(eliminatorias.tercerLugar);
+if (loser3) eliminados.add(loser3);
+const loserFinal = getLoser(eliminatorias.final);
+if (loserFinal) eliminados.add(loserFinal);
+
+const gruposEntries = Object.entries(grupos) as Array<[string, typeof grupos[keyof typeof grupos]]>;
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout>
+  <!-- Tab: Grupos -->
+  <div id="tab-grupos" class="tab-panel active">
+    <div class="grupos-grid">
+      {gruposEntries.map(([letra, grupo]) => (
+        <TablaGrupo
+          letra={letra}
+          equipos={grupo.equipos}
+          partidos={grupo.partidos}
+          participantes={participantes}
+        />
+      ))}
+    </div>
+  </div>
+
+  <!-- Tab: Eliminatorias -->
+  <div id="tab-eliminatorias" class="tab-panel">
+    <BracketEliminatorias
+      treintaDos={eliminatorias.treintaDos}
+      dieciseis={eliminatorias.dieciseis}
+      cuartos={eliminatorias.cuartos}
+      semis={eliminatorias.semis}
+      tercerLugar={eliminatorias.tercerLugar}
+      final={eliminatorias.final}
+      participantes={participantes}
+      equiposInfo={equiposInfo}
+    />
+  </div>
+
+  <!-- Tab: Quiniela -->
+  <div id="tab-quiniela" class="tab-panel">
+    <TablaQuiniela
+      participantes={participantes}
+      equiposInfo={equiposInfo}
+      campeon={campeon}
+      eliminados={eliminados}
+    />
+  </div>
+</Layout>
+
+<style>
+  .grupos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1rem;
+  }
+</style>

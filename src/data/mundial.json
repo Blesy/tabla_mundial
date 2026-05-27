@@ -1,0 +1,256 @@
+{
+  "participantes": [
+    { "nombre": "Participante 1", "equipos": ["MEX", "BRA", "ESP", "FRA"] },
+    { "nombre": "Participante 2", "equipos": ["ARG", "ENG", "GER", "POR"] },
+    { "nombre": "Participante 3", "equipos": ["USA", "NED", "BEL", "URU"] },
+    { "nombre": "Participante 4", "equipos": ["KOR", "JPN", "AUS", "CRO"] },
+    { "nombre": "Participante 5", "equipos": ["MAR", "SEN", "EGY", "CIV"] },
+    { "nombre": "Participante 6", "equipos": ["COL", "ECU", "PAR", "CHI"] },
+    { "nombre": "Participante 7", "equipos": ["NOR", "SWE", "DEN", "AUT"] },
+    { "nombre": "Participante 8", "equipos": ["TUR", "SAU", "IRN", "IRQ"] },
+    { "nombre": "Participante 9", "equipos": ["RSA", "GHA", "COD", "TUN"] },
+    { "nombre": "Participante 10", "equipos": ["CZE", "SUI", "BIH", "SCO"] },
+    { "nombre": "Participante 11", "equipos": ["QAT", "HAI", "CPV", "CUW"] },
+    { "nombre": "Participante 12", "equipos": ["ALG", "JOR", "UZB", "NZL"] }
+  ],
+  "grupos": {
+    "A": {
+      "equipos": [
+        { "id": "MEX", "nombre": "México", "bandera": "🇲🇽" },
+        { "id": "RSA", "nombre": "Sudáfrica", "bandera": "🇿🇦" },
+        { "id": "KOR", "nombre": "Corea del Sur", "bandera": "🇰🇷" },
+        { "id": "CZE", "nombre": "Rep. Checa", "bandera": "🇨🇿" }
+      ],
+      "partidos": [
+        { "local": "MEX", "visitante": "RSA", "golesLocal": null, "golesVisitante": null },
+        { "local": "KOR", "visitante": "CZE", "golesLocal": null, "golesVisitante": null },
+        { "local": "MEX", "visitante": "KOR", "golesLocal": null, "golesVisitante": null },
+        { "local": "RSA", "visitante": "CZE", "golesLocal": null, "golesVisitante": null },
+        { "local": "MEX", "visitante": "CZE", "golesLocal": null, "golesVisitante": null },
+        { "local": "RSA", "visitante": "KOR", "golesLocal": null, "golesVisitante": null }
+      ]
+    },
+    "B": {
+      "equipos": [
+        { "id": "CAN", "nombre": "Canadá", "bandera": "🇨🇦" },
+        { "id": "BIH", "nombre": "Bosnia y Herz.", "bandera": "🇧🇦" },
+        { "id": "QAT", "nombre": "Qatar", "bandera": "🇶🇦" },
+        { "id": "SUI", "nombre": "Suiza", "bandera": "🇨🇭" }
+      ],
+      "partidos": [
+        { "local": "CAN", "visitante": "BIH", "golesLocal": null, "golesVisitante": null },
+        { "local": "QAT", "visitante": "SUI", "golesLocal": null, "golesVisitante": null },
+        { "local": "CAN", "visitante": "QAT", "golesLocal": null, "golesVisitante": null },
+        { "local": "BIH", "visitante": "SUI", "golesLocal": null, "golesVisitante": null },
+        { "local": "CAN", "visitante": "SUI", "golesLocal": null, "golesVisitante": null },
+        { "local": "BIH", "visitante": "QAT", "golesLocal": null, "golesVisitante": null }
+      ]
+    },
+    "C": {
+      "equipos": [
+        { "id": "BRA", "nombre": "Brasil", "bandera": "🇧🇷" },
+        { "id": "MAR", "nombre": "Marruecos", "bandera": "🇲🇦" },
+        { "id": "HAI", "nombre": "Haití", "bandera": "🇭🇹" },
+        { "id": "SCO", "nombre": "Escocia", "bandera": "🏴󠁧󠁢󠁳󠁣󠁴󠁿" }
+      ],
+      "partidos": [
+        { "local": "BRA", "visitante": "MAR", "golesLocal": null, "golesVisitante": null },
+        { "local": "HAI", "visitante": "SCO", "golesLocal": null, "golesVisitante": null },
+        { "local": "BRA", "visitante": "HAI", "golesLocal": null, "golesVisitante": null },
+        { "local": "MAR", "visitante": "SCO", "golesLocal": null, "golesVisitante": null },
+        { "local": "BRA", "visitante": "SCO", "golesLocal": null, "golesVisitante": null },
+        { "local": "MAR", "visitante": "HAI", "golesLocal": null, "golesVisitante": null }
+      ]
+    },
+    "D": {
+      "equipos": [
+        { "id": "USA", "nombre": "Estados Unidos", "bandera": "🇺🇸" },
+        { "id": "PAR", "nombre": "Paraguay", "bandera": "🇵🇾" },
+        { "id": "AUS", "nombre": "Australia", "bandera": "🇦🇺" },
+        { "id": "TUR", "nombre": "Turquía", "bandera": "🇹🇷" }
+      ],
+      "partidos": [
+        { "local": "USA", "visitante": "PAR", "golesLocal": null, "golesVisitante": null },
+        { "local": "AUS", "visitante": "TUR", "golesLocal": null, "golesVisitante": null },
+        { "local": "USA", "visitante": "AUS", "golesLocal": null, "golesVisitante": null },
+        { "local": "PAR", "visitante": "TUR", "golesLocal": null, "golesVisitante": null },
+        { "local": "USA", "visitante": "TUR", "golesLocal": null, "golesVisitante": null },
+        { "local": "PAR", "visitante": "AUS", "golesLocal": null, "golesVisitante": null }
+      ]
+    },
+    "E": {
+      "equipos": [
+        { "id": "GER", "nombre": "Alemania", "bandera": "🇩🇪" },
+        { "id": "CUW", "nombre": "Curazao", "bandera": "🇨🇼" },
+        { "id": "CIV", "nombre": "Costa de Marfil", "bandera": "🇨🇮" },
+        { "id": "ECU", "nombre": "Ecuador", "bandera": "🇪🇨" }
+      ],
+      "partidos": [
+        { "local": "GER", "visitante": "CUW", "golesLocal": null, "golesVisitante": null },
+        { "local": "CIV", "visitante": "ECU", "golesLocal": null, "golesVisitante": null },
+        { "local": "GER", "visitante": "CIV", "golesLocal": null, "golesVisitante": null },
+        { "local": "CUW", "visitante": "ECU", "golesLocal": null, "golesVisitante": null },
+        { "local": "GER", "visitante": "ECU", "golesLocal": null, "golesVisitante": null },
+        { "local": "CUW", "visitante": "CIV", "golesLocal": null, "golesVisitante": null }
+      ]
+    },
+    "F": {
+      "equipos": [
+        { "id": "NED", "nombre": "Países Bajos", "bandera": "🇳🇱" },
+        { "id": "JPN", "nombre": "Japón", "bandera": "🇯🇵" },
+        { "id": "SWE", "nombre": "Suecia", "bandera": "🇸🇪" },
+        { "id": "TUN", "nombre": "Túnez", "bandera": "🇹🇳" }
+      ],
+      "partidos": [
+        { "local": "NED", "visitante": "JPN", "golesLocal": null, "golesVisitante": null },
+        { "local": "SWE", "visitante": "TUN", "golesLocal": null, "golesVisitante": null },
+        { "local": "NED", "visitante": "SWE", "golesLocal": null, "golesVisitante": null },
+        { "local": "JPN", "visitante": "TUN", "golesLocal": null, "golesVisitante": null },
+        { "local": "NED", "visitante": "TUN", "golesLocal": null, "golesVisitante": null },
+        { "local": "JPN", "visitante": "SWE", "golesLocal": null, "golesVisitante": null }
+      ]
+    },
+    "G": {
+      "equipos": [
+        { "id": "BEL", "nombre": "Bélgica", "bandera": "🇧🇪" },
+        { "id": "EGY", "nombre": "Egipto", "bandera": "🇪🇬" },
+        { "id": "IRN", "nombre": "Irán", "bandera": "🇮🇷" },
+        { "id": "NZL", "nombre": "Nueva Zelanda", "bandera": "🇳🇿" }
+      ],
+      "partidos": [
+        { "local": "BEL", "visitante": "EGY", "golesLocal": null, "golesVisitante": null },
+        { "local": "IRN", "visitante": "NZL", "golesLocal": null, "golesVisitante": null },
+        { "local": "BEL", "visitante": "IRN", "golesLocal": null, "golesVisitante": null },
+        { "local": "EGY", "visitante": "NZL", "golesLocal": null, "golesVisitante": null },
+        { "local": "BEL", "visitante": "NZL", "golesLocal": null, "golesVisitante": null },
+        { "local": "EGY", "visitante": "IRN", "golesLocal": null, "golesVisitante": null }
+      ]
+    },
+    "H": {
+      "equipos": [
+        { "id": "ESP", "nombre": "España", "bandera": "🇪🇸" },
+        { "id": "CPV", "nombre": "Cabo Verde", "bandera": "🇨🇻" },
+        { "id": "SAU", "nombre": "Arabia Saudita", "bandera": "🇸🇦" },
+        { "id": "URU", "nombre": "Uruguay", "bandera": "🇺🇾" }
+      ],
+      "partidos": [
+        { "local": "ESP", "visitante": "CPV", "golesLocal": null, "golesVisitante": null },
+        { "local": "SAU", "visitante": "URU", "golesLocal": null, "golesVisitante": null },
+        { "local": "ESP", "visitante": "SAU", "golesLocal": null, "golesVisitante": null },
+        { "local": "CPV", "visitante": "URU", "golesLocal": null, "golesVisitante": null },
+        { "local": "ESP", "visitante": "URU", "golesLocal": null, "golesVisitante": null },
+        { "local": "CPV", "visitante": "SAU", "golesLocal": null, "golesVisitante": null }
+      ]
+    },
+    "I": {
+      "equipos": [
+        { "id": "FRA", "nombre": "Francia", "bandera": "🇫🇷" },
+        { "id": "SEN", "nombre": "Senegal", "bandera": "🇸🇳" },
+        { "id": "IRQ", "nombre": "Irak", "bandera": "🇮🇶" },
+        { "id": "NOR", "nombre": "Noruega", "bandera": "🇳🇴" }
+      ],
+      "partidos": [
+        { "local": "FRA", "visitante": "SEN", "golesLocal": null, "golesVisitante": null },
+        { "local": "IRQ", "visitante": "NOR", "golesLocal": null, "golesVisitante": null },
+        { "local": "FRA", "visitante": "IRQ", "golesLocal": null, "golesVisitante": null },
+        { "local": "SEN", "visitante": "NOR", "golesLocal": null, "golesVisitante": null },
+        { "local": "FRA", "visitante": "NOR", "golesLocal": null, "golesVisitante": null },
+        { "local": "SEN", "visitante": "IRQ", "golesLocal": null, "golesVisitante": null }
+      ]
+    },
+    "J": {
+      "equipos": [
+        { "id": "ARG", "nombre": "Argentina", "bandera": "🇦🇷" },
+        { "id": "ALG", "nombre": "Argelia", "bandera": "🇩🇿" },
+        { "id": "AUT", "nombre": "Austria", "bandera": "🇦🇹" },
+        { "id": "JOR", "nombre": "Jordania", "bandera": "🇯🇴" }
+      ],
+      "partidos": [
+        { "local": "ARG", "visitante": "ALG", "golesLocal": null, "golesVisitante": null },
+        { "local": "AUT", "visitante": "JOR", "golesLocal": null, "golesVisitante": null },
+        { "local": "ARG", "visitante": "AUT", "golesLocal": null, "golesVisitante": null },
+        { "local": "ALG", "visitante": "JOR", "golesLocal": null, "golesVisitante": null },
+        { "local": "ARG", "visitante": "JOR", "golesLocal": null, "golesVisitante": null },
+        { "local": "ALG", "visitante": "AUT", "golesLocal": null, "golesVisitante": null }
+      ]
+    },
+    "K": {
+      "equipos": [
+        { "id": "POR", "nombre": "Portugal", "bandera": "🇵🇹" },
+        { "id": "COD", "nombre": "R.D. Congo", "bandera": "🇨🇩" },
+        { "id": "UZB", "nombre": "Uzbekistán", "bandera": "🇺🇿" },
+        { "id": "COL", "nombre": "Colombia", "bandera": "🇨🇴" }
+      ],
+      "partidos": [
+        { "local": "POR", "visitante": "COD", "golesLocal": null, "golesVisitante": null },
+        { "local": "UZB", "visitante": "COL", "golesLocal": null, "golesVisitante": null },
+        { "local": "POR", "visitante": "UZB", "golesLocal": null, "golesVisitante": null },
+        { "local": "COD", "visitante": "COL", "golesLocal": null, "golesVisitante": null },
+        { "local": "POR", "visitante": "COL", "golesLocal": null, "golesVisitante": null },
+        { "local": "COD", "visitante": "UZB", "golesLocal": null, "golesVisitante": null }
+      ]
+    },
+    "L": {
+      "equipos": [
+        { "id": "ENG", "nombre": "Inglaterra", "bandera": "🏴󠁧󠁢󠁥󠁮󠁧󠁿" },
+        { "id": "CRO", "nombre": "Croacia", "bandera": "🇭🇷" },
+        { "id": "GHA", "nombre": "Ghana", "bandera": "🇬🇭" },
+        { "id": "PAN", "nombre": "Panamá", "bandera": "🇵🇦" }
+      ],
+      "partidos": [
+        { "local": "ENG", "visitante": "CRO", "golesLocal": null, "golesVisitante": null },
+        { "local": "GHA", "visitante": "PAN", "golesLocal": null, "golesVisitante": null },
+        { "local": "ENG", "visitante": "GHA", "golesLocal": null, "golesVisitante": null },
+        { "local": "CRO", "visitante": "PAN", "golesLocal": null, "golesVisitante": null },
+        { "local": "ENG", "visitante": "PAN", "golesLocal": null, "golesVisitante": null },
+        { "local": "CRO", "visitante": "GHA", "golesLocal": null, "golesVisitante": null }
+      ]
+    }
+  },
+  "eliminatorias": {
+    "treintaDos": [
+      { "id": "M73", "descLocal": "2A", "descVisitante": "2B", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null },
+      { "id": "M74", "descLocal": "1E", "descVisitante": "3er A/B/C/D/F", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null },
+      { "id": "M75", "descLocal": "1F", "descVisitante": "2C", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null },
+      { "id": "M76", "descLocal": "1C", "descVisitante": "2F", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null },
+      { "id": "M77", "descLocal": "1I", "descVisitante": "3er C/D/F/G/H", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null },
+      { "id": "M78", "descLocal": "2E", "descVisitante": "2I", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null },
+      { "id": "M79", "descLocal": "1A", "descVisitante": "3er C/E/F/H/I", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null },
+      { "id": "M80", "descLocal": "1L", "descVisitante": "3er E/H/I/J/K", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null },
+      { "id": "M81", "descLocal": "1D", "descVisitante": "3er B/E/F/I/J", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null },
+      { "id": "M82", "descLocal": "1G", "descVisitante": "3er A/E/H/I/J", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null },
+      { "id": "M83", "descLocal": "2K", "descVisitante": "2L", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null },
+      { "id": "M84", "descLocal": "1H", "descVisitante": "2J", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null },
+      { "id": "M85", "descLocal": "1B", "descVisitante": "3er E/F/G/I/J", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null },
+      { "id": "M86", "descLocal": "1J", "descVisitante": "2H", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null },
+      { "id": "M87", "descLocal": "1K", "descVisitante": "3er D/E/I/J/L", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null },
+      { "id": "M88", "descLocal": "2D", "descVisitante": "2G", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null }
+    ],
+    "dieciseis": [
+      { "id": "R16-1", "descLocal": "G M73", "descVisitante": "G M74", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null },
+      { "id": "R16-2", "descLocal": "G M75", "descVisitante": "G M76", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null },
+      { "id": "R16-3", "descLocal": "G M77", "descVisitante": "G M78", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null },
+      { "id": "R16-4", "descLocal": "G M79", "descVisitante": "G M80", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null },
+      { "id": "R16-5", "descLocal": "G M81", "descVisitante": "G M82", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null },
+      { "id": "R16-6", "descLocal": "G M83", "descVisitante": "G M84", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null },
+      { "id": "R16-7", "descLocal": "G M85", "descVisitante": "G M86", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null },
+      { "id": "R16-8", "descLocal": "G M87", "descVisitante": "G M88", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null }
+    ],
+    "cuartos": [
+      { "id": "QF1", "descLocal": "G R16-1", "descVisitante": "G R16-2", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null },
+      { "id": "QF2", "descLocal": "G R16-3", "descVisitante": "G R16-4", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null },
+      { "id": "QF3", "descLocal": "G R16-5", "descVisitante": "G R16-6", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null },
+      { "id": "QF4", "descLocal": "G R16-7", "descVisitante": "G R16-8", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null }
+    ],
+    "semis": [
+      { "id": "SF1", "descLocal": "G QF1", "descVisitante": "G QF2", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null },
+      { "id": "SF2", "descLocal": "G QF3", "descVisitante": "G QF4", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null }
+    ],
+    "tercerLugar": {
+      "id": "3ER", "descLocal": "P SF1", "descVisitante": "P SF2", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null
+    },
+    "final": {
+      "id": "FINAL", "descLocal": "G SF1", "descVisitante": "G SF2", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null
+    }
+  }
+}
