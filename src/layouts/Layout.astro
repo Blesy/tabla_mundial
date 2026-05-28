@@ -12,7 +12,7 @@ const { title = "Quiniela Mundial 2026" } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
-    <style>
+    <style is:global>
       :root {
         --color-bg: #0a0a0f;
         --color-surface: #13131a;
@@ -103,7 +103,6 @@ const { title = "Quiniela Mundial 2026" } = Astro.props;
   <body>
     <header>
       <h1>⚽ Quiniela Mundial 2026</h1>
-      <p>Edita <code>src/data/mundial.json</code> para actualizar resultados</p>
     </header>
 
     <nav class="tabs">

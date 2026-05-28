@@ -1,16 +1,4 @@
 ---
-interface Partido {
-  id: string;
-  descLocal: string;
-  descVisitante: string;
-  local: string | null;
-  visitante: string | null;
-  golesLocal: number | null;
-  golesVisitante: number | null;
-  penalesLocal: number | null;
-  penalesVisitante: number | null;
-}
-
 interface PartidoSimple {
   id: string;
   descLocal: string;
@@ -24,386 +12,197 @@ interface PartidoSimple {
 }
 
 interface Props {
-  treintaDos: Partido[];
-  dieciseis: Partido[];
-  cuartos: Partido[];
-  semis: Partido[];
+  treintaDos: PartidoSimple[];
+  dieciseis: PartidoSimple[];
+  cuartos: PartidoSimple[];
+  semis: PartidoSimple[];
   tercerLugar: PartidoSimple;
   final: PartidoSimple;
   participantes: { nombre: string; equipos: string[] }[];
   equiposInfo: Record<string, { nombre: string; bandera: string }>;
 }
 
-const { treintaDos, dieciseis, cuartos, semis, tercerLugar, final: partidoFinal, participantes, equiposInfo } = Astro.props;
+const {
+  treintaDos, dieciseis, cuartos, semis,
+  tercerLugar, final: partidoFinal,
+  participantes, equiposInfo,
+} = Astro.props;
 
-function getApostador(equipoId: string | null): string {
-  if (!equipoId) return '';
-  const p = participantes.find(p => p.equipos.includes(equipoId));
-  return p ? p.nombre : '';
+function getApostador(id: string | null): string {
+  if (!id) return '';
+  return participantes.find(p => p.equipos.includes(id))?.nombre ?? '';
 }
 
-function getEquipoLabel(partido: PartidoSimple | Partido, side: 'local' | 'visitante'): { nombre: string; bandera: string; apostador: string } {
-  const id = side === 'local' ? partido.local : partido.visitante;
-  const desc = side === 'local' ? partido.descLocal : partido.descVisitante;
-  if (id && equiposInfo[id]) {
-    return { nombre: equiposInfo[id].nombre, bandera: equiposInfo[id].bandera, apostador: getApostador(id) };
+// ── Build viewer participants ──────────────────────────────────────
+const participantIds: Record<string, number> = {};
+const viewerParticipants: { id: number; tournament_id: number; name: string }[] = [];
+let pId = 0;
+
+for (const [teamId, info] of Object.entries(equiposInfo)) {
+  const ap = getApostador(teamId);
+  participantIds[teamId] = pId;
+  viewerParticipants.push({
+    id: pId,
+    tournament_id: 0,
+    name: ap ? `${info.bandera} ${info.nombre} · ${ap}` : `${info.bandera} ${info.nombre}`,
+  });
+  pId++;
+}
+
+// Placeholder participants for R32 slots not yet assigned
+const descToId: Record<string, number> = {};
+for (const p of treintaDos) {
+  for (const [teamId, desc] of [[p.local, p.descLocal], [p.visitante, p.descVisitante]] as [string | null, string][]) {
+    if (!teamId && desc && !(desc in descToId)) {
+      descToId[desc] = pId;
+      viewerParticipants.push({ id: pId, tournament_id: 0, name: desc });
+      pId++;
+    }
   }
-  return { nombre: desc, bandera: '', apostador: '' };
 }
 
-function marcador(p: PartidoSimple | Partido): string {
-  if (p.golesLocal === null || p.golesVisitante === null) return 'vs';
-  let m = `${p.golesLocal} - ${p.golesVisitante}`;
-  if (p.penalesLocal !== null && p.penalesVisitante !== null) {
-    m += ` (${p.penalesLocal}-${p.penalesVisitante} pen)`;
-  }
-  return m;
+function getOpId(teamId: string | null, desc: string): number | null {
+  if (teamId !== null) return participantIds[teamId] ?? null;
+  return descToId[desc] ?? null;
 }
 
-function ganador(p: PartidoSimple | Partido): string | null {
-  if (p.golesLocal === null || p.golesVisitante === null) return null;
-  if (p.golesLocal > p.golesVisitante) return p.local;
-  if (p.golesLocal < p.golesVisitante) return p.visitante;
-  if (p.penalesLocal !== null && p.penalesVisitante !== null) {
-    return p.penalesLocal > p.penalesVisitante ? p.local : p.visitante;
+// ── Build viewer matches ───────────────────────────────────────────
+let matchId = 0;
+function toMatch(roundId: number, groupId: number, num: number, p: PartidoSimple) {
+  const op1id = getOpId(p.local, p.descLocal);
+  const op2id = getOpId(p.visitante, p.descVisitante);
+
+  let status: number;
+  let r1: 'win' | 'loss' | undefined;
+  let r2: 'win' | 'loss' | undefined;
+
+  if (p.golesLocal !== null && p.golesVisitante !== null) {
+    status = 4;
+    const gl = p.golesLocal, gv = p.golesVisitante;
+    if (gl > gv)        { r1 = 'win';  r2 = 'loss'; }
+    else if (gl < gv)   { r1 = 'loss'; r2 = 'win';  }
+    else if (p.penalesLocal !== null && p.penalesVisitante !== null) {
+      r1 = p.penalesLocal > p.penalesVisitante ? 'win' : 'loss';
+      r2 = p.penalesLocal > p.penalesVisitante ? 'loss' : 'win';
+    }
+  } else if (op1id !== null && op2id !== null) {
+    status = 2;
+  } else if (op1id !== null || op2id !== null) {
+    status = 1;
+  } else {
+    status = 0;
   }
-  return null;
+
+  const opp1: Record<string, unknown> = { id: op1id };
+  const opp2: Record<string, unknown> = { id: op2id };
+  if (p.golesLocal    !== null) opp1.score = p.golesLocal;
+  if (p.golesVisitante !== null) opp2.score = p.golesVisitante;
+  if (r1) opp1.result = r1;
+  if (r2) opp2.result = r2;
+
+  return { id: matchId++, stage_id: 0, group_id: groupId, round_id: roundId, number: num, child_count: 0, status, opponent1: opp1, opponent2: opp2 };
 }
+
+// round_id: 0=R32, 1=R16, 2=QF, 3=SF, 4=Final | group 1 → consolation
+const viewerMatches = [
+  ...treintaDos.map((p, i) => toMatch(0, 0, i + 1, p)),
+  ...dieciseis .map((p, i) => toMatch(1, 0, i + 1, p)),
+  ...cuartos   .map((p, i) => toMatch(2, 0, i + 1, p)),
+  ...semis     .map((p, i) => toMatch(3, 0, i + 1, p)),
+  toMatch(4, 0, 1, partidoFinal),
+  toMatch(5, 1, 1, tercerLugar),
+];
+
+const viewerStages = [{
+  id: 0, tournament_id: 0, name: 'Eliminatorias', type: 'single_elimination', number: 1,
+  settings: { size: 32, consolationFinal: false, matchesChildCount: 0 },
+}];
+
+const bracketJSON = JSON.stringify({ stages: viewerStages, matches: viewerMatches, participants: viewerParticipants });
+
 ---
 
-<div class="bracket-wrapper">
 
-  <!-- Ronda de 32 -->
-  <section class="ronda">
-    <h3 class="ronda-titulo">Ronda de 32</h3>
-    <div class="partidos-grid">
-      {treintaDos.map(p => {
-        const l = getEquipoLabel(p, 'local');
-        const v = getEquipoLabel(p, 'visitante');
-        const win = ganador(p);
-        const jugado = p.golesLocal !== null;
-        return (
-          <div class:list={['match-card', jugado ? 'jugado' : 'pendiente']}>
-            <div class:list={['team', win === p.local ? 'winner' : (win ? 'loser' : '')]}>
-              <span class="flag">{l.bandera}</span>
-              <span class="tname">{l.nombre}</span>
-              {l.apostador && <span class="ap">{l.apostador}</span>}
-              {jugado && <span class="score">{p.golesLocal}</span>}
-            </div>
-            <div class:list={['team', win === p.visitante ? 'winner' : (win ? 'loser' : '')]}>
-              <span class="flag">{v.bandera}</span>
-              <span class="tname">{v.nombre}</span>
-              {v.apostador && <span class="ap">{v.apostador}</span>}
-              {jugado && <span class="score">{p.golesVisitante}</span>}
-            </div>
-            {p.penalesLocal !== null && (
-              <div class="pen-note">Penales: {p.penalesLocal}-{p.penalesVisitante}</div>
-            )}
-          </div>
-        );
-      })}
-    </div>
-  </section>
-
-  <!-- Octavos -->
-  <section class="ronda">
-    <h3 class="ronda-titulo">Octavos de Final</h3>
-    <div class="partidos-grid">
-      {dieciseis.map(p => {
-        const l = getEquipoLabel(p, 'local');
-        const v = getEquipoLabel(p, 'visitante');
-        const win = ganador(p);
-        const jugado = p.golesLocal !== null;
-        return (
-          <div class:list={['match-card', jugado ? 'jugado' : 'pendiente']}>
-            <div class:list={['team', win === p.local ? 'winner' : (win ? 'loser' : '')]}>
-              <span class="flag">{l.bandera}</span>
-              <span class="tname">{l.nombre}</span>
-              {l.apostador && <span class="ap">{l.apostador}</span>}
-              {jugado && <span class="score">{p.golesLocal}</span>}
-            </div>
-            <div class:list={['team', win === p.visitante ? 'winner' : (win ? 'loser' : '')]}>
-              <span class="flag">{v.bandera}</span>
-              <span class="tname">{v.nombre}</span>
-              {v.apostador && <span class="ap">{v.apostador}</span>}
-              {jugado && <span class="score">{p.golesVisitante}</span>}
-            </div>
-            {p.penalesLocal !== null && (
-              <div class="pen-note">Penales: {p.penalesLocal}-{p.penalesVisitante}</div>
-            )}
-          </div>
-        );
-      })}
-    </div>
-  </section>
-
-  <!-- Cuartos -->
-  <section class="ronda">
-    <h3 class="ronda-titulo">Cuartos de Final</h3>
-    <div class="partidos-grid partidos-grid-4">
-      {cuartos.map(p => {
-        const l = getEquipoLabel(p, 'local');
-        const v = getEquipoLabel(p, 'visitante');
-        const win = ganador(p);
-        const jugado = p.golesLocal !== null;
-        return (
-          <div class:list={['match-card', jugado ? 'jugado' : 'pendiente']}>
-            <div class:list={['team', win === p.local ? 'winner' : (win ? 'loser' : '')]}>
-              <span class="flag">{l.bandera}</span>
-              <span class="tname">{l.nombre}</span>
-              {l.apostador && <span class="ap">{l.apostador}</span>}
-              {jugado && <span class="score">{p.golesLocal}</span>}
-            </div>
-            <div class:list={['team', win === p.visitante ? 'winner' : (win ? 'loser' : '')]}>
-              <span class="flag">{v.bandera}</span>
-              <span class="tname">{v.nombre}</span>
-              {v.apostador && <span class="ap">{v.apostador}</span>}
-              {jugado && <span class="score">{p.golesVisitante}</span>}
-            </div>
-            {p.penalesLocal !== null && (
-              <div class="pen-note">Penales: {p.penalesLocal}-{p.penalesVisitante}</div>
-            )}
-          </div>
-        );
-      })}
-    </div>
-  </section>
-
-  <!-- Semis -->
-  <section class="ronda">
-    <h3 class="ronda-titulo">Semifinales</h3>
-    <div class="partidos-grid partidos-grid-2">
-      {semis.map(p => {
-        const l = getEquipoLabel(p, 'local');
-        const v = getEquipoLabel(p, 'visitante');
-        const win = ganador(p);
-        const jugado = p.golesLocal !== null;
-        return (
-          <div class:list={['match-card match-card-lg', jugado ? 'jugado' : 'pendiente']}>
-            <div class:list={['team', win === p.local ? 'winner' : (win ? 'loser' : '')]}>
-              <span class="flag">{l.bandera}</span>
-              <span class="tname">{l.nombre}</span>
-              {l.apostador && <span class="ap">{l.apostador}</span>}
-              {jugado && <span class="score">{p.golesLocal}</span>}
-            </div>
-            <div class:list={['team', win === p.visitante ? 'winner' : (win ? 'loser' : '')]}>
-              <span class="flag">{v.bandera}</span>
-              <span class="tname">{v.nombre}</span>
-              {v.apostador && <span class="ap">{v.apostador}</span>}
-              {jugado && <span class="score">{p.golesVisitante}</span>}
-            </div>
-            {p.penalesLocal !== null && (
-              <div class="pen-note">Penales: {p.penalesLocal}-{p.penalesVisitante}</div>
-            )}
-          </div>
-        );
-      })}
-    </div>
-  </section>
-
-  <!-- Tercer lugar -->
-  <section class="ronda">
-    <h3 class="ronda-titulo">3° y 4° Lugar</h3>
-    <div class="partidos-grid partidos-grid-1">
-      {(() => {
-        const p = tercerLugar;
-        const l = getEquipoLabel(p, 'local');
-        const v = getEquipoLabel(p, 'visitante');
-        const win = ganador(p);
-        const jugado = p.golesLocal !== null;
-        return (
-          <div class:list={['match-card match-card-lg', jugado ? 'jugado' : 'pendiente']}>
-            <div class:list={['team', win === p.local ? 'winner' : (win ? 'loser' : '')]}>
-              <span class="flag">{l.bandera}</span>
-              <span class="tname">{l.nombre}</span>
-              {l.apostador && <span class="ap">{l.apostador}</span>}
-              {jugado && <span class="score">{p.golesLocal}</span>}
-            </div>
-            <div class:list={['team', win === p.visitante ? 'winner' : (win ? 'loser' : '')]}>
-              <span class="flag">{v.bandera}</span>
-              <span class="tname">{v.nombre}</span>
-              {v.apostador && <span class="ap">{v.apostador}</span>}
-              {jugado && <span class="score">{p.golesVisitante}</span>}
-            </div>
-            {p.penalesLocal !== null && (
-              <div class="pen-note">Penales: {p.penalesLocal}-{p.penalesVisitante}</div>
-            )}
-          </div>
-        );
-      })()}
-    </div>
-  </section>
-
-  <!-- Final -->
-  <section class="ronda final-ronda">
-    <h3 class="ronda-titulo final-titulo">🏆 Final</h3>
-    <div class="partidos-grid partidos-grid-1">
-      {(() => {
-        const p = partidoFinal;
-        const l = getEquipoLabel(p, 'local');
-        const v = getEquipoLabel(p, 'visitante');
-        const win = ganador(p);
-        const jugado = p.golesLocal !== null;
-        return (
-          <div class:list={['match-card match-card-final', jugado ? 'jugado' : 'pendiente']}>
-            <div class:list={['team', win === p.local ? 'winner champion' : (win ? 'loser' : '')]}>
-              <span class="flag">{l.bandera}</span>
-              <span class="tname">{l.nombre}</span>
-              {l.apostador && <span class="ap">{l.apostador}</span>}
-              {jugado && <span class="score">{p.golesLocal}</span>}
-              {win === p.local && <span class="crown">🏆</span>}
-            </div>
-            <div class:list={['team', win === p.visitante ? 'winner champion' : (win ? 'loser' : '')]}>
-              <span class="flag">{v.bandera}</span>
-              <span class="tname">{v.nombre}</span>
-              {v.apostador && <span class="ap">{v.apostador}</span>}
-              {jugado && <span class="score">{p.golesVisitante}</span>}
-              {win === p.visitante && <span class="crown">🏆</span>}
-            </div>
-            {p.penalesLocal !== null && (
-              <div class="pen-note">Penales: {p.penalesLocal}-{p.penalesVisitante}</div>
-            )}
-          </div>
-        );
-      })()}
-    </div>
-  </section>
-
+<div id="bracket-wrap">
+  <div id="bracket" class="brackets-viewer"></div>
 </div>
 
+<script is:inline define:vars={{ bracketJSON }}>
+  async function initBracket() {
+    const data = JSON.parse(bracketJSON);
+
+    if (!document.getElementById('bv-css')) {
+      const link = document.createElement('link');
+      link.id = 'bv-css';
+      link.rel = 'stylesheet';
+      link.href = 'https://cdn.jsdelivr.net/npm/brackets-viewer@latest/dist/brackets-viewer.min.css';
+      document.head.appendChild(link);
+    }
+
+    if (!window.bracketsViewer) {
+      await new Promise(function(resolve, reject) {
+        const s = document.createElement('script');
+        s.src = 'https://cdn.jsdelivr.net/npm/brackets-viewer@latest/dist/brackets-viewer.min.js';
+        s.onload = resolve;
+        s.onerror = reject;
+        document.head.appendChild(s);
+      });
+    }
+
+    await window.bracketsViewer.render(
+      { stages: data.stages, matches: data.matches, matchGames: [], participants: data.participants },
+      { 
+        selector: '#bracket', 
+        participantOriginPlacement: 'none', 
+        showSlotsOrigin: false, 
+        highlightParticipantOnHover: true, 
+        clear: true ,
+        customRoundName: function(round) {
+          // 3rd-place match comes through with finalType = 'consolation-final'
+          if (round.finalType === 'consolation-final') return '3er y 4to Lugar';
+          // Main bracket: fractionOfFinal = 1/2^(roundCount - roundNumber)
+          var inv = Math.round(1 / round.fractionOfFinal);
+          if (inv === 16) return 'Dieciseisavos';
+          if (inv === 8)  return 'Octavos';
+          if (inv === 4)  return 'Cuartos';
+          if (inv === 2)  return 'Semifinales';
+          if (inv === 1)  return 'Final';
+          return null; // fallback to default
+        }
+      }
+    );
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBracket);
+  } else {
+    initBracket();
+  }
+</script>
+
 <style>
-  .bracket-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
+  #bracket-wrap {
+    overflow-x: auto;
+    padding: 0.5rem 0 1.5rem;
   }
 
-  .ronda {}
-
-  .ronda-titulo {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--color-text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 0.75rem;
-    padding-bottom: 0.4rem;
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .final-ronda .final-titulo { color: var(--color-accent); }
-
-  .partidos-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 0.6rem;
-  }
-
-  .partidos-grid-4 { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
-  .partidos-grid-2 { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
-  .partidos-grid-1 { grid-template-columns: minmax(280px, 400px); }
-
-  .match-card {
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    overflow: hidden;
-  }
-
-  .match-card.jugado { border-color: var(--color-border); }
-
-  .match-card-lg .team { padding: 0.55rem 0.75rem; }
-
-  .match-card-final {
-    border: 2px solid var(--color-accent);
-    box-shadow: 0 0 20px rgba(245, 197, 24, 0.15);
-  }
-
-  .team {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 0.45rem 0.65rem;
-    border-bottom: 1px solid var(--color-border);
-    font-size: 0.82rem;
-    transition: background 0.1s;
-  }
-
-  .team:last-of-type { border-bottom: none; }
-
-  .team.winner {
-    background: rgba(34, 197, 94, 0.1);
-    color: var(--color-green);
-    font-weight: 700;
-  }
-
-  .team.winner.champion {
-    background: rgba(245, 197, 24, 0.15);
-    color: var(--color-gold);
-  }
-
-  .team.loser {
-    opacity: 0.45;
-  }
-
-  .flag { font-size: 1.1rem; flex-shrink: 0; }
-
-  .tname {
-    flex: 1;
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-size: 0.82rem;
-  }
-
-  .ap {
-    font-size: 0.65rem;
-    padding: 0.1rem 0.35rem;
-    border-radius: 3px;
-    background: var(--color-surface2);
-    color: var(--color-text-muted);
-    border: 1px solid var(--color-border);
-    flex-shrink: 0;
-    white-space: nowrap;
-  }
-
-  .team.winner .ap {
-    background: rgba(34, 197, 94, 0.2);
-    border-color: var(--color-green);
-    color: var(--color-green);
-  }
-
-  .team.winner.champion .ap {
-    background: rgba(245, 197, 24, 0.2);
-    border-color: var(--color-gold);
-    color: var(--color-gold);
-  }
-
-  .score {
-    font-weight: 700;
-    font-size: 0.9rem;
-    margin-left: auto;
-    padding-left: 0.5rem;
-    flex-shrink: 0;
-    color: var(--color-accent);
-  }
-
-  .crown {
-    font-size: 1rem;
-    flex-shrink: 0;
-  }
-
-  .pen-note {
-    text-align: center;
-    font-size: 0.7rem;
-    color: var(--color-text-muted);
-    padding: 0.25rem;
-    background: var(--color-surface2);
-    border-top: 1px solid var(--color-border);
-  }
-
-  .match-card.pendiente .team {
-    opacity: 0.7;
+  /* Dark theme overrides for brackets-viewer */
+  #bracket.brackets-viewer {
+    --primary-background: #13131a;
+    --secondary-background: #1c1c26;
+    --match-background: #13131a;
+    --font-color: #e8e8f0;
+    --win-color: #22c55e;
+    --loss-color: #ef4444;
+    --label-color: #7070a0;
+    --hint-color: #7070a0;
+    --connector-color: #2a2a3a;
+    --border-color: #2a2a3a;
+    --border-hover-color: #3a3a52;
+    --border-selected-color: #f5c518;
+    --match-width: 220px;
+    --round-margin: 32px;
+    --text-size: 12px;
+    background: transparent;
   }
 </style>
