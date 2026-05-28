@@ -1,17 +1,17 @@
 {
   "participantes": [
-    { "nombre": "Participante 1", "equipos": ["MEX", "BRA", "ESP", "FRA"] },
-    { "nombre": "Participante 2", "equipos": ["ARG", "ENG", "GER", "POR"] },
-    { "nombre": "Participante 3", "equipos": ["USA", "NED", "BEL", "URU"] },
-    { "nombre": "Participante 4", "equipos": ["KOR", "JPN", "AUS", "CRO"] },
-    { "nombre": "Participante 5", "equipos": ["MAR", "SEN", "EGY", "CIV"] },
-    { "nombre": "Participante 6", "equipos": ["COL", "ECU", "PAR", "CHI"] },
-    { "nombre": "Participante 7", "equipos": ["NOR", "SWE", "DEN", "AUT"] },
-    { "nombre": "Participante 8", "equipos": ["TUR", "SAU", "IRN", "IRQ"] },
-    { "nombre": "Participante 9", "equipos": ["RSA", "GHA", "COD", "TUN"] },
-    { "nombre": "Participante 10", "equipos": ["CZE", "SUI", "BIH", "SCO"] },
-    { "nombre": "Participante 11", "equipos": ["QAT", "HAI", "CPV", "CUW"] },
-    { "nombre": "Participante 12", "equipos": ["ALG", "JOR", "UZB", "NZL"] }
+    { "nombre": "Yagger", "equipos": ["CRO", "SEN", "AUT", "USA"] },
+    { "nombre": "Carrillo", "equipos": ["BRA", "CAN", "QAT", "SUI"] },
+    { "nombre": "Emir", "equipos": ["POR", "TUN", "JOR", "SCO"] },
+    { "nombre": "Favio", "equipos": ["GER", "TUR", "KOR", "PAN"] },
+    { "nombre": "Blesy", "equipos": ["BEL", "AUS", "CPV", "PAR"] },
+    { "nombre": "Cotera", "equipos": ["ESP", "UZB", "RSA", "HAI"] },
+    { "nombre": "Isaac", "equipos": ["ARG", "SAU", "ALG", "CIV"] },
+    { "nombre": "Christian", "equipos": ["ENG", "MEX", "COD", "CZE"] },
+    { "nombre": "Bryan", "equipos": ["FRA", "JPN", "GHA", "BIH"] },
+    { "nombre": "Pacheco", "equipos": ["NED", "EGY", "IRQ", "CUW"] },
+    { "nombre": "Javier", "equipos": ["COL", "ECU", "SWE", "IRN"] },
+    { "nombre": "Miguel", "equipos": ["URU", "NOR", "NZL", "MAR"] }
   ],
   "grupos": {
     "A": {
