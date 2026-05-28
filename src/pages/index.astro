@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import TablaGrupo from '../components/TablaGrupo.astro';
 import BracketEliminatorias from '../components/BracketEliminatorias.astro';
 import TablaQuiniela from '../components/TablaQuiniela.astro';
+import PartidosDelDia from '../components/PartidosDelDia.astro';
 import mundialData from '../data/mundial.json';
 
 const { participantes, grupos, eliminatorias } = mundialData;
@@ -95,9 +96,89 @@ const loserFinal = getLoser(eliminatorias.final);
 if (loserFinal) eliminados.add(loserFinal);
 
 const gruposEntries = Object.entries(grupos) as Array<[string, typeof grupos[keyof typeof grupos]]>;
+
+// ─── Partidos del día ───────────────────────────────────────────────────────
+type PartidoConContexto = {
+  local: string | null;
+  visitante: string | null;
+  golesLocal: number | null;
+  golesVisitante: number | null;
+  contexto: string;
+};
+
+const hoy = new Date().toISOString().slice(0, 10);
+
+const todosConFecha: Array<PartidoConContexto & { fecha: string }> = [];
+
+// Recopilar partidos de grupos con fecha asignada
+for (const [letra, grupo] of Object.entries(grupos)) {
+  for (const p of grupo.partidos as Array<(typeof grupo.partidos)[0] & { fecha: string | null }>) {
+    if (p.fecha) {
+      todosConFecha.push({
+        local: p.local,
+        visitante: p.visitante,
+        golesLocal: p.golesLocal,
+        golesVisitante: p.golesVisitante,
+        contexto: `Grupo ${letra}`,
+        fecha: p.fecha,
+      });
+    }
+  }
+}
+
+// Recopilar partidos de eliminatorias con fecha asignada
+const rondasElim = [
+  { partidos: eliminatorias.treintaDos, nombre: 'Dieciseisavos' },
+  { partidos: eliminatorias.dieciseis, nombre: 'Octavos de Final' },
+  { partidos: eliminatorias.cuartos, nombre: 'Cuartos de Final' },
+  { partidos: eliminatorias.semis, nombre: 'Semifinales' },
+  { partidos: [eliminatorias.tercerLugar], nombre: '3er y 4to Lugar' },
+  { partidos: [eliminatorias.final], nombre: 'Final' },
+] as const;
+
+for (const { partidos, nombre } of rondasElim) {
+  for (const p of partidos as Array<(typeof partidos)[0] & { fecha: string | null }>) {
+    if (p.fecha) {
+      todosConFecha.push({
+        local: p.local,
+        visitante: p.visitante,
+        golesLocal: p.golesLocal,
+        golesVisitante: p.golesVisitante,
+        contexto: nombre,
+        fecha: p.fecha,
+      });
+    }
+  }
+}
+
+// Determinar fecha objetivo: hoy si hay partidos, si no el próximo día futuro
+const hayHoy = todosConFecha.some((p) => p.fecha === hoy);
+let fechaObjetivo: string | null = null;
+if (hayHoy) {
+  fechaObjetivo = hoy;
+} else {
+  const futuras = todosConFecha
+    .filter((p) => p.fecha > hoy)
+    .map((p) => p.fecha)
+    .sort();
+  fechaObjetivo = futuras[0] ?? null;
+}
+
+const partidosDelDia = fechaObjetivo
+  ? todosConFecha.filter((p) => p.fecha === fechaObjetivo)
+  : [];
 ---
 
 <Layout>
+  {fechaObjetivo && (
+    <PartidosDelDia
+      partidos={partidosDelDia}
+      fecha={fechaObjetivo}
+      esHoy={fechaObjetivo === hoy}
+      equiposInfo={equiposInfo}
+    />
+  )}
+
   <!-- Tab: Grupos -->
   <div id="tab-grupos" class="tab-panel active">
     <div class="grupos-grid">
