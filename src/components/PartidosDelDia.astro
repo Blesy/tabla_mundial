@@ -7,14 +7,19 @@ interface PartidoConContexto {
   contexto: string;
 }
 
-interface Props {
-  partidos: PartidoConContexto[];
+interface FechaSlot {
   fecha: string;
+  partidos: PartidoConContexto[];
   esHoy: boolean;
+}
+
+interface Props {
+  todasFechas: FechaSlot[];
+  dueñoEquipo: Record<string, string>;
   equiposInfo: Record<string, { nombre: string; bandera: string }>;
 }
 
-const { partidos, fecha, esHoy, equiposInfo } = Astro.props;
+const { todasFechas, dueñoEquipo, equiposInfo } = Astro.props;
 
 function formatFecha(f: string): string {
   const [year, month, day] = f.split('-').map(Number);
@@ -38,46 +43,141 @@ function marcador(p: PartidoConContexto): string {
   }
   return 'vs';
 }
+
+const total = todasFechas.length;
 ---
 
 <section class="partidos-dia">
+  <!-- Cabecera fija -->
   <div class="partidos-dia-header">
     <div class="header-left">
       <span class="icono">📅</span>
-      <div>
-        <p class="header-titulo">{esHoy ? 'Partidos de Hoy' : 'Próximos Partidos'}</p>
-        <p class="header-fecha">{formatFecha(fecha)}</p>
-      </div>
+      <p class="header-titulo" id="pd-titulo">Próximos Partidos</p>
     </div>
-    {esHoy && <span class="badge-hoy">HOY</span>}
+    <button class="btn-volver" id="pd-volver" style="display:none" aria-label="Volver a próximos partidos">
+      ↩ Próximos
+    </button>
   </div>
 
-  <div class="partidos-grid">
-    {partidos.map((p) => {
-      const local = getEquipo(p.local);
-      const visitante = getEquipo(p.visitante);
-      const jugado = p.golesLocal !== null && p.golesVisitante !== null;
-      return (
-        <div class={`partido-card ${jugado ? 'jugado' : 'pendiente'}`}>
-          <span class="contexto-label">{p.contexto}</span>
-          <div class="partido-row">
-            <div class="equipo local-team">
-              <span class="bandera">{local.bandera}</span>
-              <span class="nombre">{local.nombre}</span>
-            </div>
-            <div class={`marcador ${jugado ? 'marcador-jugado' : ''}`}>
-              {marcador(p)}
-            </div>
-            <div class="equipo visitante-team">
-              <span class="nombre">{visitante.nombre}</span>
-              <span class="bandera">{visitante.bandera}</span>
-            </div>
-          </div>
+  <!-- Navegación slider -->
+  <div class="slider-nav">
+    <button class="slider-btn" id="pd-prev" aria-label="Fecha anterior" disabled>&#8592;</button>
+    <div class="slider-fecha-info">
+      <span class="header-fecha" id="pd-fecha"></span>
+      <span class="badge-hoy" id="pd-badge-hoy" style="display:none">HOY</span>
+    </div>
+    <button class="slider-btn" id="pd-next" aria-label="Fecha siguiente">&#8594;</button>
+  </div>
+
+  <!-- Paneles de fechas -->
+  <div class="slider-viewport" id="pd-viewport">
+    {todasFechas.map((slot, i) => (
+      <div
+        class="fecha-panel"
+        data-index={i}
+        data-fecha={slot.fecha}
+        data-eshoy={slot.esHoy ? 'true' : 'false'}
+        style={i === 0 ? '' : 'display:none'}
+      >
+        <div class="partidos-grid">
+          {slot.partidos.map((p) => {
+            const local = getEquipo(p.local);
+            const visitante = getEquipo(p.visitante);
+            const jugado = p.golesLocal !== null && p.golesVisitante !== null;
+            const ownerLocal = p.local ? dueñoEquipo[p.local] : undefined;
+            const ownerVisitante = p.visitante ? dueñoEquipo[p.visitante] : undefined;
+            return (
+              <div class={`partido-card ${jugado ? 'jugado' : 'pendiente'}`}>
+                <span class="contexto-label">{p.contexto}</span>
+                <div class="partido-row">
+                  <div class="equipo local-team">
+                    <span class="bandera">{local.bandera}</span>
+                    <div class="equipo-info">
+                      <span class="nombre">{local.nombre}</span>
+                      {ownerLocal && <span class="owner-name">{ownerLocal}</span>}
+                    </div>
+                  </div>
+                  <div class={`marcador ${jugado ? 'marcador-jugado' : ''}`}>
+                    {marcador(p)}
+                  </div>
+                  <div class="equipo visitante-team">
+                    <div class="equipo-info equipo-info-right">
+                      <span class="nombre">{visitante.nombre}</span>
+                      {ownerVisitante && <span class="owner-name">{ownerVisitante}</span>}
+                    </div>
+                    <span class="bandera">{visitante.bandera}</span>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
-      );
-    })}
+      </div>
+    ))}
   </div>
 </section>
+
+<script define:vars={{ total }}>
+  let current = 0;
+  const panels = Array.from(document.querySelectorAll('.fecha-panel'));
+  const prevBtn = document.getElementById('pd-prev');
+  const nextBtn = document.getElementById('pd-next');
+  const tituloEl = document.getElementById('pd-titulo');
+  const fechaEl = document.getElementById('pd-fecha');
+  const badgeEl = document.getElementById('pd-badge-hoy');
+
+  function updateHeader(idx) {
+    const panel = panels[idx];
+    const fecha = panel.dataset.fecha;
+    const esHoy = panel.dataset.eshoy === 'true';
+    const [year, month, day] = fecha.split('-').map(Number);
+    const date = new Date(year, month - 1, day);
+    const formatted = date.toLocaleDateString('es-MX', {
+      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+    });
+    if (tituloEl) tituloEl.textContent = esHoy ? 'Partidos de Hoy' : (idx === 0 ? 'Próximos Partidos' : 'Otras Fechas');
+    if (fechaEl) fechaEl.textContent = formatted;
+    if (badgeEl) badgeEl.style.display = esHoy ? '' : 'none';
+    const volverBtn = document.getElementById('pd-volver');
+    if (volverBtn) volverBtn.style.display = idx === 0 ? 'none' : '';
+  }
+
+  function goTo(idx, direction) {
+    const outPanel = panels[current];
+    const inPanel = panels[idx];
+
+    // Animación: salida del panel actual
+    outPanel.classList.add(direction === 1 ? 'slide-out-left' : 'slide-out-right');
+
+    outPanel.addEventListener('animationend', () => {
+      outPanel.style.display = 'none';
+      outPanel.classList.remove('slide-out-left', 'slide-out-right');
+
+      inPanel.style.display = '';
+      inPanel.classList.add(direction === 1 ? 'slide-in-right' : 'slide-in-left');
+      inPanel.addEventListener('animationend', () => {
+        inPanel.classList.remove('slide-in-right', 'slide-in-left');
+      }, { once: true });
+
+      current = idx;
+      updateHeader(current);
+      prevBtn.disabled = current === 0;
+      nextBtn.disabled = current === total - 1;
+    }, { once: true });
+  }
+
+  prevBtn.addEventListener('click', () => { if (current > 0) goTo(current - 1, -1); });
+  nextBtn.addEventListener('click', () => { if (current < total - 1) goTo(current + 1, 1); });
+
+  const volverBtn = document.getElementById('pd-volver');
+  if (volverBtn) {
+    volverBtn.addEventListener('click', () => { if (current > 0) goTo(0, -1); });
+  }
+
+  // Inicializar header con el primer panel
+  updateHeader(0);
+  nextBtn.disabled = total <= 1;
+</script>
 
 <style>
   .partidos-dia {
@@ -93,7 +193,7 @@ function marcador(p: PartidoConContexto): string {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
     gap: 0.75rem;
   }
 
@@ -114,13 +214,51 @@ function marcador(p: PartidoConContexto): string {
     color: var(--color-accent);
     letter-spacing: 0.04em;
     text-transform: uppercase;
+    margin: 0;
+  }
+
+  .btn-volver {
+    background: transparent;
+    border: 1.5px solid var(--color-text-muted);
+    color: var(--color-text-muted);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    padding: 0.25rem 0.65rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+    flex-shrink: 0;
+  }
+
+  .btn-volver:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  /* ── Navegación slider ── */
+  .slider-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .slider-fecha-info {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
   }
 
   .header-fecha {
     font-size: 0.8rem;
     color: var(--color-text-muted);
     text-transform: capitalize;
-    margin-top: 0.1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .badge-hoy {
@@ -134,6 +272,69 @@ function marcador(p: PartidoConContexto): string {
     flex-shrink: 0;
   }
 
+  .slider-btn {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    border: 1.5px solid var(--color-accent);
+    background: transparent;
+    color: var(--color-accent);
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.15s, color 0.15s, opacity 0.15s;
+    line-height: 1;
+  }
+
+  .slider-btn:hover:not(:disabled) {
+    background: var(--color-accent);
+    color: #000;
+  }
+
+  .slider-btn:disabled {
+    opacity: 0.25;
+    cursor: default;
+  }
+
+  /* ── Viewport y animaciones ── */
+  .slider-viewport {
+    overflow: hidden;
+    position: relative;
+  }
+
+  .fecha-panel {
+    animation-duration: 280ms;
+    animation-timing-function: ease;
+    animation-fill-mode: both;
+  }
+
+  @keyframes slideInRight {
+    from { transform: translateX(60px); opacity: 0; }
+    to   { transform: translateX(0);    opacity: 1; }
+  }
+  @keyframes slideInLeft {
+    from { transform: translateX(-60px); opacity: 0; }
+    to   { transform: translateX(0);     opacity: 1; }
+  }
+  @keyframes slideOutLeft {
+    from { transform: translateX(0);    opacity: 1; }
+    to   { transform: translateX(-60px); opacity: 0; }
+  }
+  @keyframes slideOutRight {
+    from { transform: translateX(0);   opacity: 1; }
+    to   { transform: translateX(60px); opacity: 0; }
+  }
+
+  .slide-in-right  { animation-name: slideInRight; }
+  .slide-in-left   { animation-name: slideInLeft; }
+  .slide-out-left  { animation-name: slideOutLeft; }
+  .slide-out-right { animation-name: slideOutRight; }
+
+  /* ── Grid de partidos ── */
   .partidos-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -194,6 +395,17 @@ function marcador(p: PartidoConContexto): string {
     text-align: left;
   }
 
+  .equipo-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    align-items: flex-end;
+  }
+
+  .equipo-info-right {
+    align-items: flex-start;
+  }
+
   .bandera {
     font-size: 1.1rem;
     flex-shrink: 0;
@@ -206,6 +418,17 @@ function marcador(p: PartidoConContexto): string {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    max-width: 100%;
+  }
+
+  .owner-name {
+    font-size: 0.65rem;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    margin-top: 0.05rem;
   }
 
   .marcador {
@@ -233,6 +456,12 @@ function marcador(p: PartidoConContexto): string {
 
     .nombre {
       font-size: 0.75rem;
+    }
+
+    .slider-btn {
+      width: 1.75rem;
+      height: 1.75rem;
+      font-size: 0.9rem;
     }
   }
 </style>

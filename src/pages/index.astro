@@ -151,30 +151,39 @@ for (const { partidos, nombre } of rondasElim) {
   }
 }
 
-// Determinar fecha objetivo: hoy si hay partidos, si no el próximo día futuro
-const hayHoy = todosConFecha.some((p) => p.fecha === hoy);
-let fechaObjetivo: string | null = null;
-if (hayHoy) {
-  fechaObjetivo = hoy;
-} else {
-  const futuras = todosConFecha
-    .filter((p) => p.fecha > hoy)
-    .map((p) => p.fecha)
-    .sort();
-  fechaObjetivo = futuras[0] ?? null;
+// Construir lookup dueño de equipo
+const dueñoEquipo: Record<string, string> = {};
+for (const p of participantes) {
+  for (const eq of p.equipos) {
+    dueñoEquipo[eq] = p.nombre;
+  }
 }
 
-const partidosDelDia = fechaObjetivo
-  ? todosConFecha.filter((p) => p.fecha === fechaObjetivo)
-  : [];
+// Agrupar partidos por fecha (hoy + futuras)
+const fechasConPartidos = [...new Set(
+  todosConFecha
+    .filter((p) => p.fecha >= hoy)
+    .map((p) => p.fecha)
+)].sort();
+
+type FechaSlot = {
+  fecha: string;
+  partidos: PartidoConContexto[];
+  esHoy: boolean;
+};
+
+const todasFechas: FechaSlot[] = fechasConPartidos.map((f) => ({
+  fecha: f,
+  partidos: todosConFecha.filter((p) => p.fecha === f),
+  esHoy: f === hoy,
+}));
 ---
 
 <Layout>
-  {fechaObjetivo && (
+  {todasFechas.length > 0 && (
     <PartidosDelDia
-      partidos={partidosDelDia}
-      fecha={fechaObjetivo}
-      esHoy={fechaObjetivo === hoy}
+      todasFechas={todasFechas}
+      dueñoEquipo={dueñoEquipo}
       equiposInfo={equiposInfo}
     />
   )}
