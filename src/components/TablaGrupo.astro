@@ -1,4 +1,6 @@
 ---
+import { getFlagUrl } from '../utils/flags';
+
 interface Equipo {
   id: string;
   nombre: string;
@@ -93,7 +95,7 @@ function getEquipo(id: string): Equipo {
               <tr class:list={[avanza ? 'avanza' : '']}>
                 <td class="pos">{i + 1}</td>
                 <td class="equipo-col">
-                  <span class="bandera">{eq.bandera}</span>
+                  <img class="bandera-img" src={getFlagUrl(eq.id)} alt={eq.nombre} loading="lazy" />
                   <span class="nombre">{eq.nombre}</span>
                   {apostador && <span class="apostador-badge">{apostador}</span>}
                 </td>
@@ -121,13 +123,13 @@ function getEquipo(id: string): Equipo {
         return (
           <div class:list={['partido', jugado ? 'jugado' : 'pendiente']}>
             <span class="equipo-partido">
-              <span>{lEq.bandera}</span>
+              <img class="bandera-img" src={getFlagUrl(lEq.id)} alt={lEq.nombre} loading="lazy" />
               <span class="nombre-corto">{lEq.nombre}</span>
             </span>
             <span class="marcador">{resultadoPartido(p)}</span>
             <span class="equipo-partido right">
               <span class="nombre-corto">{vEq.nombre}</span>
-              <span>{vEq.bandera}</span>
+              <img class="bandera-img" src={getFlagUrl(vEq.id)} alt={vEq.nombre} loading="lazy" />
             </span>
           </div>
         );
@@ -205,7 +207,7 @@ function getEquipo(id: string): Equipo {
     min-width: 0;
   }
 
-  .bandera { font-size: 1.1rem; flex-shrink: 0; }
+  .bandera-img { width: 1.2rem; height: auto; border-radius: 2px; flex-shrink: 0; display: block; }
   .nombre { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
   .apostador-badge {

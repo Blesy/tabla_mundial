@@ -44,7 +44,7 @@ for (const [teamId, info] of Object.entries(equiposInfo)) {
   viewerParticipants.push({
     id: pId,
     tournament_id: 0,
-    name: ap ? `${info.bandera} ${info.nombre} · ${ap}` : `${info.bandera} ${info.nombre}`,
+    name: ap ? `${info.nombre} · ${ap}` : info.nombre,
   });
   pId++;
 }

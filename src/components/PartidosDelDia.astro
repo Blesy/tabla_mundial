@@ -1,4 +1,6 @@
 ---
+import { getFlagUrl } from '../utils/flags';
+
 interface PartidoConContexto {
   local: string | null;
   visitante: string | null;
@@ -91,7 +93,7 @@ const total = todasFechas.length;
                 <span class="contexto-label">{p.contexto}</span>
                 <div class="partido-row">
                   <div class="equipo local-team">
-                    <span class="bandera">{local.bandera}</span>
+                    {p.local && <img class="bandera-img" src={getFlagUrl(p.local)} alt={local.nombre} loading="lazy" />}
                     <div class="equipo-info">
                       <span class="nombre">{local.nombre}</span>
                       {ownerLocal && <span class="owner-name">{ownerLocal}</span>}
@@ -105,7 +107,7 @@ const total = todasFechas.length;
                       <span class="nombre">{visitante.nombre}</span>
                       {ownerVisitante && <span class="owner-name">{ownerVisitante}</span>}
                     </div>
-                    <span class="bandera">{visitante.bandera}</span>
+                    {p.visitante && <img class="bandera-img" src={getFlagUrl(p.visitante)} alt={visitante.nombre} loading="lazy" />}
                   </div>
                 </div>
               </div>
@@ -406,9 +408,12 @@ const total = todasFechas.length;
     align-items: flex-start;
   }
 
-  .bandera {
-    font-size: 1.1rem;
+  .bandera-img {
+    width: 1.3rem;
+    height: auto;
+    border-radius: 2px;
     flex-shrink: 0;
+    display: block;
   }
 
   .nombre {

@@ -1,4 +1,6 @@
 ---
+import { getFlagUrl } from '../utils/flags';
+
 interface Participante {
   nombre: string;
   equipos: string[];
@@ -70,7 +72,7 @@ const hayGanador = clasificados.some(p => p.tieneCampeon);
         <span class="col-equipos">
           {p.equipos.map(eq => (
             <span class:list={['equipo-chip', `chip-${eq.estado}`]} title={eq.info.nombre}>
-              <span class="chip-flag">{eq.info.bandera}</span>
+              <img class="chip-flag" src={getFlagUrl(eq.id)} alt={eq.info.nombre} loading="lazy" />
               <span class="chip-name">{eq.info.nombre}</span>
             </span>
           ))}
@@ -217,7 +219,7 @@ const hayGanador = clasificados.some(p => p.tieneCampeon);
     font-weight: 800;
   }
 
-  .chip-flag { font-size: 1rem; }
+  .chip-flag { width: 1.1rem; height: auto; border-radius: 2px; display: block; }
   .chip-name { white-space: nowrap; }
 
   .col-activos {
