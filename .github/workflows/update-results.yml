@@ -1,0 +1,44 @@
+name: Update World Cup Results
+
+on:
+  schedule:
+    # Cada 3 horas (UTC) — ajusta si necesitas otra frecuencia
+    - cron: '0 */3 * * *'
+  # Permite disparar manualmente desde GitHub Actions UI
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch-results:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Fetch results from SerpAPI
+        env:
+          SERPAPI_KEY: ${{ secrets.SERPAPI_KEY }}
+        run: node --env-file=/dev/null scripts/fetchResults.mjs
+        # /dev/null como env-file vacío; la variable ya viene de env: arriba
+
+      - name: Commit and push if mundial.json changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git diff --quiet src/data/mundial.json || (
+            git add src/data/mundial.json &&
+            git commit -m "chore: update match results [skip ci]" &&
+            git push
+          )

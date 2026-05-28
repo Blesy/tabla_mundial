@@ -9,7 +9,9 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "fetch-results": "node --env-file=.env scripts/fetchResults.mjs",
+    "fetch-results:dry": "node --env-file=.env scripts/fetchResults.mjs --dry-run"
   },
   "dependencies": {
     "astro": "^6.3.8"
