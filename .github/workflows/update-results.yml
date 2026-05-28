@@ -2,8 +2,8 @@ name: Update World Cup Results
 
 on:
   schedule:
-    # Cada 3 horas (UTC) — ajusta si necesitas otra frecuencia
-    - cron: '0 */3 * * *'
+    # Cada 1 hora (UTC) — ajusta si necesitas otra frecuencia
+    - cron: '0 */1 * * *'
   # Permite disparar manualmente desde GitHub Actions UI
   workflow_dispatch:
 
@@ -30,8 +30,7 @@ jobs:
       - name: Fetch results from SerpAPI
         env:
           SERPAPI_KEY: ${{ secrets.SERPAPI_KEY }}
-        run: node --env-file=/dev/null scripts/fetchResults.mjs
-        # /dev/null como env-file vacío; la variable ya viene de env: arriba
+        run: node scripts/fetchResults.mjs
 
       - name: Commit and push if mundial.json changed
         run: |
