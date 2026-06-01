@@ -10,6 +10,10 @@ on:
 permissions:
   contents: write
 
+# Agrega esto para forzar que las actions usen Node 24
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   fetch-results:
     runs-on: ubuntu-latest
