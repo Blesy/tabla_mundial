@@ -7,6 +7,7 @@ interface PartidoConContexto {
   golesLocal: number | null;
   golesVisitante: number | null;
   contexto: string;
+  hora: string;
 }
 
 interface FechaSlot {
@@ -91,6 +92,7 @@ const total = todasFechas.length;
             return (
               <div class={`partido-card ${jugado ? 'jugado' : 'pendiente'}`}>
                 <span class="contexto-label">{p.contexto}</span>
+                {!jugado && <span class="hora-label">{p.hora}</span>}
                 <div class="partido-row">
                   <div class="equipo local-team">
                     {p.local && <img class="bandera-img" src={getFlagUrl(p.local)} alt={local.nombre} loading="lazy" />}
@@ -370,6 +372,14 @@ const total = todasFechas.length;
     color: var(--color-text-muted);
     text-transform: uppercase;
     letter-spacing: 0.06em;
+    margin-bottom: 0.25rem;
+  }
+
+  .hora-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-accent);
     margin-bottom: 0.5rem;
   }
 

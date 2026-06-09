@@ -104,6 +104,7 @@ type PartidoConContexto = {
   golesLocal: number | null;
   golesVisitante: number | null;
   contexto: string;
+  hora: string;
 };
 
 const hoy = new Date().toISOString().slice(0, 10);
@@ -121,6 +122,7 @@ for (const [letra, grupo] of Object.entries(grupos)) {
         golesVisitante: p.golesVisitante,
         contexto: `Grupo ${letra}`,
         fecha: p.fecha,
+        hora: (p as any).hora ?? 'TBD',
       });
     }
   }
@@ -146,6 +148,7 @@ for (const { partidos, nombre } of rondasElim) {
         golesVisitante: p.golesVisitante,
         contexto: nombre,
         fecha: p.fecha,
+        hora: (p as any).hora ?? 'TBD',
       });
     }
   }
@@ -174,7 +177,18 @@ type FechaSlot = {
 
 const todasFechas: FechaSlot[] = fechasConPartidos.map((f) => ({
   fecha: f,
-  partidos: todosConFecha.filter((p) => p.fecha === f),
+  partidos: todosConFecha
+    .filter((p) => p.fecha === f)
+    .sort((a, b) => {
+      if (a.hora === 'TBD' && b.hora === 'TBD') return 0;
+      if (a.hora === 'TBD') return 1;
+      if (b.hora === 'TBD') return -1;
+      const toMinutes = (h: string) => {
+        const [hh, mm] = h.split(':').map(Number);
+        return hh * 60 + mm;
+      };
+      return toMinutes(a.hora) - toMinutes(b.hora);
+    }),
   esHoy: f === hoy,
 }));
 ---
