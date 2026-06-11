@@ -1,257 +1,1428 @@
 {
   "participantes": [
-
-    { "nombre": "Yagger", "equipos": ["CRO", "SEN", "AUT", "USA"] },
-    { "nombre": "Carrillo", "equipos": ["BRA", "CAN", "QAT", "SUI"] },
-    { "nombre": "Emir", "equipos": ["POR", "TUN", "JOR", "SCO"] },
-    { "nombre": "Favio", "equipos": ["GER", "TUR", "KOR", "PAN"] },
-    { "nombre": "Blesy", "equipos": ["BEL", "AUS", "CPV", "PAR"] },
-    { "nombre": "Cotera", "equipos": ["ESP", "UZB", "RSA", "HAI"] },
-    { "nombre": "Isaac", "equipos": ["ARG", "SAU", "ALG", "CIV"] },
-    { "nombre": "Christian", "equipos": ["ENG", "MEX", "COD", "CZE"] },
-    { "nombre": "Bryan", "equipos": ["FRA", "JPN", "GHA", "BIH"] },
-    { "nombre": "Pacheco", "equipos": ["NED", "EGY", "IRQ", "CUW"] },
-    { "nombre": "Javier", "equipos": ["COL", "ECU", "SWE", "IRN"] },
-    { "nombre": "Miguel", "equipos": ["URU", "NOR", "NZL", "MAR"] }
+    {
+      "nombre": "Yagger",
+      "equipos": [
+        "CRO",
+        "SEN",
+        "AUT",
+        "USA"
+      ]
+    },
+    {
+      "nombre": "Carrillo",
+      "equipos": [
+        "BRA",
+        "CAN",
+        "QAT",
+        "SUI"
+      ]
+    },
+    {
+      "nombre": "Emir",
+      "equipos": [
+        "POR",
+        "TUN",
+        "JOR",
+        "SCO"
+      ]
+    },
+    {
+      "nombre": "Favio",
+      "equipos": [
+        "GER",
+        "TUR",
+        "KOR",
+        "PAN"
+      ]
+    },
+    {
+      "nombre": "Blesy",
+      "equipos": [
+        "BEL",
+        "AUS",
+        "CPV",
+        "PAR"
+      ]
+    },
+    {
+      "nombre": "Cotera",
+      "equipos": [
+        "ESP",
+        "UZB",
+        "RSA",
+        "HAI"
+      ]
+    },
+    {
+      "nombre": "Isaac",
+      "equipos": [
+        "ARG",
+        "SAU",
+        "ALG",
+        "CIV"
+      ]
+    },
+    {
+      "nombre": "Christian",
+      "equipos": [
+        "ENG",
+        "MEX",
+        "COD",
+        "CZE"
+      ]
+    },
+    {
+      "nombre": "Bryan",
+      "equipos": [
+        "FRA",
+        "JPN",
+        "GHA",
+        "BIH"
+      ]
+    },
+    {
+      "nombre": "Pacheco",
+      "equipos": [
+        "NED",
+        "EGY",
+        "IRQ",
+        "CUW"
+      ]
+    },
+    {
+      "nombre": "Javier",
+      "equipos": [
+        "COL",
+        "ECU",
+        "SWE",
+        "IRN"
+      ]
+    },
+    {
+      "nombre": "Miguel",
+      "equipos": [
+        "URU",
+        "NOR",
+        "NZL",
+        "MAR"
+      ]
+    }
   ],
   "grupos": {
     "A": {
       "equipos": [
-        { "id": "MEX", "nombre": "México", "bandera": "🇲🇽" },
-        { "id": "RSA", "nombre": "Sudáfrica", "bandera": "🇿🇦" },
-        { "id": "KOR", "nombre": "Corea del Sur", "bandera": "🇰🇷" },
-        { "id": "CZE", "nombre": "Rep. Checa", "bandera": "🇨🇿" }
+        {
+          "id": "MEX",
+          "nombre": "México",
+          "bandera": "🇲🇽"
+        },
+        {
+          "id": "RSA",
+          "nombre": "Sudáfrica",
+          "bandera": "🇿🇦"
+        },
+        {
+          "id": "KOR",
+          "nombre": "Corea del Sur",
+          "bandera": "🇰🇷"
+        },
+        {
+          "id": "CZE",
+          "nombre": "Rep. Checa",
+          "bandera": "🇨🇿"
+        }
       ],
       "partidos": [
-        { "local": "MEX", "visitante": "RSA", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-11", "hora": "12:00" },
-        { "local": "KOR", "visitante": "CZE", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-11", "hora": "15:00" },
-        { "local": "MEX", "visitante": "KOR", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-18", "hora": "18:00" },
-        { "local": "RSA", "visitante": "CZE", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-18", "hora": "9:00" },
-        { "local": "MEX", "visitante": "CZE", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-24", "hora": "18:00" },
-        { "local": "RSA", "visitante": "KOR", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-24", "hora": "18:00" }
+        {
+          "local": "MEX",
+          "visitante": "RSA",
+          "golesLocal": 0,
+          "golesVisitante": 0,
+          "fecha": "2026-06-11",
+          "hora": "12:00"
+        },
+        {
+          "local": "KOR",
+          "visitante": "CZE",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-11",
+          "hora": "15:00"
+        },
+        {
+          "local": "MEX",
+          "visitante": "KOR",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-18",
+          "hora": "18:00"
+        },
+        {
+          "local": "RSA",
+          "visitante": "CZE",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-18",
+          "hora": "9:00"
+        },
+        {
+          "local": "MEX",
+          "visitante": "CZE",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-24",
+          "hora": "18:00"
+        },
+        {
+          "local": "RSA",
+          "visitante": "KOR",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-24",
+          "hora": "18:00"
+        }
       ]
     },
     "B": {
       "equipos": [
-        { "id": "CAN", "nombre": "Canadá", "bandera": "🇨🇦" },
-        { "id": "BIH", "nombre": "Bosnia y Herz.", "bandera": "🇧🇦" },
-        { "id": "QAT", "nombre": "Qatar", "bandera": "🇶🇦" },
-        { "id": "SUI", "nombre": "Suiza", "bandera": "🇨🇭" }
+        {
+          "id": "CAN",
+          "nombre": "Canadá",
+          "bandera": "🇨🇦"
+        },
+        {
+          "id": "BIH",
+          "nombre": "Bosnia y Herz.",
+          "bandera": "🇧🇦"
+        },
+        {
+          "id": "QAT",
+          "nombre": "Qatar",
+          "bandera": "🇶🇦"
+        },
+        {
+          "id": "SUI",
+          "nombre": "Suiza",
+          "bandera": "🇨🇭"
+        }
       ],
       "partidos": [
-        { "local": "CAN", "visitante": "BIH", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-12", "hora": "12:00" },
-        { "local": "QAT", "visitante": "SUI", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-13", "hora": "12:00" },
-        { "local": "CAN", "visitante": "QAT", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-18", "hora": "15:00" },
-        { "local": "BIH", "visitante": "SUI", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-18", "hora": "12:00" },
-        { "local": "CAN", "visitante": "SUI", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-24", "hora": "12:00" },
-        { "local": "BIH", "visitante": "QAT", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-24", "hora": "12:00" }
+        {
+          "local": "CAN",
+          "visitante": "BIH",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-12",
+          "hora": "12:00"
+        },
+        {
+          "local": "QAT",
+          "visitante": "SUI",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-13",
+          "hora": "12:00"
+        },
+        {
+          "local": "CAN",
+          "visitante": "QAT",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-18",
+          "hora": "15:00"
+        },
+        {
+          "local": "BIH",
+          "visitante": "SUI",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-18",
+          "hora": "12:00"
+        },
+        {
+          "local": "CAN",
+          "visitante": "SUI",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-24",
+          "hora": "12:00"
+        },
+        {
+          "local": "BIH",
+          "visitante": "QAT",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-24",
+          "hora": "12:00"
+        }
       ]
     },
     "C": {
       "equipos": [
-        { "id": "BRA", "nombre": "Brasil", "bandera": "🇧🇷" },
-        { "id": "MAR", "nombre": "Marruecos", "bandera": "🇲🇦" },
-        { "id": "HAI", "nombre": "Haití", "bandera": "🇭🇹" },
-        { "id": "SCO", "nombre": "Escocia", "bandera": "🏴󠁧󠁢󠁳󠁣󠁴󠁿" }
+        {
+          "id": "BRA",
+          "nombre": "Brasil",
+          "bandera": "🇧🇷"
+        },
+        {
+          "id": "MAR",
+          "nombre": "Marruecos",
+          "bandera": "🇲🇦"
+        },
+        {
+          "id": "HAI",
+          "nombre": "Haití",
+          "bandera": "🇭🇹"
+        },
+        {
+          "id": "SCO",
+          "nombre": "Escocia",
+          "bandera": "🏴󠁧󠁢󠁳󠁣󠁴󠁿"
+        }
       ],
       "partidos": [
-        { "local": "BRA", "visitante": "MAR", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-13", "hora": "15:00" },
-        { "local": "HAI", "visitante": "SCO", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-13", "hora": "18:00" },
-        { "local": "BRA", "visitante": "HAI", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-19", "hora": "17:30" },
-        { "local": "MAR", "visitante": "SCO", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-19", "hora": "15:00" },
-        { "local": "BRA", "visitante": "SCO", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-24", "hora": "15:00" },
-        { "local": "MAR", "visitante": "HAI", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-24", "hora": "15:00" }
+        {
+          "local": "BRA",
+          "visitante": "MAR",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-13",
+          "hora": "15:00"
+        },
+        {
+          "local": "HAI",
+          "visitante": "SCO",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-13",
+          "hora": "18:00"
+        },
+        {
+          "local": "BRA",
+          "visitante": "HAI",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-19",
+          "hora": "17:30"
+        },
+        {
+          "local": "MAR",
+          "visitante": "SCO",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-19",
+          "hora": "15:00"
+        },
+        {
+          "local": "BRA",
+          "visitante": "SCO",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-24",
+          "hora": "15:00"
+        },
+        {
+          "local": "MAR",
+          "visitante": "HAI",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-24",
+          "hora": "15:00"
+        }
       ]
     },
     "D": {
       "equipos": [
-        { "id": "USA", "nombre": "Estados Unidos", "bandera": "🇺🇸" },
-        { "id": "PAR", "nombre": "Paraguay", "bandera": "🇵🇾" },
-        { "id": "AUS", "nombre": "Australia", "bandera": "🇦🇺" },
-        { "id": "TUR", "nombre": "Turquía", "bandera": "🇹🇷" }
+        {
+          "id": "USA",
+          "nombre": "Estados Unidos",
+          "bandera": "🇺🇸"
+        },
+        {
+          "id": "PAR",
+          "nombre": "Paraguay",
+          "bandera": "🇵🇾"
+        },
+        {
+          "id": "AUS",
+          "nombre": "Australia",
+          "bandera": "🇦🇺"
+        },
+        {
+          "id": "TUR",
+          "nombre": "Turquía",
+          "bandera": "🇹🇷"
+        }
       ],
       "partidos": [
-        { "local": "USA", "visitante": "PAR", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-12", "hora": "18:00" },
-        { "local": "AUS", "visitante": "TUR", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-13", "hora": "21:00" },
-        { "local": "USA", "visitante": "AUS", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-19", "hora": "12:00" },
-        { "local": "PAR", "visitante": "TUR", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-19", "hora": "20:00" },
-        { "local": "USA", "visitante": "TUR", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-25", "hora": "19:00" },
-        { "local": "PAR", "visitante": "AUS", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-25", "hora": "19:00" }
+        {
+          "local": "USA",
+          "visitante": "PAR",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-12",
+          "hora": "18:00"
+        },
+        {
+          "local": "AUS",
+          "visitante": "TUR",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-13",
+          "hora": "21:00"
+        },
+        {
+          "local": "USA",
+          "visitante": "AUS",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-19",
+          "hora": "12:00"
+        },
+        {
+          "local": "PAR",
+          "visitante": "TUR",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-19",
+          "hora": "20:00"
+        },
+        {
+          "local": "USA",
+          "visitante": "TUR",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-25",
+          "hora": "19:00"
+        },
+        {
+          "local": "PAR",
+          "visitante": "AUS",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-25",
+          "hora": "19:00"
+        }
       ]
     },
     "E": {
       "equipos": [
-        { "id": "GER", "nombre": "Alemania", "bandera": "🇩🇪" },
-        { "id": "CUW", "nombre": "Curazao", "bandera": "🇨🇼" },
-        { "id": "CIV", "nombre": "Costa de Marfil", "bandera": "🇨🇮" },
-        { "id": "ECU", "nombre": "Ecuador", "bandera": "🇪🇨" }
+        {
+          "id": "GER",
+          "nombre": "Alemania",
+          "bandera": "🇩🇪"
+        },
+        {
+          "id": "CUW",
+          "nombre": "Curazao",
+          "bandera": "🇨🇼"
+        },
+        {
+          "id": "CIV",
+          "nombre": "Costa de Marfil",
+          "bandera": "🇨🇮"
+        },
+        {
+          "id": "ECU",
+          "nombre": "Ecuador",
+          "bandera": "🇪🇨"
+        }
       ],
       "partidos": [
-        { "local": "GER", "visitante": "CUW", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-14", "hora": "10:00" },
-        { "local": "CIV", "visitante": "ECU", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-14", "hora": "16:00" },
-        { "local": "GER", "visitante": "CIV", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-20", "hora": "13:00" },
-        { "local": "CUW", "visitante": "ECU", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-20", "hora": "17:00" },
-        { "local": "GER", "visitante": "ECU", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-25", "hora": "13:00" },
-        { "local": "CUW", "visitante": "CIV", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-25", "hora": "13:00" }
+        {
+          "local": "GER",
+          "visitante": "CUW",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-14",
+          "hora": "10:00"
+        },
+        {
+          "local": "CIV",
+          "visitante": "ECU",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-14",
+          "hora": "16:00"
+        },
+        {
+          "local": "GER",
+          "visitante": "CIV",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-20",
+          "hora": "13:00"
+        },
+        {
+          "local": "CUW",
+          "visitante": "ECU",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-20",
+          "hora": "17:00"
+        },
+        {
+          "local": "GER",
+          "visitante": "ECU",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-25",
+          "hora": "13:00"
+        },
+        {
+          "local": "CUW",
+          "visitante": "CIV",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-25",
+          "hora": "13:00"
+        }
       ]
     },
     "F": {
       "equipos": [
-        { "id": "NED", "nombre": "Países Bajos", "bandera": "🇳🇱" },
-        { "id": "JPN", "nombre": "Japón", "bandera": "🇯🇵" },
-        { "id": "SWE", "nombre": "Suecia", "bandera": "🇸🇪" },
-        { "id": "TUN", "nombre": "Túnez", "bandera": "🇹🇳" }
+        {
+          "id": "NED",
+          "nombre": "Países Bajos",
+          "bandera": "🇳🇱"
+        },
+        {
+          "id": "JPN",
+          "nombre": "Japón",
+          "bandera": "🇯🇵"
+        },
+        {
+          "id": "SWE",
+          "nombre": "Suecia",
+          "bandera": "🇸🇪"
+        },
+        {
+          "id": "TUN",
+          "nombre": "Túnez",
+          "bandera": "🇹🇳"
+        }
       ],
       "partidos": [
-        { "local": "NED", "visitante": "JPN", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-14", "hora": "13:00" },
-        { "local": "SWE", "visitante": "TUN", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-14", "hora": "19:00" },
-        { "local": "NED", "visitante": "SWE", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-20", "hora": "10:00" },
-        { "local": "JPN", "visitante": "TUN", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-20", "hora": "21:00" },
-        { "local": "NED", "visitante": "TUN", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-25", "hora": "16:00" },
-        { "local": "JPN", "visitante": "SWE", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-25", "hora": "16:00" }
+        {
+          "local": "NED",
+          "visitante": "JPN",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-14",
+          "hora": "13:00"
+        },
+        {
+          "local": "SWE",
+          "visitante": "TUN",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-14",
+          "hora": "19:00"
+        },
+        {
+          "local": "NED",
+          "visitante": "SWE",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-20",
+          "hora": "10:00"
+        },
+        {
+          "local": "JPN",
+          "visitante": "TUN",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-20",
+          "hora": "21:00"
+        },
+        {
+          "local": "NED",
+          "visitante": "TUN",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-25",
+          "hora": "16:00"
+        },
+        {
+          "local": "JPN",
+          "visitante": "SWE",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-25",
+          "hora": "16:00"
+        }
       ]
     },
     "G": {
       "equipos": [
-        { "id": "BEL", "nombre": "Bélgica", "bandera": "🇧🇪" },
-        { "id": "EGY", "nombre": "Egipto", "bandera": "🇪🇬" },
-        { "id": "IRN", "nombre": "Irán", "bandera": "🇮🇷" },
-        { "id": "NZL", "nombre": "Nueva Zelanda", "bandera": "🇳🇿" }
+        {
+          "id": "BEL",
+          "nombre": "Bélgica",
+          "bandera": "🇧🇪"
+        },
+        {
+          "id": "EGY",
+          "nombre": "Egipto",
+          "bandera": "🇪🇬"
+        },
+        {
+          "id": "IRN",
+          "nombre": "Irán",
+          "bandera": "🇮🇷"
+        },
+        {
+          "id": "NZL",
+          "nombre": "Nueva Zelanda",
+          "bandera": "🇳🇿"
+        }
       ],
       "partidos": [
-        { "local": "BEL", "visitante": "EGY", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-15", "hora": "12:00" },
-        { "local": "IRN", "visitante": "NZL", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-15", "hora": "18:00" },
-        { "local": "BEL", "visitante": "IRN", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-21", "hora": "12:00" },
-        { "local": "EGY", "visitante": "NZL", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-21", "hora": "18:00" },
-        { "local": "BEL", "visitante": "NZL", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-26", "hora": "20:00" },
-        { "local": "EGY", "visitante": "IRN", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-26", "hora": "20:00" }
+        {
+          "local": "BEL",
+          "visitante": "EGY",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-15",
+          "hora": "12:00"
+        },
+        {
+          "local": "IRN",
+          "visitante": "NZL",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-15",
+          "hora": "18:00"
+        },
+        {
+          "local": "BEL",
+          "visitante": "IRN",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-21",
+          "hora": "12:00"
+        },
+        {
+          "local": "EGY",
+          "visitante": "NZL",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-21",
+          "hora": "18:00"
+        },
+        {
+          "local": "BEL",
+          "visitante": "NZL",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-26",
+          "hora": "20:00"
+        },
+        {
+          "local": "EGY",
+          "visitante": "IRN",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-26",
+          "hora": "20:00"
+        }
       ]
     },
     "H": {
       "equipos": [
-        { "id": "ESP", "nombre": "España", "bandera": "🇪🇸" },
-        { "id": "CPV", "nombre": "Cabo Verde", "bandera": "🇨🇻" },
-        { "id": "SAU", "nombre": "Arabia Saudita", "bandera": "🇸🇦" },
-        { "id": "URU", "nombre": "Uruguay", "bandera": "🇺🇾" }
+        {
+          "id": "ESP",
+          "nombre": "España",
+          "bandera": "🇪🇸"
+        },
+        {
+          "id": "CPV",
+          "nombre": "Cabo Verde",
+          "bandera": "🇨🇻"
+        },
+        {
+          "id": "SAU",
+          "nombre": "Arabia Saudita",
+          "bandera": "🇸🇦"
+        },
+        {
+          "id": "URU",
+          "nombre": "Uruguay",
+          "bandera": "🇺🇾"
+        }
       ],
       "partidos": [
-        { "local": "ESP", "visitante": "CPV", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-15", "hora": "9:00" },
-        { "local": "SAU", "visitante": "URU", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-15", "hora": "15:00" },
-        { "local": "ESP", "visitante": "SAU", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-21", "hora": "9:00" },
-        { "local": "CPV", "visitante": "URU", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-21", "hora": "15:00" },
-        { "local": "ESP", "visitante": "URU", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-26", "hora": "17:00" },
-        { "local": "CPV", "visitante": "SAU", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-26", "hora": "17:00" }
+        {
+          "local": "ESP",
+          "visitante": "CPV",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-15",
+          "hora": "9:00"
+        },
+        {
+          "local": "SAU",
+          "visitante": "URU",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-15",
+          "hora": "15:00"
+        },
+        {
+          "local": "ESP",
+          "visitante": "SAU",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-21",
+          "hora": "9:00"
+        },
+        {
+          "local": "CPV",
+          "visitante": "URU",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-21",
+          "hora": "15:00"
+        },
+        {
+          "local": "ESP",
+          "visitante": "URU",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-26",
+          "hora": "17:00"
+        },
+        {
+          "local": "CPV",
+          "visitante": "SAU",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-26",
+          "hora": "17:00"
+        }
       ]
     },
     "I": {
       "equipos": [
-        { "id": "FRA", "nombre": "Francia", "bandera": "🇫🇷" },
-        { "id": "SEN", "nombre": "Senegal", "bandera": "🇸🇳" },
-        { "id": "IRQ", "nombre": "Irak", "bandera": "🇮🇶" },
-        { "id": "NOR", "nombre": "Noruega", "bandera": "🇳🇴" }
+        {
+          "id": "FRA",
+          "nombre": "Francia",
+          "bandera": "🇫🇷"
+        },
+        {
+          "id": "SEN",
+          "nombre": "Senegal",
+          "bandera": "🇸🇳"
+        },
+        {
+          "id": "IRQ",
+          "nombre": "Irak",
+          "bandera": "🇮🇶"
+        },
+        {
+          "id": "NOR",
+          "nombre": "Noruega",
+          "bandera": "🇳🇴"
+        }
       ],
       "partidos": [
-        { "local": "FRA", "visitante": "SEN", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-16", "hora": "12:00" },
-        { "local": "IRQ", "visitante": "NOR", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-16", "hora": "15:00" },
-        { "local": "FRA", "visitante": "IRQ", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-22", "hora": "14:00" },
-        { "local": "SEN", "visitante": "NOR", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-22", "hora": "17:00" },
-        { "local": "FRA", "visitante": "NOR", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-26", "hora": "12:00" },
-        { "local": "SEN", "visitante": "IRQ", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-26", "hora": "12:00" }
+        {
+          "local": "FRA",
+          "visitante": "SEN",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-16",
+          "hora": "12:00"
+        },
+        {
+          "local": "IRQ",
+          "visitante": "NOR",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-16",
+          "hora": "15:00"
+        },
+        {
+          "local": "FRA",
+          "visitante": "IRQ",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-22",
+          "hora": "14:00"
+        },
+        {
+          "local": "SEN",
+          "visitante": "NOR",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-22",
+          "hora": "17:00"
+        },
+        {
+          "local": "FRA",
+          "visitante": "NOR",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-26",
+          "hora": "12:00"
+        },
+        {
+          "local": "SEN",
+          "visitante": "IRQ",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-26",
+          "hora": "12:00"
+        }
       ]
     },
     "J": {
       "equipos": [
-        { "id": "ARG", "nombre": "Argentina", "bandera": "🇦🇷" },
-        { "id": "ALG", "nombre": "Argelia", "bandera": "🇩🇿" },
-        { "id": "AUT", "nombre": "Austria", "bandera": "🇦🇹" },
-        { "id": "JOR", "nombre": "Jordania", "bandera": "🇯🇴" }
+        {
+          "id": "ARG",
+          "nombre": "Argentina",
+          "bandera": "🇦🇷"
+        },
+        {
+          "id": "ALG",
+          "nombre": "Argelia",
+          "bandera": "🇩🇿"
+        },
+        {
+          "id": "AUT",
+          "nombre": "Austria",
+          "bandera": "🇦🇹"
+        },
+        {
+          "id": "JOR",
+          "nombre": "Jordania",
+          "bandera": "🇯🇴"
+        }
       ],
       "partidos": [
-        { "local": "ARG", "visitante": "ALG", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-16", "hora": "18:00" },
-        { "local": "AUT", "visitante": "JOR", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-16", "hora": "21:00" },
-        { "local": "ARG", "visitante": "AUT", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-22", "hora": "10:00" },
-        { "local": "ALG", "visitante": "JOR", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-22", "hora": "20:00" },
-        { "local": "ARG", "visitante": "JOR", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-27", "hora": "19:00" },
-        { "local": "ALG", "visitante": "AUT", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-27", "hora": "19:00" }
+        {
+          "local": "ARG",
+          "visitante": "ALG",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-16",
+          "hora": "18:00"
+        },
+        {
+          "local": "AUT",
+          "visitante": "JOR",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-16",
+          "hora": "21:00"
+        },
+        {
+          "local": "ARG",
+          "visitante": "AUT",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-22",
+          "hora": "10:00"
+        },
+        {
+          "local": "ALG",
+          "visitante": "JOR",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-22",
+          "hora": "20:00"
+        },
+        {
+          "local": "ARG",
+          "visitante": "JOR",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-27",
+          "hora": "19:00"
+        },
+        {
+          "local": "ALG",
+          "visitante": "AUT",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-27",
+          "hora": "19:00"
+        }
       ]
     },
     "K": {
       "equipos": [
-        { "id": "POR", "nombre": "Portugal", "bandera": "🇵🇹" },
-        { "id": "COD", "nombre": "R.D. Congo", "bandera": "🇨🇩" },
-        { "id": "UZB", "nombre": "Uzbekistán", "bandera": "🇺🇿" },
-        { "id": "COL", "nombre": "Colombia", "bandera": "🇨🇴" }
+        {
+          "id": "POR",
+          "nombre": "Portugal",
+          "bandera": "🇵🇹"
+        },
+        {
+          "id": "COD",
+          "nombre": "R.D. Congo",
+          "bandera": "🇨🇩"
+        },
+        {
+          "id": "UZB",
+          "nombre": "Uzbekistán",
+          "bandera": "🇺🇿"
+        },
+        {
+          "id": "COL",
+          "nombre": "Colombia",
+          "bandera": "🇨🇴"
+        }
       ],
       "partidos": [
-        { "local": "POR", "visitante": "COD", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-17", "hora": "10:00" },
-        { "local": "UZB", "visitante": "COL", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-17", "hora": "19:00" },
-        { "local": "POR", "visitante": "UZB", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-23", "hora": "10:00" },
-        { "local": "COD", "visitante": "COL", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-23", "hora": "19:00" },
-        { "local": "POR", "visitante": "COL", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-27", "hora": "16:30" },
-        { "local": "COD", "visitante": "UZB", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-27", "hora": "16:30" }
+        {
+          "local": "POR",
+          "visitante": "COD",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-17",
+          "hora": "10:00"
+        },
+        {
+          "local": "UZB",
+          "visitante": "COL",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-17",
+          "hora": "19:00"
+        },
+        {
+          "local": "POR",
+          "visitante": "UZB",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-23",
+          "hora": "10:00"
+        },
+        {
+          "local": "COD",
+          "visitante": "COL",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-23",
+          "hora": "19:00"
+        },
+        {
+          "local": "POR",
+          "visitante": "COL",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-27",
+          "hora": "16:30"
+        },
+        {
+          "local": "COD",
+          "visitante": "UZB",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-27",
+          "hora": "16:30"
+        }
       ]
     },
     "L": {
       "equipos": [
-        { "id": "ENG", "nombre": "Inglaterra", "bandera": "🏴󠁧󠁢󠁥󠁮󠁧󠁿" },
-        { "id": "CRO", "nombre": "Croacia", "bandera": "🇭🇷" },
-        { "id": "GHA", "nombre": "Ghana", "bandera": "🇬🇭" },
-        { "id": "PAN", "nombre": "Panamá", "bandera": "🇵🇦" }
+        {
+          "id": "ENG",
+          "nombre": "Inglaterra",
+          "bandera": "🏴󠁧󠁢󠁥󠁮󠁧󠁿"
+        },
+        {
+          "id": "CRO",
+          "nombre": "Croacia",
+          "bandera": "🇭🇷"
+        },
+        {
+          "id": "GHA",
+          "nombre": "Ghana",
+          "bandera": "🇬🇭"
+        },
+        {
+          "id": "PAN",
+          "nombre": "Panamá",
+          "bandera": "🇵🇦"
+        }
       ],
       "partidos": [
-        { "local": "ENG", "visitante": "CRO", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-17", "hora": "13:00" },
-        { "local": "GHA", "visitante": "PAN", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-17", "hora": "16:00" },
-        { "local": "ENG", "visitante": "GHA", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-23", "hora": "13:00" },
-        { "local": "CRO", "visitante": "PAN", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-23", "hora": "16:00" },
-        { "local": "ENG", "visitante": "PAN", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-27", "hora": "14:00" },
-        { "local": "CRO", "visitante": "GHA", "golesLocal": null, "golesVisitante": null, "fecha": "2026-06-27", "hora": "14:00" }
+        {
+          "local": "ENG",
+          "visitante": "CRO",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-17",
+          "hora": "13:00"
+        },
+        {
+          "local": "GHA",
+          "visitante": "PAN",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-17",
+          "hora": "16:00"
+        },
+        {
+          "local": "ENG",
+          "visitante": "GHA",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-23",
+          "hora": "13:00"
+        },
+        {
+          "local": "CRO",
+          "visitante": "PAN",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-23",
+          "hora": "16:00"
+        },
+        {
+          "local": "ENG",
+          "visitante": "PAN",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-27",
+          "hora": "14:00"
+        },
+        {
+          "local": "CRO",
+          "visitante": "GHA",
+          "golesLocal": null,
+          "golesVisitante": null,
+          "fecha": "2026-06-27",
+          "hora": "14:00"
+        }
       ]
     }
   },
   "eliminatorias": {
     "treintaDos": [
-      { "id": "M73", "descLocal": "2A", "descVisitante": "2B", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null, "fecha": "2026-06-28", "hora": "12:00"},
-      { "id": "M74", "descLocal": "1E", "descVisitante": "3er A/B/C/D/F", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null, "fecha": "2026-06-29", "hora": "13:30" },
-      { "id": "M75", "descLocal": "1F", "descVisitante": "2C", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null,  "fecha": "2026-06-29", "hora": "18:00" },
-      { "id": "M76", "descLocal": "1C", "descVisitante": "2F", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null, "fecha": "2026-06-29", "hora": "10:00" },
-      { "id": "M77", "descLocal": "1I", "descVisitante": "3er C/D/F/G/H", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null, "fecha": "2026-06-30", "hora": "14:00" },
-      { "id": "M78", "descLocal": "2E", "descVisitante": "2I", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null, "fecha": "2026-06-30", "hora": "10:00" },
-      { "id": "M79", "descLocal": "1A", "descVisitante": "3er C/E/F/H/I", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null, "fecha":"2026-06-30", "hora": "18:00" },
-      { "id": "M80", "descLocal": "1L", "descVisitante": "3er E/H/I/J/K", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null, "fecha": "2026-07-01", "hora": "9:00" },
-      { "id": "M81", "descLocal": "1D", "descVisitante": "3er B/E/F/I/J", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null, "fecha": "2026-07-01", "hora": "17:00" },
-      { "id": "M82", "descLocal": "1G", "descVisitante": "3er A/E/H/I/J", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null, "fecha": "2026-07-01", "hora": "13:00" },
-      { "id": "M83", "descLocal": "2K", "descVisitante": "2L", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null, "fecha": "2026-07-02", "hora": "16:00" },
-      { "id": "M84", "descLocal": "1H", "descVisitante": "2J", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null, "fecha": "2026-07-02", "hora": "12:00" },
-      { "id": "M85", "descLocal": "1B", "descVisitante": "3er E/F/G/I/J", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null, "fecha": "2026-07-02", "hora": "20:00" },
-      { "id": "M86", "descLocal": "1J", "descVisitante": "2H", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null, "fecha": "2026-07-03", "hora": "15:00" },
-      { "id": "M87", "descLocal": "1K", "descVisitante": "3er D/E/I/J/L", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null, "fecha": "2026-07-03", "hora": "18:30" },
-      { "id": "M88", "descLocal": "2D", "descVisitante": "2G", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null, "fecha": "2026-07-03", "hora": "11:00" }
+      {
+        "id": "M73",
+        "descLocal": "2A",
+        "descVisitante": "2B",
+        "local": null,
+        "visitante": null,
+        "golesLocal": null,
+        "golesVisitante": null,
+        "penalesLocal": null,
+        "penalesVisitante": null,
+        "fecha": "2026-06-28",
+        "hora": "12:00"
+      },
+      {
+        "id": "M74",
+        "descLocal": "1E",
+        "descVisitante": "3er A/B/C/D/F",
+        "local": null,
+        "visitante": null,
+        "golesLocal": null,
+        "golesVisitante": null,
+        "penalesLocal": null,
+        "penalesVisitante": null,
+        "fecha": "2026-06-29",
+        "hora": "13:30"
+      },
+      {
+        "id": "M75",
+        "descLocal": "1F",
+        "descVisitante": "2C",
+        "local": null,
+        "visitante": null,
+        "golesLocal": null,
+        "golesVisitante": null,
+        "penalesLocal": null,
+        "penalesVisitante": null,
+        "fecha": "2026-06-29",
+        "hora": "18:00"
+      },
+      {
+        "id": "M76",
+        "descLocal": "1C",
+        "descVisitante": "2F",
+        "local": null,
+        "visitante": null,
+        "golesLocal": null,
+        "golesVisitante": null,
+        "penalesLocal": null,
+        "penalesVisitante": null,
+        "fecha": "2026-06-29",
+        "hora": "10:00"
+      },
+      {
+        "id": "M77",
+        "descLocal": "1I",
+        "descVisitante": "3er C/D/F/G/H",
+        "local": null,
+        "visitante": null,
+        "golesLocal": null,
+        "golesVisitante": null,
+        "penalesLocal": null,
+        "penalesVisitante": null,
+        "fecha": "2026-06-30",
+        "hora": "14:00"
+      },
+      {
+        "id": "M78",
+        "descLocal": "2E",
+        "descVisitante": "2I",
+        "local": null,
+        "visitante": null,
+        "golesLocal": null,
+        "golesVisitante": null,
+        "penalesLocal": null,
+        "penalesVisitante": null,
+        "fecha": "2026-06-30",
+        "hora": "10:00"
+      },
+      {
+        "id": "M79",
+        "descLocal": "1A",
+        "descVisitante": "3er C/E/F/H/I",
+        "local": null,
+        "visitante": null,
+        "golesLocal": null,
+        "golesVisitante": null,
+        "penalesLocal": null,
+        "penalesVisitante": null,
+        "fecha": "2026-06-30",
+        "hora": "18:00"
+      },
+      {
+        "id": "M80",
+        "descLocal": "1L",
+        "descVisitante": "3er E/H/I/J/K",
+        "local": null,
+        "visitante": null,
+        "golesLocal": null,
+        "golesVisitante": null,
+        "penalesLocal": null,
+        "penalesVisitante": null,
+        "fecha": "2026-07-01",
+        "hora": "9:00"
+      },
+      {
+        "id": "M81",
+        "descLocal": "1D",
+        "descVisitante": "3er B/E/F/I/J",
+        "local": null,
+        "visitante": null,
+        "golesLocal": null,
+        "golesVisitante": null,
+        "penalesLocal": null,
+        "penalesVisitante": null,
+        "fecha": "2026-07-01",
+        "hora": "17:00"
+      },
+      {
+        "id": "M82",
+        "descLocal": "1G",
+        "descVisitante": "3er A/E/H/I/J",
+        "local": null,
+        "visitante": null,
+        "golesLocal": null,
+        "golesVisitante": null,
+        "penalesLocal": null,
+        "penalesVisitante": null,
+        "fecha": "2026-07-01",
+        "hora": "13:00"
+      },
+      {
+        "id": "M83",
+        "descLocal": "2K",
+        "descVisitante": "2L",
+        "local": null,
+        "visitante": null,
+        "golesLocal": null,
+        "golesVisitante": null,
+        "penalesLocal": null,
+        "penalesVisitante": null,
+        "fecha": "2026-07-02",
+        "hora": "16:00"
+      },
+      {
+        "id": "M84",
+        "descLocal": "1H",
+        "descVisitante": "2J",
+        "local": null,
+        "visitante": null,
+        "golesLocal": null,
+        "golesVisitante": null,
+        "penalesLocal": null,
+        "penalesVisitante": null,
+        "fecha": "2026-07-02",
+        "hora": "12:00"
+      },
+      {
+        "id": "M85",
+        "descLocal": "1B",
+        "descVisitante": "3er E/F/G/I/J",
+        "local": null,
+        "visitante": null,
+        "golesLocal": null,
+        "golesVisitante": null,
+        "penalesLocal": null,
+        "penalesVisitante": null,
+        "fecha": "2026-07-02",
+        "hora": "20:00"
+      },
+      {
+        "id": "M86",
+        "descLocal": "1J",
+        "descVisitante": "2H",
+        "local": null,
+        "visitante": null,
+        "golesLocal": null,
+        "golesVisitante": null,
+        "penalesLocal": null,
+        "penalesVisitante": null,
+        "fecha": "2026-07-03",
+        "hora": "15:00"
+      },
+      {
+        "id": "M87",
+        "descLocal": "1K",
+        "descVisitante": "3er D/E/I/J/L",
+        "local": null,
+        "visitante": null,
+        "golesLocal": null,
+        "golesVisitante": null,
+        "penalesLocal": null,
+        "penalesVisitante": null,
+        "fecha": "2026-07-03",
+        "hora": "18:30"
+      },
+      {
+        "id": "M88",
+        "descLocal": "2D",
+        "descVisitante": "2G",
+        "local": null,
+        "visitante": null,
+        "golesLocal": null,
+        "golesVisitante": null,
+        "penalesLocal": null,
+        "penalesVisitante": null,
+        "fecha": "2026-07-03",
+        "hora": "11:00"
+      }
     ],
     "dieciseis": [
-      { "id": "M89", "descLocal": "G M73", "descVisitante": "G M74", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null, "fecha": "2026-07-04", "hora": "10:00" },
-      { "id": "M90", "descLocal": "G M75", "descVisitante": "G M76", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null, "fecha":"2026-07-04", "hora": "14:00" },
-      { "id": "M91", "descLocal": "G M77", "descVisitante": "G M78", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null, "fecha": "2026-07-05", "hora": "13:00" },
-      { "id": "M92", "descLocal": "G M79", "descVisitante": "G M80", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null, "fecha": "2026-07-05", "hora": "17:00" },
-      { "id": "M93", "descLocal": "G M81", "descVisitante": "G M82", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null, "fecha": "2026-07-06", "hora": "12:00" },
-      { "id": "M94", "descLocal": "G M83", "descVisitante": "G M84", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null, "fecha": "2026-07-06", "hora": "17:00" },
-      { "id": "M95", "descLocal": "G M85", "descVisitante": "G M86", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null, "fecha": "2026-07-07", "hora": "9:00" },
-      { "id": "M96", "descLocal": "G M87", "descVisitante": "G M88", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null, "fecha": "2026-07-07", "hora": "13:00" }
+      {
+        "id": "M89",
+        "descLocal": "G M73",
+        "descVisitante": "G M74",
+        "local": null,
+        "visitante": null,
+        "golesLocal": null,
+        "golesVisitante": null,
+        "penalesLocal": null,
+        "penalesVisitante": null,
+        "fecha": "2026-07-04",
+        "hora": "10:00"
+      },
+      {
+        "id": "M90",
+        "descLocal": "G M75",
+        "descVisitante": "G M76",
+        "local": null,
+        "visitante": null,
+        "golesLocal": null,
+        "golesVisitante": null,
+        "penalesLocal": null,
+        "penalesVisitante": null,
+        "fecha": "2026-07-04",
+        "hora": "14:00"
+      },
+      {
+        "id": "M91",
+        "descLocal": "G M77",
+        "descVisitante": "G M78",
+        "local": null,
+        "visitante": null,
+        "golesLocal": null,
+        "golesVisitante": null,
+        "penalesLocal": null,
+        "penalesVisitante": null,
+        "fecha": "2026-07-05",
+        "hora": "13:00"
+      },
+      {
+        "id": "M92",
+        "descLocal": "G M79",
+        "descVisitante": "G M80",
+        "local": null,
+        "visitante": null,
+        "golesLocal": null,
+        "golesVisitante": null,
+        "penalesLocal": null,
+        "penalesVisitante": null,
+        "fecha": "2026-07-05",
+        "hora": "17:00"
+      },
+      {
+        "id": "M93",
+        "descLocal": "G M81",
+        "descVisitante": "G M82",
+        "local": null,
+        "visitante": null,
+        "golesLocal": null,
+        "golesVisitante": null,
+        "penalesLocal": null,
+        "penalesVisitante": null,
+        "fecha": "2026-07-06",
+        "hora": "12:00"
+      },
+      {
+        "id": "M94",
+        "descLocal": "G M83",
+        "descVisitante": "G M84",
+        "local": null,
+        "visitante": null,
+        "golesLocal": null,
+        "golesVisitante": null,
+        "penalesLocal": null,
+        "penalesVisitante": null,
+        "fecha": "2026-07-06",
+        "hora": "17:00"
+      },
+      {
+        "id": "M95",
+        "descLocal": "G M85",
+        "descVisitante": "G M86",
+        "local": null,
+        "visitante": null,
+        "golesLocal": null,
+        "golesVisitante": null,
+        "penalesLocal": null,
+        "penalesVisitante": null,
+        "fecha": "2026-07-07",
+        "hora": "9:00"
+      },
+      {
+        "id": "M96",
+        "descLocal": "G M87",
+        "descVisitante": "G M88",
+        "local": null,
+        "visitante": null,
+        "golesLocal": null,
+        "golesVisitante": null,
+        "penalesLocal": null,
+        "penalesVisitante": null,
+        "fecha": "2026-07-07",
+        "hora": "13:00"
+      }
     ],
     "cuartos": [
-      { "id": "M97", "descLocal": "G M89", "descVisitante": "G M90", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null, "fecha": "2026-07-09", "hora": "13:00" },
-      { "id": "M98", "descLocal": "G M91", "descVisitante": "G M92", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null, "fecha": "2026-07-10", "hora": "12:00" },
-      { "id": "M99", "descLocal": "G M93", "descVisitante": "G M94", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null, "fecha": "2026-07-11", "hora": "14:00" },
-      { "id": "M100", "descLocal": "G M95", "descVisitante": "G M96", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null, "fecha": "2026-07-11", "hora": "18:00" }
+      {
+        "id": "M97",
+        "descLocal": "G M89",
+        "descVisitante": "G M90",
+        "local": null,
+        "visitante": null,
+        "golesLocal": null,
+        "golesVisitante": null,
+        "penalesLocal": null,
+        "penalesVisitante": null,
+        "fecha": "2026-07-09",
+        "hora": "13:00"
+      },
+      {
+        "id": "M98",
+        "descLocal": "G M91",
+        "descVisitante": "G M92",
+        "local": null,
+        "visitante": null,
+        "golesLocal": null,
+        "golesVisitante": null,
+        "penalesLocal": null,
+        "penalesVisitante": null,
+        "fecha": "2026-07-10",
+        "hora": "12:00"
+      },
+      {
+        "id": "M99",
+        "descLocal": "G M93",
+        "descVisitante": "G M94",
+        "local": null,
+        "visitante": null,
+        "golesLocal": null,
+        "golesVisitante": null,
+        "penalesLocal": null,
+        "penalesVisitante": null,
+        "fecha": "2026-07-11",
+        "hora": "14:00"
+      },
+      {
+        "id": "M100",
+        "descLocal": "G M95",
+        "descVisitante": "G M96",
+        "local": null,
+        "visitante": null,
+        "golesLocal": null,
+        "golesVisitante": null,
+        "penalesLocal": null,
+        "penalesVisitante": null,
+        "fecha": "2026-07-11",
+        "hora": "18:00"
+      }
     ],
     "semis": [
-      { "id": "M101", "descLocal": "G M97", "descVisitante": "G M98", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null, "fecha": "2026-07-14", "hora": "12:00" },
-      { "id": "M102", "descLocal": "G M99", "descVisitante": "G M100", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null, "fecha": "2026-07-15", "hora": "12:00" }
+      {
+        "id": "M101",
+        "descLocal": "G M97",
+        "descVisitante": "G M98",
+        "local": null,
+        "visitante": null,
+        "golesLocal": null,
+        "golesVisitante": null,
+        "penalesLocal": null,
+        "penalesVisitante": null,
+        "fecha": "2026-07-14",
+        "hora": "12:00"
+      },
+      {
+        "id": "M102",
+        "descLocal": "G M99",
+        "descVisitante": "G M100",
+        "local": null,
+        "visitante": null,
+        "golesLocal": null,
+        "golesVisitante": null,
+        "penalesLocal": null,
+        "penalesVisitante": null,
+        "fecha": "2026-07-15",
+        "hora": "12:00"
+      }
     ],
     "tercerLugar": {
-      "id": "M103", "descLocal": "P M101", "descVisitante": "P M102", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null, "fecha": "2026-07-18", "hora": "14:00"
+      "id": "M103",
+      "descLocal": "P M101",
+      "descVisitante": "P M102",
+      "local": null,
+      "visitante": null,
+      "golesLocal": null,
+      "golesVisitante": null,
+      "penalesLocal": null,
+      "penalesVisitante": null,
+      "fecha": "2026-07-18",
+      "hora": "14:00"
     },
     "final": {
-      "id": "FINAL", "descLocal": "G M101", "descVisitante": "G M102", "local": null, "visitante": null, "golesLocal": null, "golesVisitante": null, "penalesLocal": null, "penalesVisitante": null, "fecha": "2026-07-19", "hora": "12:00"
+      "id": "FINAL",
+      "descLocal": "G M101",
+      "descVisitante": "G M102",
+      "local": null,
+      "visitante": null,
+      "golesLocal": null,
+      "golesVisitante": null,
+      "penalesLocal": null,
+      "penalesVisitante": null,
+      "fecha": "2026-07-19",
+      "hora": "12:00"
     }
   }
 }
