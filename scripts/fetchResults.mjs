@@ -227,8 +227,9 @@ console.log('─── Grupos ────────────────�
 for (const [letra, grupo] of Object.entries(mundial.grupos)) {
   for (const partido of grupo.partidos) {
     // Solo actualizar partidos cuya fecha ya pasó y sin marcador
+    // Para partidos de hoy se re-consulta aunque ya tengan marcador (pueden estar en curso)
     if (!partido.fecha || partido.fecha > hoy) continue;
-    if (partido.golesLocal !== null || partido.golesVisitante !== null) continue;
+    if (partido.fecha < hoy && (partido.golesLocal !== null || partido.golesVisitante !== null)) continue;
 
     const nombreLocal = nombreEquipo[partido.local] ?? partido.local;
     const nombreVisitante = nombreEquipo[partido.visitante] ?? partido.visitante;
@@ -239,12 +240,15 @@ for (const [letra, grupo] of Object.entries(mundial.grupos)) {
     const resultado = await obtenerMarcador(nombreLocal, nombreVisitante);
 
     if (resultado) {
+      const cambioReal =
+        resultado.golesLocal !== partido.golesLocal ||
+        resultado.golesVisitante !== partido.golesVisitante;
       if (!DRY_RUN) {
         partido.golesLocal = resultado.golesLocal;
         partido.golesVisitante = resultado.golesVisitante;
         // Los partidos de grupos no tienen penales
       }
-      cambios++;
+      if (cambioReal) cambios++;
     }
   }
 }
@@ -264,9 +268,10 @@ const rondasElim = [
 for (const { partidos, nombre } of rondasElim) {
   for (const partido of partidos) {
     // Solo actualizar si el partido tiene equipos asignados, fecha pasada y sin marcador
+    // Para partidos de hoy se re-consulta aunque ya tengan marcador (pueden estar en curso)
     if (!partido.local || !partido.visitante) continue;
     if (!partido.fecha || partido.fecha > hoy) continue;
-    if (partido.golesLocal !== null || partido.golesVisitante !== null) continue;
+    if (partido.fecha < hoy && (partido.golesLocal !== null || partido.golesVisitante !== null)) continue;
 
     const nombreLocal = nombreEquipo[partido.local] ?? partido.local;
     const nombreVisitante = nombreEquipo[partido.visitante] ?? partido.visitante;
@@ -277,6 +282,11 @@ for (const { partidos, nombre } of rondasElim) {
     const resultado = await obtenerMarcador(nombreLocal, nombreVisitante);
 
     if (resultado) {
+      const cambioReal =
+        resultado.golesLocal !== partido.golesLocal ||
+        resultado.golesVisitante !== partido.golesVisitante ||
+        resultado.penalesLocal !== (partido.penalesLocal ?? null) ||
+        resultado.penalesVisitante !== (partido.penalesVisitante ?? null);
       if (!DRY_RUN) {
         partido.golesLocal = resultado.golesLocal;
         partido.golesVisitante = resultado.golesVisitante;
@@ -285,7 +295,7 @@ for (const { partidos, nombre } of rondasElim) {
           partido.penalesVisitante = resultado.penalesVisitante;
         }
       }
-      cambios++;
+      if (cambioReal) cambios++;
     }
   }
 }
