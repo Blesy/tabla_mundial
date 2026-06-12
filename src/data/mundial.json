@@ -211,8 +211,8 @@
         {
           "local": "CAN",
           "visitante": "BIH",
-          "golesLocal": null,
-          "golesVisitante": null,
+          "golesLocal": 1,
+          "golesVisitante": 1,
           "fecha": "2026-06-12",
           "hora": "12:00"
         },
