@@ -240,11 +240,31 @@ const hayGanador = clasificados.some(p => p.tieneCampeon);
   }
 
   @media (max-width: 640px) {
-    .tabla-header,
-    .tabla-row {
+    .tabla-header {
       grid-template-columns: 2rem 1fr 3rem;
     }
 
-    .col-equipos { display: none; }
+    .tabla-header .col-equipos {
+      display: none;
+    }
+
+    .tabla-row {
+      grid-template-columns: 2rem 1fr 3rem;
+      grid-template-areas:
+        "pos nombre activos"
+        ".   equipos equipos";
+    }
+
+    .col-pos    { grid-area: pos; }
+    .col-nombre { grid-area: nombre; }
+    .col-activos { grid-area: activos; }
+    .col-equipos {
+      grid-area: equipos;
+      display: flex;
+    }
+
+    .chip-name { font-size: 0.62rem; }
+    .chip-flag { width: 0.95rem; }
+    .equipo-chip { padding: 0.15rem 0.35rem; font-size: 0.65rem; }
   }
 </style>
