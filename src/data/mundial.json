@@ -219,7 +219,7 @@
         {
           "local": "QAT",
           "visitante": "SUI",
-          "golesLocal": 0,
+          "golesLocal": 1,
           "golesVisitante": 1,
           "fecha": "2026-06-13",
           "hora": "12:00"
@@ -285,8 +285,8 @@
         {
           "local": "BRA",
           "visitante": "MAR",
-          "golesLocal": null,
-          "golesVisitante": null,
+          "golesLocal": 0,
+          "golesVisitante": 1,
           "fecha": "2026-06-13",
           "hora": "15:00"
         },
