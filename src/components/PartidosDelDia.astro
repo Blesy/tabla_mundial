@@ -20,9 +20,10 @@ interface Props {
   todasFechas: FechaSlot[];
   dueñoEquipo: Record<string, string>;
   equiposInfo: Record<string, { nombre: string; bandera: string }>;
+  inicioIndex: number;
 }
 
-const { todasFechas, dueñoEquipo, equiposInfo } = Astro.props;
+const { todasFechas, dueñoEquipo, equiposInfo, inicioIndex } = Astro.props;
 
 function formatFecha(f: string): string {
   const [year, month, day] = f.split('-').map(Number);
@@ -64,7 +65,7 @@ const total = todasFechas.length;
 
   <!-- Navegación slider -->
   <div class="slider-nav">
-    <button class="slider-btn" id="pd-prev" aria-label="Fecha anterior" disabled>&#8592;</button>
+    <button class="slider-btn" id="pd-prev" aria-label="Fecha anterior">&#8592;</button>
     <div class="slider-fecha-info">
       <span class="header-fecha" id="pd-fecha"></span>
       <span class="badge-hoy" id="pd-badge-hoy" style="display:none">HOY</span>
@@ -80,7 +81,7 @@ const total = todasFechas.length;
         data-index={i}
         data-fecha={slot.fecha}
         data-eshoy={slot.esHoy ? 'true' : 'false'}
-        style={i === 0 ? '' : 'display:none'}
+        style={i === inicioIndex ? '' : 'display:none'}
       >
         <div class="partidos-grid">
           {slot.partidos.map((p) => {
@@ -121,8 +122,8 @@ const total = todasFechas.length;
   </div>
 </section>
 
-<script define:vars={{ total }}>
-  let current = 0;
+<script define:vars={{ total, inicioIndex }}>
+  let current = inicioIndex;
   const panels = Array.from(document.querySelectorAll('.fecha-panel'));
   const prevBtn = document.getElementById('pd-prev');
   const nextBtn = document.getElementById('pd-next');
@@ -143,7 +144,7 @@ const total = todasFechas.length;
     if (fechaEl) fechaEl.textContent = formatted;
     if (badgeEl) badgeEl.style.display = esHoy ? '' : 'none';
     const volverBtn = document.getElementById('pd-volver');
-    if (volverBtn) volverBtn.style.display = idx === 0 ? 'none' : '';
+    if (volverBtn) volverBtn.style.display = idx === inicioIndex ? 'none' : '';
   }
 
   function goTo(idx, direction) {
@@ -175,12 +176,13 @@ const total = todasFechas.length;
 
   const volverBtn = document.getElementById('pd-volver');
   if (volverBtn) {
-    volverBtn.addEventListener('click', () => { if (current > 0) goTo(0, -1); });
+    volverBtn.addEventListener('click', () => { if (current !== inicioIndex) goTo(inicioIndex, current > inicioIndex ? -1 : 1); });
   }
 
-  // Inicializar header con el primer panel
-  updateHeader(0);
-  nextBtn.disabled = total <= 1;
+  // Inicializar header en la fecha de hoy (o la primera futura)
+  updateHeader(inicioIndex);
+  prevBtn.disabled = inicioIndex === 0;
+  nextBtn.disabled = inicioIndex >= total - 1;
 </script>
 
 <style>

@@ -30,27 +30,14 @@ function delay(ms) {
 }
 
 /**
- * Hoy en YYYY-MM-DD usando la zona horaria de México (UTC-6)
- * Se fuerza UTC-6 para que coincida con las fechas de los partidos
- * aunque el runner de GitHub Actions esté en UTC.
+ * Hoy en YYYY-MM-DD usando la zona local (sin conversión a UTC)
  */
-function fechaEnMexico(offsetDias = 0) {
-  const d = new Date();
-  // México es UTC-6 (sin horario de verano en este contexto)
-  d.setTime(d.getTime() + offsetDias * 24 * 60 * 60 * 1000 + (-6) * 60 * 60 * 1000 - d.getTimezoneOffset() * 60 * 1000);
+function hoyLocal() {
+  const d = new Date(Date.now() - 7 * 60 * 60 * 1000);
   const y = d.getUTCFullYear();
   const m = String(d.getUTCMonth() + 1).padStart(2, '0');
   const day = String(d.getUTCDate()).padStart(2, '0');
   return `${y}-${m}-${day}`;
-}
-
-function hoyLocal() {
-  return fechaEnMexico(0);
-}
-
-/** Ayer en YYYY-MM-DD (zona México) */
-function ayerLocal() {
-  return fechaEnMexico(-1);
 }
 
 /**
@@ -222,7 +209,6 @@ async function obtenerMarcador(nombreLocal, nombreVisitante) {
 
 const mundial = JSON.parse(readFileSync(DATA_PATH, 'utf-8'));
 const hoy = hoyLocal();
-const ayer = ayerLocal();
 let cambios = 0;
 
 // Construir lookup id → nombre en español
@@ -241,12 +227,9 @@ console.log('─── Grupos ────────────────�
 for (const [letra, grupo] of Object.entries(mundial.grupos)) {
   for (const partido of grupo.partidos) {
     // Solo actualizar partidos cuya fecha ya pasó y sin marcador
-    // Para partidos de hoy o de ayer se re-consulta aunque ya tengan marcador:
-    //   - hoy: pueden estar en curso
-    //   - ayer: el action pudo haber corrido pasada la medianoche UTC y guardado un marcador parcial
-    // Solo se saltan los partidos de 2+ días atrás que ya tienen marcador confirmado.
+    // Para partidos de hoy se re-consulta aunque ya tengan marcador (pueden estar en curso)
     if (!partido.fecha || partido.fecha > hoy) continue;
-    if (partido.fecha < ayer && (partido.golesLocal !== null || partido.golesVisitante !== null)) continue;
+    if (partido.fecha < hoy && (partido.golesLocal !== null || partido.golesVisitante !== null)) continue;
 
     const nombreLocal = nombreEquipo[partido.local] ?? partido.local;
     const nombreVisitante = nombreEquipo[partido.visitante] ?? partido.visitante;
@@ -285,10 +268,10 @@ const rondasElim = [
 for (const { partidos, nombre } of rondasElim) {
   for (const partido of partidos) {
     // Solo actualizar si el partido tiene equipos asignados, fecha pasada y sin marcador
-    // Para partidos de hoy o de ayer se re-consulta aunque ya tengan marcador (ver lógica de grupos).
+    // Para partidos de hoy se re-consulta aunque ya tengan marcador (pueden estar en curso)
     if (!partido.local || !partido.visitante) continue;
     if (!partido.fecha || partido.fecha > hoy) continue;
-    if (partido.fecha < ayer && (partido.golesLocal !== null || partido.golesVisitante !== null)) continue;
+    if (partido.fecha < hoy && (partido.golesLocal !== null || partido.golesVisitante !== null)) continue;
 
     const nombreLocal = nombreEquipo[partido.local] ?? partido.local;
     const nombreVisitante = nombreEquipo[partido.visitante] ?? partido.visitante;
