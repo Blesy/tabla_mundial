@@ -219,8 +219,8 @@
         {
           "local": "QAT",
           "visitante": "SUI",
-          "golesLocal": null,
-          "golesVisitante": null,
+          "golesLocal": 0,
+          "golesVisitante": 1,
           "fecha": "2026-06-13",
           "hora": "12:00"
         },
