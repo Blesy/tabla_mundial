@@ -433,7 +433,7 @@
         {
           "local": "GER",
           "visitante": "CUW",
-          "golesLocal": 5,
+          "golesLocal": 7,
           "golesVisitante": 1,
           "fecha": "2026-06-14",
           "hora": "10:00"
@@ -507,8 +507,8 @@
         {
           "local": "NED",
           "visitante": "JPN",
-          "golesLocal": null,
-          "golesVisitante": null,
+          "golesLocal": 0,
+          "golesVisitante": 0,
           "fecha": "2026-06-14",
           "hora": "13:00"
         },
