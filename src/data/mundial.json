@@ -367,8 +367,8 @@
         {
           "local": "AUS",
           "visitante": "TUR",
-          "golesLocal": null,
-          "golesVisitante": null,
+          "golesLocal": 2,
+          "golesVisitante": 0,
           "fecha": "2026-06-13",
           "hora": "21:00"
         },
