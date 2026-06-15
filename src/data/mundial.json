@@ -655,8 +655,8 @@
         {
           "local": "ESP",
           "visitante": "CPV",
-          "golesLocal": null,
-          "golesVisitante": null,
+          "golesLocal": 0,
+          "golesVisitante": 0,
           "fecha": "2026-06-15",
           "hora": "9:00"
         },
