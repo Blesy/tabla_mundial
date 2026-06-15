@@ -107,7 +107,7 @@ type PartidoConContexto = {
   hora: string;
 };
 
-const _hoyD = new Date(Date.now() - 7 * 60 * 60 * 1000);
+const _hoyD = new Date(Date.now());
 const hoy = `${_hoyD.getUTCFullYear()}-${String(_hoyD.getUTCMonth() + 1).padStart(2, '0')}-${String(_hoyD.getUTCDate()).padStart(2, '0')}`;
 
 const todosConFecha: Array<PartidoConContexto & { fecha: string }> = [];
