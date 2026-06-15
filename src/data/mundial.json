@@ -515,8 +515,8 @@
         {
           "local": "SWE",
           "visitante": "TUN",
-          "golesLocal": null,
-          "golesVisitante": null,
+          "golesLocal": 3,
+          "golesVisitante": 1,
           "fecha": "2026-06-14",
           "hora": "19:00"
         },
