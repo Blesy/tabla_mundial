@@ -2,8 +2,8 @@ name: Update World Cup Results
 
 on:
   schedule:
-    # Cada 1 hora (UTC) — ajusta si necesitas otra frecuencia
-    - cron: '0 */1 * * *'
+    # Cada 23 horas (UTC) — ajusta si necesitas otra frecuencia
+    - cron: '0 */23 * * *'
   # Permite disparar manualmente desde GitHub Actions UI
   workflow_dispatch:
 
