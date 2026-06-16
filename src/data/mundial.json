@@ -729,8 +729,8 @@
         {
           "local": "FRA",
           "visitante": "SEN",
-          "golesLocal": null,
-          "golesVisitante": null,
+          "golesLocal": 3,
+          "golesVisitante": 1,
           "fecha": "2026-06-16",
           "hora": "12:00"
         },
