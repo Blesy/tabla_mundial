@@ -589,8 +589,8 @@
         {
           "local": "IRN",
           "visitante": "NZL",
-          "golesLocal": null,
-          "golesVisitante": null,
+          "golesLocal": 0,
+          "golesVisitante": 1,
           "fecha": "2026-06-15",
           "hora": "18:00"
         },
@@ -664,7 +664,7 @@
           "local": "SAU",
           "visitante": "URU",
           "golesLocal": 1,
-          "golesVisitante": 0,
+          "golesVisitante": 1,
           "fecha": "2026-06-15",
           "hora": "15:00"
         },
