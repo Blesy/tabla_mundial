@@ -811,8 +811,8 @@
         {
           "local": "AUT",
           "visitante": "JOR",
-          "golesLocal": null,
-          "golesVisitante": null,
+          "golesLocal": 3,
+          "golesVisitante": 1,
           "fecha": "2026-06-16",
           "hora": "21:00"
         },
