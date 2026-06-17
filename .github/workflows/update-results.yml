@@ -2,8 +2,8 @@ name: Update World Cup Results
 
 on:
   schedule:
-    # Cada 23 horas (UTC) — ajusta si necesitas otra frecuencia
-    - cron: '0 */23 * * *'
+    # Cada 1 hora (UTC) — ajusta si necesitas otra frecuencia
+    - cron: '0 */1 * * *'
   # Permite disparar manualmente desde GitHub Actions UI
   workflow_dispatch:
 
@@ -27,9 +27,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Fetch results from SerpAPI
-        env:
-          SERPAPI_KEY: ${{ secrets.SERPAPI_KEY }}
+      - name: Fetch results from ESPN
         run: node scripts/fetchResults.mjs
 
       - name: Commit and push if mundial.json changed

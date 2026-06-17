@@ -73,6 +73,13 @@ function toESPNDate(fecha) {
   return fecha.replace(/-/g, '');
 }
 
+/** Suma 1 día a una fecha "YYYY-MM-DD" y devuelve la nueva en el mismo formato */
+function nextDia(fecha) {
+  const d = new Date(fecha + 'T12:00:00Z');
+  d.setUTCDate(d.getUTCDate() + 1);
+  return d.toISOString().slice(0, 10);
+}
+
 /**
  * Obtiene todos los eventos del scoreboard de ESPN para una fecha dada.
  * Devuelve un array de objetos event (puede estar vacío).
@@ -260,6 +267,10 @@ for (const partido of todosLosPartidos) {
     continue;
   if (partido._tipo === 'elim' && (!partido.local || !partido.visitante)) continue;
   fechasNecesarias.add(partido.fecha);
+  // Los partidos nocturnos (p. ej. 21:00 hora MX) pueden aparecer en ESPN
+  // bajo la fecha UTC siguiente; siempre se descarga también el día siguiente.
+  const siguiente = nextDia(partido.fecha);
+  if (siguiente <= hoy) fechasNecesarias.add(siguiente);
 }
 
 // ── Descargar scoreboards de ESPN por fecha ───────────────────────────────────
@@ -290,7 +301,10 @@ for (const [letra, grupo] of Object.entries(mundial.grupos)) {
     )
       continue;
 
-    const events = cacheESPN[partido.fecha] ?? [];
+    const events = [
+      ...(cacheESPN[partido.fecha] ?? []),
+      ...(cacheESPN[nextDia(partido.fecha)] ?? []),
+    ];
     console.log(`\nGrupo ${letra}: ${nombreEquipo[partido.local] ?? partido.local} vs ${nombreEquipo[partido.visitante] ?? partido.visitante} (${partido.fecha})`);
     const resultado = obtenerMarcador(events, partido.local, partido.visitante, nombreEquipo);
 
@@ -330,7 +344,10 @@ for (const { partidos, nombre } of rondasElim) {
     )
       continue;
 
-    const events = cacheESPN[partido.fecha] ?? [];
+    const events = [
+      ...(cacheESPN[partido.fecha] ?? []),
+      ...(cacheESPN[nextDia(partido.fecha)] ?? []),
+    ];
     console.log(`\n${nombre}: ${nombreEquipo[partido.local] ?? partido.local} vs ${nombreEquipo[partido.visitante] ?? partido.visitante} (${partido.fecha})`);
     const resultado = obtenerMarcador(events, partido.local, partido.visitante, nombreEquipo);
 
