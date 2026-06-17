@@ -97,6 +97,30 @@ if (loserFinal) eliminados.add(loserFinal);
 
 const gruposEntries = Object.entries(grupos) as Array<[string, typeof grupos[keyof typeof grupos]]>;
 
+// Calcular posición actual de cada equipo en su grupo
+const posicionGrupo: Record<string, number> = {};
+for (const letra of grupoLetras) {
+  const grupo = grupos[letra];
+  const stats2: Record<string, { pts: number; gf: number; gc: number }> = {};
+  for (const eq of grupo.equipos) stats2[eq.id] = { pts: 0, gf: 0, gc: 0 };
+  for (const p of grupo.partidos) {
+    if (p.golesLocal === null || p.golesVisitante === null) continue;
+    stats2[p.local].gf += p.golesLocal; stats2[p.local].gc += p.golesVisitante;
+    stats2[p.visitante].gf += p.golesVisitante; stats2[p.visitante].gc += p.golesLocal;
+    if (p.golesLocal > p.golesVisitante) stats2[p.local].pts += 3;
+    else if (p.golesLocal < p.golesVisitante) stats2[p.visitante].pts += 3;
+    else { stats2[p.local].pts++; stats2[p.visitante].pts++; }
+  }
+  const sorted2 = grupo.equipos.slice().sort((a, b) => {
+    const sa = stats2[a.id], sb = stats2[b.id];
+    if (sb.pts !== sa.pts) return sb.pts - sa.pts;
+    const gdA = sa.gf - sa.gc, gdB = sb.gf - sb.gc;
+    if (gdB !== gdA) return gdB - gdA;
+    return sb.gf - sa.gf;
+  });
+  sorted2.forEach((eq, i) => { posicionGrupo[eq.id] = i + 1; });
+}
+
 // ─── Partidos del día ───────────────────────────────────────────────────────
 type PartidoConContexto = {
   local: string | null;
@@ -242,6 +266,7 @@ const todasFechas: FechaSlot[] = fechasConPartidos.map((f) => ({
       equiposInfo={equiposInfo}
       campeon={campeon}
       eliminados={eliminados}
+      posicionGrupo={posicionGrupo}
     />
   </div>
 </Layout>
