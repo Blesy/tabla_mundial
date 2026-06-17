@@ -1,11 +1,13 @@
 /**
- * fetchResults.mjs
- * Lee mundial.json, consulta SerpAPI por cada partido jugado sin marcador
- * y actualiza los goles (y penales en eliminatorias).
+ * fetchResults.mjs (v2 – ESPN API sin API key)
+ * Lee mundial.json, consulta el scoreboard de ESPN por cada fecha con
+ * partidos pendientes y actualiza los goles (y penales en eliminatorias).
  *
  * Uso:
- *   node --env-file=.env scripts/fetchResults.mjs
- *   node --env-file=.env scripts/fetchResults.mjs --dry-run
+ *   node scripts/fetchResults.mjs
+ *   node scripts/fetchResults.mjs --dry-run
+ *
+ * No requiere ninguna variable de entorno ni API key.
  */
 
 import { readFileSync, writeFileSync } from 'fs';
@@ -15,12 +17,40 @@ import { dirname, join } from 'path';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_PATH = join(__dirname, '..', 'src', 'data', 'mundial.json');
 const DRY_RUN = process.argv.includes('--dry-run');
-const DELAY_MS = 1500;
+const DELAY_MS = 600;
 
-const SERPAPI_KEY = process.env.SERPAPI_KEY;
-if (!SERPAPI_KEY) {
-  console.error('[ERROR] SERPAPI_KEY no definida. Crea un archivo .env con tu API key.');
-  process.exit(1);
+// ── ESPN API (sin autenticación) ─────────────────────────────────────────────
+// Endpoint oficial no documentado de ESPN para el scoreboard de FIFA World Cup
+const ESPN_BASE =
+  'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard';
+
+// Mapeo de IDs propios → abreviaciones que usa ESPN
+// La mayoría coincide con FIFA estándar; solo se listan las excepciones conocidas
+const ESPN_MAP = {
+  RSA: 'RSA',   // Sudáfrica
+  CZE: 'CZE',   // Rep. Checa (ESPN también usa CZR; se prueba ambas abajo)
+  BIH: 'BIH',   // Bosnia y Herz.
+  CPV: 'CPV',   // Cabo Verde
+  COD: 'DRC',   // R.D. Congo – ESPN usa DRC
+  CIV: 'CIV',   // Costa de Marfil
+  CUW: 'CUW',   // Curazao
+  IRQ: 'IRQ',   // Irak
+  UZB: 'UZB',   // Uzbekistán
+  NZL: 'NZL',   // Nueva Zelanda
+  SCO: 'SCO',   // Escocia
+  HAI: 'HAI',   // Haití
+  ALG: 'ALG',   // Argelia
+  JOR: 'JOR',   // Jordania
+  IRN: 'IRN',   // Irán
+  SAU: 'KSA',   // Arabia Saudita – ESPN usa KSA
+  NOR: 'NOR',   // Noruega
+  SEN: 'SEN',   // Senegal
+  GHA: 'GHA',   // Ghana
+  PAN: 'PAN',   // Panamá
+};
+
+function espnAbbr(id) {
+  return ESPN_MAP[id] ?? id;
 }
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
@@ -29,9 +59,7 @@ function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-/**
- * Hoy en YYYY-MM-DD usando la zona local (sin conversión a UTC)
- */
+/** Hoy en YYYY-MM-DD usando offset fijo –7 h (igual que la versión anterior) */
 function hoyLocal() {
   const d = new Date(Date.now() - 7 * 60 * 60 * 1000);
   const y = d.getUTCFullYear();
@@ -40,169 +68,144 @@ function hoyLocal() {
   return `${y}-${m}-${day}`;
 }
 
-/**
- * Llama a SerpAPI con la query indicada y devuelve el JSON de respuesta.
- */
-async function fetchSerpApi(query) {
-  const url = new URL('https://serpapi.com/search.json');
-  url.searchParams.set('engine', 'google');
-  url.searchParams.set('q', query);
-  url.searchParams.set('location', 'Mexico');
-  url.searchParams.set('google_domain', 'google.com.mx');
-  url.searchParams.set('gl', 'mx');
-  url.searchParams.set('hl', 'es-419');
-  url.searchParams.set('api_key', SERPAPI_KEY);
-
-  const res = await fetch(url.toString());
-  if (!res.ok) {
-    throw new Error(`SerpAPI HTTP ${res.status}: ${await res.text()}`);
-  }
-  return res.json();
+/** "2026-06-11" → "20260611" (formato que acepta ESPN) */
+function toESPNDate(fecha) {
+  return fecha.replace(/-/g, '');
 }
 
 /**
- * Extrae marcador de un objeto sports_results de SerpAPI.
- * Devuelve { golesLocal, golesVisitante, penalesLocal, penalesVisitante }
- * o null si no se pudo parsear.
- *
- * SerpAPI puede devolver:
- *   sports_results.teams[0].score / teams[1].score
- *   sports_results.title  →  "México 2–1 Sudáfrica"  o  "España 1–1 (4–2 pen) Uruguay"
- *   sports_results.game_spotlight.teams[0].score / ...
+ * Obtiene todos los eventos del scoreboard de ESPN para una fecha dada.
+ * Devuelve un array de objetos event (puede estar vacío).
  */
-function parseSportsResults(data, nombreLocal, nombreVisitante) {
-  const sr = data.sports_results;
-  if (!sr) return null;
-
-  // Intentar leer desde teams[] (formato más común)
-  const teams =
-    sr.teams ??
-    sr.game_spotlight?.teams ??
-    null;
-
-  let golesLocal = null;
-  let golesVisitante = null;
-  let penalesLocal = null;
-  let penalesVisitante = null;
-
-  if (teams && teams.length === 2) {
-    // Determinar cuál team es local y cuál es visitante
-    // El order del query es "{local} vs {visitante}", así que teams[0] suele ser local
-    const t0 = teams[0];
-    const t1 = teams[1];
-
-    const score0 = parseInt(t0.score ?? t0.result ?? '', 10);
-    const score1 = parseInt(t1.score ?? t1.result ?? '', 10);
-
-    if (!isNaN(score0) && !isNaN(score1)) {
-      // Verificar que el nombre concuerde para detectar inversiones
-      const name0 = (t0.name ?? '').toLowerCase();
-      const name1 = (t1.name ?? '').toLowerCase();
-      const localLow = nombreLocal.toLowerCase();
-      const visitanteLow = nombreVisitante.toLowerCase();
-
-      const t0esLocal =
-        name0.includes(localLow) ||
-        localLow.includes(name0) ||
-        name0 === localLow;
-
-      const t0esVisitante =
-        name0.includes(visitanteLow) ||
-        visitanteLow.includes(name0) ||
-        name0 === visitanteLow;
-
-      if (t0esLocal || (!t0esVisitante && true)) {
-        // Orden normal: teams[0] = local
-        golesLocal = score0;
-        golesVisitante = score1;
-      } else {
-        // Invertido: teams[0] = visitante
-        golesLocal = score1;
-        golesVisitante = score0;
-      }
-    }
-  }
-
-  // Si no encontramos goles desde teams, intentar parsear el title
-  if (golesLocal === null) {
-    const title = sr.title ?? sr.game_spotlight?.title ?? '';
-    // Ejemplo: "México 2 – 1 Sudáfrica"  |  "España 1 – 1 Uruguay"
-    const matchScore = title.match(/(\d+)\s*[–\-]\s*(\d+)/);
-    if (matchScore) {
-      // Verificar orden de equipos en el título
-      const localIdx = title.toLowerCase().indexOf(nombreLocal.toLowerCase().split(' ')[0]);
-      const visitanteIdx = title.toLowerCase().indexOf(nombreVisitante.toLowerCase().split(' ')[0]);
-
-      if (localIdx !== -1 && visitanteIdx !== -1 && localIdx < visitanteIdx) {
-        golesLocal = parseInt(matchScore[1], 10);
-        golesVisitante = parseInt(matchScore[2], 10);
-      } else if (localIdx !== -1 && visitanteIdx !== -1 && visitanteIdx < localIdx) {
-        golesLocal = parseInt(matchScore[2], 10);
-        golesVisitante = parseInt(matchScore[1], 10);
-      } else {
-        // Sin contexto de posición, asumir orden del query
-        golesLocal = parseInt(matchScore[1], 10);
-        golesVisitante = parseInt(matchScore[2], 10);
-      }
-    }
-  }
-
-  if (golesLocal === null) return null;
-
-  // Parsear penales si el partido terminó en empate
-  // Título puede tener: "España 1–1 (4–2 pen) Uruguay"  o  "… (pens 4-2)"
-  const tituloCompleto =
-    (sr.title ?? '') +
-    ' ' +
-    (sr.game_spotlight?.title ?? '') +
-    ' ' +
-    (sr.summary ?? '');
-
-  const penMatch = tituloCompleto.match(
-    /\(\s*(\d+)\s*[–\-]\s*(\d+)\s*(?:pen|pens|penalt[a-z]*)\s*\)/i
-  );
-  if (penMatch) {
-    // Misma lógica de orden: si el local aparece antes del visitante en el título
-    const titulo = (sr.title ?? tituloCompleto).toLowerCase();
-    const localIdx = titulo.indexOf(nombreLocal.toLowerCase().split(' ')[0]);
-    const visitanteIdx = titulo.indexOf(nombreVisitante.toLowerCase().split(' ')[0]);
-
-    if (localIdx !== -1 && visitanteIdx !== -1 && visitanteIdx < localIdx) {
-      penalesLocal = parseInt(penMatch[2], 10);
-      penalesVisitante = parseInt(penMatch[1], 10);
-    } else {
-      penalesLocal = parseInt(penMatch[1], 10);
-      penalesVisitante = parseInt(penMatch[2], 10);
-    }
-  }
-
-  return { golesLocal, golesVisitante, penalesLocal, penalesVisitante };
+async function fetchESPNScoreboard(fecha) {
+  const url = `${ESPN_BASE}?dates=${toESPNDate(fecha)}`;
+  console.log(`  GET ${url}`);
+  const res = await fetch(url, {
+    headers: { 'User-Agent': 'Mozilla/5.0 (compatible; fetchResults/2.0)' },
+  });
+  if (!res.ok) throw new Error(`ESPN HTTP ${res.status} para fecha ${fecha}`);
+  const json = await res.json();
+  return json.events ?? [];
 }
 
 /**
- * Intenta obtener el marcador de un partido desde SerpAPI.
+ * Busca en los eventos de ESPN el partido entre los equipos dados.
+ * Devuelve { golesLocal, golesVisitante, penalesLocal, penalesVisitante } o null.
+ * nombreEquipoMap es el lookup id→nombre en español (para fallback por nombre).
+ */
+function parsearPartidoESPN(events, localId, visitanteId, nombreEquipoMap) {
+  const localAbbr = espnAbbr(localId).toUpperCase();
+  const visitanteAbbr = espnAbbr(visitanteId).toUpperCase();
+
+  for (const event of events) {
+    const comp = event.competitions?.[0];
+    if (!comp) continue;
+
+    const competitors = comp.competitors ?? [];
+    if (competitors.length < 2) continue;
+
+    // Buscar por abreviación exacta
+    let cLocal = competitors.find(
+      (c) => c.team?.abbreviation?.toUpperCase() === localAbbr,
+    );
+    let cVisitante = competitors.find(
+      (c) => c.team?.abbreviation?.toUpperCase() === visitanteAbbr,
+    );
+
+    // Fallback: abreviación alternativa conocida (ej. CZE/CZR)
+    if (!cLocal) {
+      cLocal = competitors.find((c) => {
+        const abbr = c.team?.abbreviation?.toUpperCase() ?? '';
+        return abbr === localId.toUpperCase();
+      });
+    }
+    if (!cVisitante) {
+      cVisitante = competitors.find((c) => {
+        const abbr = c.team?.abbreviation?.toUpperCase() ?? '';
+        return abbr === visitanteId.toUpperCase();
+      });
+    }
+
+    // Fallback: comparación por nombre de equipo
+    if (!cLocal || !cVisitante) {
+      const localNombre = (nombreEquipoMap[localId] ?? '').toLowerCase();
+      const visitanteNombre = (nombreEquipoMap[visitanteId] ?? '').toLowerCase();
+      const byName = (nombre) =>
+        competitors.find((c) => {
+          const dn = (
+            c.team?.displayName ??
+            c.team?.shortDisplayName ??
+            ''
+          ).toLowerCase();
+          return (
+            dn.includes(nombre.split(' ')[0]) ||
+            nombre.split(' ')[0].includes(dn.split(' ')[0])
+          );
+        });
+      if (!cLocal && localNombre) cLocal = byName(localNombre);
+      if (!cVisitante && visitanteNombre) cVisitante = byName(visitanteNombre);
+    }
+
+    if (!cLocal || !cVisitante) continue;
+
+    // Verificar que el partido haya terminado
+    const status = comp.status?.type;
+    if (!status?.completed) {
+      console.log('  → Partido en curso o no iniciado todavía.');
+      return null;
+    }
+
+    const golesLocal = parseInt(cLocal.score ?? '', 10);
+    const golesVisitante = parseInt(cVisitante.score ?? '', 10);
+    if (isNaN(golesLocal) || isNaN(golesVisitante)) return null;
+
+    // ── Penales ───────────────────────────────────────────────────────────
+    let penalesLocal = null;
+    let penalesVisitante = null;
+
+    // ESPN indica tanda de penales en shortDetail: "FT (Pens)" / "Final (Pens)"
+    const shortDetail = (status.shortDetail ?? status.detail ?? '').toLowerCase();
+    if (shortDetail.includes('pen')) {
+      // Buscar resultado de penales en notas del evento
+      const notesText = (comp.notes ?? [])
+        .map((n) => n.headline ?? n.text ?? '')
+        .join(' ');
+      const penMatch = notesText.match(/(\d+)\s*[–\-]\s*(\d+)\s*(?:on\s+)?pen/i);
+      if (penMatch) {
+        // El orden en la nota suele ser home-away; determinamos quién es el local
+        const homeIsLocal =
+          cLocal.homeAway === 'home' || competitors.indexOf(cLocal) === 0;
+        penalesLocal = parseInt(homeIsLocal ? penMatch[1] : penMatch[2], 10);
+        penalesVisitante = parseInt(homeIsLocal ? penMatch[2] : penMatch[1], 10);
+      }
+    }
+
+    return { golesLocal, golesVisitante, penalesLocal, penalesVisitante };
+  }
+
+  return null; // partido no encontrado en la respuesta de ESPN
+}
+
+/**
+ * Intenta obtener el marcador de un partido desde ESPN.
  * Devuelve el resultado parseado o null si no hay datos disponibles aún.
+ * events: array de eventos ya descargado para esa fecha.
  */
-async function obtenerMarcador(nombreLocal, nombreVisitante) {
-  const query = `world cup 2026 ${nombreLocal} vs ${nombreVisitante}`;
-  console.log(`  Consultando: "${query}"`);
+function obtenerMarcador(events, localId, visitanteId, nombreEquipoMap) {
+  const nombreLocal = nombreEquipoMap[localId] ?? localId;
+  const nombreVisitante = nombreEquipoMap[visitanteId] ?? visitanteId;
+  console.log(`  Buscando: ${nombreLocal} vs ${nombreVisitante}`);
 
-  try {
-    const data = await fetchSerpApi(query);
-    const resultado = parseSportsResults(data, nombreLocal, nombreVisitante);
-    if (resultado) {
-      const { golesLocal, golesVisitante, penalesLocal, penalesVisitante } = resultado;
-      let log = `  → ${golesLocal}–${golesVisitante}`;
-      if (penalesLocal !== null) log += ` (pen: ${penalesLocal}–${penalesVisitante})`;
-      console.log(log);
-    } else {
-      console.log('  → Sin resultado disponible todavía.');
-    }
-    return resultado;
-  } catch (err) {
-    console.error(`  [ERROR] ${err.message}`);
-    return null;
+  const resultado = parsearPartidoESPN(events, localId, visitanteId, nombreEquipoMap);
+  if (resultado) {
+    const { golesLocal, golesVisitante, penalesLocal, penalesVisitante } = resultado;
+    let log = `  → ${golesLocal}–${golesVisitante}`;
+    if (penalesLocal !== null) log += ` (pen: ${penalesLocal}–${penalesVisitante})`;
+    console.log(log);
+  } else {
+    console.log('  → Sin resultado disponible todavía.');
   }
+  return resultado;
 }
 
 // ─── Lógica principal ────────────────────────────────────────────────────────
@@ -226,23 +229,70 @@ for (const grupoKey of Object.keys(mundial.grupos)) {
 
 console.log(`\n=== fetchResults — ${hoy} (revisando también ${ayer}) ${DRY_RUN ? '[DRY-RUN]' : ''} ===\n`);
 
+// ── Recolectar fechas únicas a consultar ──────────────────────────────────────
+// En lugar de llamar a la API por cada partido (como hacía SerpAPI),
+// agrupamos por fecha y hacemos UNA sola petición a ESPN por fecha.
+const fechasNecesarias = new Set();
+
+const todosLosPartidos = [
+  ...Object.values(mundial.grupos).flatMap((g) =>
+    g.partidos.map((p) => ({ ...p, _tipo: 'grupo' }))
+  ),
+  ...[
+    ...(mundial.eliminatorias.treintaDos ?? []),
+    ...(mundial.eliminatorias.dieciseis ?? []),
+    ...(mundial.eliminatorias.cuartos ?? []),
+    ...(mundial.eliminatorias.semis ?? []),
+    mundial.eliminatorias.tercerLugar,
+    mundial.eliminatorias.final,
+  ]
+    .filter(Boolean)
+    .map((p) => ({ ...p, _tipo: 'elim' })),
+];
+
+for (const partido of todosLosPartidos) {
+  if (!partido.fecha || partido.fecha > hoy) continue;
+  if (
+    partido.fecha < ayer &&
+    partido.golesLocal !== null &&
+    partido.golesVisitante !== null
+  )
+    continue;
+  if (partido._tipo === 'elim' && (!partido.local || !partido.visitante)) continue;
+  fechasNecesarias.add(partido.fecha);
+}
+
+// ── Descargar scoreboards de ESPN por fecha ───────────────────────────────────
+const cacheESPN = {}; // fecha → events[]
+
+for (const fecha of [...fechasNecesarias].sort()) {
+  console.log(`\nDescargando scoreboard ESPN para ${fecha}…`);
+  try {
+    cacheESPN[fecha] = await fetchESPNScoreboard(fecha);
+    console.log(`  → ${cacheESPN[fecha].length} evento(s) encontrado(s).`);
+  } catch (err) {
+    console.error(`  [ERROR] ${err.message}`);
+    cacheESPN[fecha] = [];
+  }
+  await delay(DELAY_MS);
+}
+
 // ── Partidos de Grupos ────────────────────────────────────────────────────────
-console.log('─── Grupos ──────────────────────────────────────────────────────');
+console.log('\n─── Grupos ──────────────────────────────────────────────────────');
 
 for (const [letra, grupo] of Object.entries(mundial.grupos)) {
   for (const partido of grupo.partidos) {
-    // Solo actualizar partidos cuya fecha ya pasó y sin marcador
-    // Para partidos de hoy o ayer se re-consulta aunque ya tengan marcador
     if (!partido.fecha || partido.fecha > hoy) continue;
-    if (partido.fecha < ayer && (partido.golesLocal !== null || partido.golesVisitante !== null)) continue;
+    if (
+      partido.fecha < ayer &&
+      partido.golesLocal !== null &&
+      partido.golesVisitante !== null
+    )
+      continue;
 
-    const nombreLocal = nombreEquipo[partido.local] ?? partido.local;
-    const nombreVisitante = nombreEquipo[partido.visitante] ?? partido.visitante;
-
-    console.log(`\nGrupo ${letra}: ${nombreLocal} vs ${nombreVisitante} (${partido.fecha})`);
-
-    await delay(DELAY_MS);
-    const resultado = await obtenerMarcador(nombreLocal, nombreVisitante);
+    const events = cacheESPN[partido.fecha] ?? [];
+    console.log(`\nGrupo ${letra}: ${nombreEquipo[partido.local] ?? partido.local} vs ${nombreEquipo[partido.visitante] ?? partido.visitante} (${partido.fecha})`);
+    const resultado = obtenerMarcador(events, partido.local, partido.visitante, nombreEquipo);
 
     if (resultado) {
       const cambioReal =
@@ -251,7 +301,6 @@ for (const [letra, grupo] of Object.entries(mundial.grupos)) {
       if (!DRY_RUN) {
         partido.golesLocal = resultado.golesLocal;
         partido.golesVisitante = resultado.golesVisitante;
-        // Los partidos de grupos no tienen penales
       }
       if (cambioReal) cambios++;
     }
@@ -265,26 +314,25 @@ const rondasElim = [
   { partidos: mundial.eliminatorias.treintaDos, nombre: 'Dieciseisavos' },
   { partidos: mundial.eliminatorias.dieciseis,  nombre: 'Octavos' },
   { partidos: mundial.eliminatorias.cuartos,    nombre: 'Cuartos' },
-  { partidos: mundial.eliminatorias.semis,       nombre: 'Semifinales' },
+  { partidos: mundial.eliminatorias.semis,      nombre: 'Semifinales' },
   { partidos: [mundial.eliminatorias.tercerLugar], nombre: '3er Lugar' },
-  { partidos: [mundial.eliminatorias.final],     nombre: 'Final' },
+  { partidos: [mundial.eliminatorias.final],    nombre: 'Final' },
 ];
 
 for (const { partidos, nombre } of rondasElim) {
   for (const partido of partidos) {
-    // Solo actualizar si el partido tiene equipos asignados, fecha pasada y sin marcador
-    // Para partidos de hoy o ayer se re-consulta aunque ya tengan marcador
     if (!partido.local || !partido.visitante) continue;
     if (!partido.fecha || partido.fecha > hoy) continue;
-    if (partido.fecha < ayer && (partido.golesLocal !== null || partido.golesVisitante !== null)) continue;
+    if (
+      partido.fecha < ayer &&
+      partido.golesLocal !== null &&
+      partido.golesVisitante !== null
+    )
+      continue;
 
-    const nombreLocal = nombreEquipo[partido.local] ?? partido.local;
-    const nombreVisitante = nombreEquipo[partido.visitante] ?? partido.visitante;
-
-    console.log(`\n${nombre}: ${nombreLocal} vs ${nombreVisitante} (${partido.fecha})`);
-
-    await delay(DELAY_MS);
-    const resultado = await obtenerMarcador(nombreLocal, nombreVisitante);
+    const events = cacheESPN[partido.fecha] ?? [];
+    console.log(`\n${nombre}: ${nombreEquipo[partido.local] ?? partido.local} vs ${nombreEquipo[partido.visitante] ?? partido.visitante} (${partido.fecha})`);
+    const resultado = obtenerMarcador(events, partido.local, partido.visitante, nombreEquipo);
 
     if (resultado) {
       const cambioReal =
