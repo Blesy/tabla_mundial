@@ -161,8 +161,8 @@
         {
           "local": "RSA",
           "visitante": "CZE",
-          "golesLocal": null,
-          "golesVisitante": null,
+          "golesLocal": 1,
+          "golesVisitante": 1,
           "fecha": "2026-06-18",
           "hora": "9:00"
         },
