@@ -375,8 +375,8 @@
         {
           "local": "USA",
           "visitante": "AUS",
-          "golesLocal": null,
-          "golesVisitante": null,
+          "golesLocal": 2,
+          "golesVisitante": 0,
           "fecha": "2026-06-19",
           "hora": "12:00"
         },
