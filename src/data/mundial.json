@@ -227,8 +227,8 @@
         {
           "local": "CAN",
           "visitante": "QAT",
-          "golesLocal": null,
-          "golesVisitante": null,
+          "golesLocal": 6,
+          "golesVisitante": 0,
           "fecha": "2026-06-18",
           "hora": "15:00"
         },
