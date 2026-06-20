@@ -449,8 +449,8 @@
         {
           "local": "GER",
           "visitante": "CIV",
-          "golesLocal": null,
-          "golesVisitante": null,
+          "golesLocal": 2,
+          "golesVisitante": 1,
           "fecha": "2026-06-20",
           "hora": "13:00"
         },
