@@ -301,8 +301,8 @@
         {
           "local": "BRA",
           "visitante": "HAI",
-          "golesLocal": null,
-          "golesVisitante": null,
+          "golesLocal": 3,
+          "golesVisitante": 0,
           "fecha": "2026-06-19",
           "hora": "17:30"
         },
