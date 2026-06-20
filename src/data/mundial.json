@@ -523,8 +523,8 @@
         {
           "local": "NED",
           "visitante": "SWE",
-          "golesLocal": null,
-          "golesVisitante": null,
+          "golesLocal": 5,
+          "golesVisitante": 1,
           "fecha": "2026-06-20",
           "hora": "10:00"
         },
