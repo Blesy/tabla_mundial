@@ -531,8 +531,8 @@
         {
           "local": "JPN",
           "visitante": "TUN",
-          "golesLocal": null,
-          "golesVisitante": null,
+          "golesLocal": 4,
+          "golesVisitante": 0,
           "fecha": "2026-06-20",
           "hora": "21:00"
         },
