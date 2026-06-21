@@ -671,8 +671,8 @@
         {
           "local": "ESP",
           "visitante": "SAU",
-          "golesLocal": null,
-          "golesVisitante": null,
+          "golesLocal": 4,
+          "golesVisitante": 0,
           "fecha": "2026-06-21",
           "hora": "9:00"
         },
