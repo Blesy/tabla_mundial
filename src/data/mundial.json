@@ -679,8 +679,8 @@
         {
           "local": "CPV",
           "visitante": "URU",
-          "golesLocal": null,
-          "golesVisitante": null,
+          "golesLocal": 2,
+          "golesVisitante": 2,
           "fecha": "2026-06-21",
           "hora": "15:00"
         },
