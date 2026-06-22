@@ -819,8 +819,8 @@
         {
           "local": "ARG",
           "visitante": "AUT",
-          "golesLocal": null,
-          "golesVisitante": null,
+          "golesLocal": 2,
+          "golesVisitante": 0,
           "fecha": "2026-06-22",
           "hora": "10:00"
         },
