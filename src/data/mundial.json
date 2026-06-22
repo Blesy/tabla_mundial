@@ -605,8 +605,8 @@
         {
           "local": "EGY",
           "visitante": "NZL",
-          "golesLocal": null,
-          "golesVisitante": null,
+          "golesLocal": 3,
+          "golesVisitante": 1,
           "fecha": "2026-06-21",
           "hora": "18:00"
         },
