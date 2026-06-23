@@ -967,8 +967,8 @@
         {
           "local": "ENG",
           "visitante": "GHA",
-          "golesLocal": null,
-          "golesVisitante": null,
+          "golesLocal": 0,
+          "golesVisitante": 0,
           "fecha": "2026-06-23",
           "hora": "13:00"
         },
