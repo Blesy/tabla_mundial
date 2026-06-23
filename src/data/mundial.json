@@ -753,8 +753,8 @@
         {
           "local": "SEN",
           "visitante": "NOR",
-          "golesLocal": null,
-          "golesVisitante": null,
+          "golesLocal": 2,
+          "golesVisitante": 3,
           "fecha": "2026-06-22",
           "hora": "17:00"
         },
