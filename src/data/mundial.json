@@ -827,8 +827,8 @@
         {
           "local": "ALG",
           "visitante": "JOR",
-          "golesLocal": null,
-          "golesVisitante": null,
+          "golesLocal": 2,
+          "golesVisitante": 1,
           "fecha": "2026-06-22",
           "hora": "20:00"
         },
