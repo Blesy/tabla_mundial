@@ -745,8 +745,8 @@
         {
           "local": "FRA",
           "visitante": "IRQ",
-          "golesLocal": null,
-          "golesVisitante": null,
+          "golesLocal": 3,
+          "golesVisitante": 0,
           "fecha": "2026-06-22",
           "hora": "14:00"
         },
