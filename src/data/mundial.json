@@ -901,8 +901,8 @@
         {
           "local": "COD",
           "visitante": "COL",
-          "golesLocal": null,
-          "golesVisitante": null,
+          "golesLocal": 0,
+          "golesVisitante": 1,
           "fecha": "2026-06-23",
           "hora": "19:00"
         },
