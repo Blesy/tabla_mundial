@@ -317,16 +317,16 @@
         {
           "local": "BRA",
           "visitante": "SCO",
-          "golesLocal": null,
-          "golesVisitante": null,
+          "golesLocal": 3,
+          "golesVisitante": 0,
           "fecha": "2026-06-24",
           "hora": "15:00"
         },
         {
           "local": "MAR",
           "visitante": "HAI",
-          "golesLocal": null,
-          "golesVisitante": null,
+          "golesLocal": 4,
+          "golesVisitante": 2,
           "fecha": "2026-06-24",
           "hora": "15:00"
         }
