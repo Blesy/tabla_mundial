@@ -761,16 +761,16 @@
         {
           "local": "FRA",
           "visitante": "NOR",
-          "golesLocal": null,
-          "golesVisitante": null,
+          "golesLocal": 4,
+          "golesVisitante": 1,
           "fecha": "2026-06-26",
           "hora": "12:00"
         },
         {
           "local": "SEN",
           "visitante": "IRQ",
-          "golesLocal": null,
-          "golesVisitante": null,
+          "golesLocal": 5,
+          "golesVisitante": 0,
           "fecha": "2026-06-26",
           "hora": "12:00"
         }
