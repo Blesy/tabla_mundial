@@ -391,16 +391,16 @@
         {
           "local": "USA",
           "visitante": "TUR",
-          "golesLocal": null,
-          "golesVisitante": null,
+          "golesLocal": 2,
+          "golesVisitante": 3,
           "fecha": "2026-06-25",
           "hora": "19:00"
         },
         {
           "local": "PAR",
           "visitante": "AUS",
-          "golesLocal": null,
-          "golesVisitante": null,
+          "golesLocal": 0,
+          "golesVisitante": 0,
           "fecha": "2026-06-25",
           "hora": "19:00"
         }
