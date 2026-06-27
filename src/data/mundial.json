@@ -983,16 +983,16 @@
         {
           "local": "ENG",
           "visitante": "PAN",
-          "golesLocal": null,
-          "golesVisitante": null,
+          "golesLocal": 2,
+          "golesVisitante": 0,
           "fecha": "2026-06-27",
           "hora": "14:00"
         },
         {
           "local": "CRO",
           "visitante": "GHA",
-          "golesLocal": null,
-          "golesVisitante": null,
+          "golesLocal": 2,
+          "golesVisitante": 1,
           "fecha": "2026-06-27",
           "hora": "14:00"
         }
