@@ -1007,8 +1007,8 @@
         "descVisitante": "2B",
         "local": "RSA",
         "visitante": "CAN",
-        "golesLocal": null,
-        "golesVisitante": null,
+        "golesLocal": 0,
+        "golesVisitante": 1,
         "penalesLocal": null,
         "penalesVisitante": null,
         "fecha": "2026-06-28",
@@ -1026,7 +1026,7 @@
         "penalesVisitante": null,
         "fecha": "2026-06-29",
         "hora": "18:00"
-      },      
+      },
       {
         "id": "M75",
         "descLocal": "1E",
@@ -1117,7 +1117,7 @@
         "penalesVisitante": null,
         "fecha": "2026-06-29",
         "hora": "10:00"
-      },      
+      },
       {
         "id": "M82",
         "descLocal": "2E",
@@ -1156,7 +1156,7 @@
         "penalesVisitante": null,
         "fecha": "2026-07-01",
         "hora": "9:00"
-      },      
+      },
       {
         "id": "M85",
         "descLocal": "1B",
@@ -1182,7 +1182,7 @@
         "penalesVisitante": null,
         "fecha": "2026-07-03",
         "hora": "18:30"
-      },     
+      },
       {
         "id": "M87",
         "descLocal": "2D",
