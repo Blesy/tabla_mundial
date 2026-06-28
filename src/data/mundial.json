@@ -835,16 +835,16 @@
         {
           "local": "ARG",
           "visitante": "JOR",
-          "golesLocal": null,
-          "golesVisitante": null,
+          "golesLocal": 3,
+          "golesVisitante": 1,
           "fecha": "2026-06-27",
           "hora": "19:00"
         },
         {
           "local": "ALG",
           "visitante": "AUT",
-          "golesLocal": null,
-          "golesVisitante": null,
+          "golesLocal": 3,
+          "golesVisitante": 3,
           "fecha": "2026-06-27",
           "hora": "19:00"
         }
