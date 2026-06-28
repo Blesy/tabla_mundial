@@ -232,7 +232,7 @@ const todasFechas: FechaSlot[] = fechasConPartidos.map((f) => ({
   )}
 
   <!-- Tab: Grupos -->
-  <div id="tab-grupos" class="tab-panel active">
+  <div id="tab-grupos" class="tab-panel">
     <div class="grupos-grid">
       {gruposEntries.map(([letra, grupo]) => (
         <TablaGrupo
@@ -246,7 +246,7 @@ const todasFechas: FechaSlot[] = fechasConPartidos.map((f) => ({
   </div>
 
   <!-- Tab: Eliminatorias -->
-  <div id="tab-eliminatorias" class="tab-panel">
+  <div id="tab-eliminatorias" class="tab-panel active">
     <BracketEliminatorias
       treintaDos={eliminatorias.treintaDos}
       dieciseis={eliminatorias.dieciseis}

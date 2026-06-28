@@ -33,9 +33,26 @@ function getApostador(id: string | null): string {
   return participantes.find(p => p.equipos.includes(id))?.nombre ?? '';
 }
 
+// ── FIFA code → ISO 3166-1 alpha-2 for flagcdn.com ──────────────
+const fifaToIso: Record<string, string> = {
+  MEX: 'mx', RSA: 'za', KOR: 'kr', CZE: 'cz',
+  CAN: 'ca', BIH: 'ba', QAT: 'qa', SUI: 'ch',
+  BRA: 'br', MAR: 'ma', HAI: 'ht', SCO: 'gb-sct',
+  USA: 'us', PAR: 'py', AUS: 'au', TUR: 'tr',
+  GER: 'de', CUW: 'cw', CIV: 'ci', ECU: 'ec',
+  NED: 'nl', JPN: 'jp', SWE: 'se', TUN: 'tn',
+  BEL: 'be', EGY: 'eg', IRN: 'ir', NZL: 'nz',
+  ESP: 'es', CPV: 'cv', SAU: 'sa', URU: 'uy',
+  FRA: 'fr', SEN: 'sn', IRQ: 'iq', NOR: 'no',
+  ARG: 'ar', ALG: 'dz', AUT: 'at', JOR: 'jo',
+  POR: 'pt', COD: 'cd', UZB: 'uz', COL: 'co',
+  ENG: 'gb-eng', CRO: 'hr', GHA: 'gh', PAN: 'pa',
+};
+
 // ── Build viewer participants ──────────────────────────────────────
 const participantIds: Record<string, number> = {};
 const viewerParticipants: { id: number; tournament_id: number; name: string }[] = [];
+const participantFlagMap: Record<number, string> = {};
 let pId = 0;
 
 for (const [teamId, info] of Object.entries(equiposInfo)) {
@@ -46,7 +63,33 @@ for (const [teamId, info] of Object.entries(equiposInfo)) {
     tournament_id: 0,
     name: ap ? `${info.nombre} · ${ap}` : info.nombre,
   });
+  const iso = fifaToIso[teamId];
+  if (iso) participantFlagMap[pId] = `https://flagcdn.com/w20/${iso}.png`;
   pId++;
+}
+
+// ── Build winner map: matchId → winning teamId ────────────────────
+const allPartidos: PartidoSimple[] = [
+  ...treintaDos, ...dieciseis, ...cuartos, ...semis, tercerLugar, partidoFinal,
+];
+const matchWinnerMap: Record<string, string> = {};
+for (const p of allPartidos) {
+  if (!p.local || !p.visitante || p.golesLocal === null || p.golesVisitante === null) continue;
+  let winner: string | null = null;
+  if (p.golesLocal > p.golesVisitante) winner = p.local;
+  else if (p.golesLocal < p.golesVisitante) winner = p.visitante;
+  else if (p.penalesLocal !== null && p.penalesVisitante !== null) {
+    winner = p.penalesLocal > p.penalesVisitante ? p.local : p.visitante;
+  }
+  if (winner) matchWinnerMap[p.id] = winner;
+}
+
+// Resolve team for a slot: explicit id > winner lookup > null
+function resolveTeam(teamId: string | null, desc: string): string | null {
+  if (teamId !== null) return teamId;
+  const m = desc.match(/^G\s+(\S+)$/);
+  if (m && matchWinnerMap[m[1]]) return matchWinnerMap[m[1]];
+  return null;
 }
 
 // Placeholder participants for R32 slots not yet assigned
@@ -62,7 +105,8 @@ for (const p of treintaDos) {
 }
 
 function getOpId(teamId: string | null, desc: string): number | null {
-  if (teamId !== null) return participantIds[teamId] ?? null;
+  const resolved = resolveTeam(teamId, desc);
+  if (resolved !== null) return participantIds[resolved] ?? null;
   return descToId[desc] ?? null;
 }
 
@@ -119,6 +163,7 @@ const viewerStages = [{
 }];
 
 const bracketJSON = JSON.stringify({ stages: viewerStages, matches: viewerMatches, participants: viewerParticipants });
+const flagMapJSON = JSON.stringify(participantFlagMap);
 
 ---
 
@@ -127,7 +172,7 @@ const bracketJSON = JSON.stringify({ stages: viewerStages, matches: viewerMatche
   <div id="bracket" class="brackets-viewer"></div>
 </div>
 
-<script is:inline define:vars={{ bracketJSON }}>
+<script is:inline define:vars={{ bracketJSON, flagMapJSON }}>
   async function initBracket() {
     const data = JSON.parse(bracketJSON);
 
@@ -171,6 +216,22 @@ const bracketJSON = JSON.stringify({ stages: viewerStages, matches: viewerMatche
         }
       }
     );
+
+    // Inject flag images (emoji flags don't render on Windows)
+    var flagMap = JSON.parse(flagMapJSON);
+    var bracket = document.getElementById('bracket');
+    var nameEls = bracket.querySelectorAll('[class*="name"]');
+    nameEls.forEach(function(el) {
+      var text = el.textContent && el.textContent.trim();
+      var participant = data.participants.find(function(p) { return p.name === text; });
+      if (participant !== undefined && flagMap[participant.id]) {
+        var img = document.createElement('img');
+        img.src = flagMap[participant.id];
+        img.alt = '';
+        img.style.cssText = 'width:16px;height:12px;margin-right:5px;vertical-align:middle;border-radius:2px;';
+        el.insertBefore(img, el.firstChild);
+      }
+    });
   }
 
   if (document.readyState === 'loading') {
