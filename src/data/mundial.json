@@ -909,16 +909,16 @@
         {
           "local": "POR",
           "visitante": "COL",
-          "golesLocal": null,
-          "golesVisitante": null,
+          "golesLocal": 0,
+          "golesVisitante": 0,
           "fecha": "2026-06-27",
           "hora": "16:30"
         },
         {
           "local": "COD",
           "visitante": "UZB",
-          "golesLocal": null,
-          "golesVisitante": null,
+          "golesLocal": 3,
+          "golesVisitante": 1,
           "fecha": "2026-06-27",
           "hora": "16:30"
         }
