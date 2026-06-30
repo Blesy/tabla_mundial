@@ -170,20 +170,36 @@ function parsearPartidoESPN(events, localId, visitanteId, nombreEquipoMap) {
     let penalesLocal = null;
     let penalesVisitante = null;
 
-    // ESPN indica tanda de penales en shortDetail: "FT (Pens)" / "Final (Pens)"
+    // ESPN indica tanda de penales en shortDetail: "FT-Pens" / "Final (Pens)"
     const shortDetail = (status.shortDetail ?? status.detail ?? '').toLowerCase();
-    if (shortDetail.includes('pen')) {
-      // Buscar resultado de penales en notas del evento
+    // Solo buscar penales si el partido terminó empatado (penales no cambian el marcador oficial)
+    if (shortDetail.includes('pen') && golesLocal === golesVisitante) {
+      // Formato real de ESPN: "Morocco advance 3-2 on penalties"
+      // El orden es GANADOR-PERDEDOR, no home-away
       const notesText = (comp.notes ?? [])
         .map((n) => n.headline ?? n.text ?? '')
         .join(' ');
-      const penMatch = notesText.match(/(\d+)\s*[–\-]\s*(\d+)\s*(?:on\s+)?pen/i);
+      const penMatch = notesText.match(/(.+?)\s+advance[s]?\s+(\d+)\s*[–\-]\s*(\d+)\s*on\s+pen/i);
       if (penMatch) {
-        // El orden en la nota suele ser home-away; determinamos quién es el local
-        const homeIsLocal =
-          cLocal.homeAway === 'home' || competitors.indexOf(cLocal) === 0;
-        penalesLocal = parseInt(homeIsLocal ? penMatch[1] : penMatch[2], 10);
-        penalesVisitante = parseInt(homeIsLocal ? penMatch[2] : penMatch[1], 10);
+        const ganadorNombre = penMatch[1].trim().toLowerCase();
+        const penGanador = parseInt(penMatch[2], 10);
+        const penPerdedor = parseInt(penMatch[3], 10);
+
+        // Determinar si el ganador es el local o el visitante
+        const nombreLocal = (cLocal.team?.displayName ?? cLocal.team?.shortDisplayName ?? cLocal.team?.abbreviation ?? '').toLowerCase();
+        const nombreVisitante = (cVisitante.team?.displayName ?? cVisitante.team?.shortDisplayName ?? cVisitante.team?.abbreviation ?? '').toLowerCase();
+
+        const ganadorEsLocal =
+          nombreLocal.includes(ganadorNombre.split(' ')[0]) ||
+          ganadorNombre.includes(nombreLocal.split(' ')[0]);
+
+        if (ganadorEsLocal) {
+          penalesLocal = penGanador;
+          penalesVisitante = penPerdedor;
+        } else {
+          penalesLocal = penPerdedor;
+          penalesVisitante = penGanador;
+        }
       }
     }
 

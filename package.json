@@ -10,8 +10,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "fetch-results": "node --env-file=.env scripts/fetchResults.mjs",
-    "fetch-results:dry": "node --env-file=.env scripts/fetchResults.mjs --dry-run"
+    "fetch-results": "node scripts/fetchResults.mjs",
+    "fetch-results:dry": "node scripts/fetchResults.mjs --dry-run"
   },
   "dependencies": {
     "@astrojs/vercel": "^11.0.0",
