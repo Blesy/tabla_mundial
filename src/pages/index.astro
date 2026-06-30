@@ -1,4 +1,5 @@
 ---
+export const prerender = false;
 import Layout from '../layouts/Layout.astro';
 import TablaGrupo from '../components/TablaGrupo.astro';
 import BracketEliminatorias from '../components/BracketEliminatorias.astro';
@@ -131,8 +132,23 @@ type PartidoConContexto = {
   hora: string;
 };
 
-const _hoyD = new Date(Date.now());
-const hoy = `${_hoyD.getUTCFullYear()}-${String(_hoyD.getUTCMonth() + 1).padStart(2, '0')}-${String(_hoyD.getUTCDate()).padStart(2, '0')}`;
+const _hoyD = new Date();
+const formateador = new Intl.DateTimeFormat('es-MX', {
+  timeZone: 'America/Hermosillo',
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit',
+});
+
+// Desestructuramos las partes de la fecha
+const [{ value: dia }, , { value: mes }, , { value: anio }] = formateador.formatToParts(_hoyD);
+
+const consolahoy = formateador.formatToParts(_hoyD).map(p => p.value).join('');
+
+// Armamos el string en formato YYYY-MM-DD
+const hoy = `${anio}-${mes}-${dia}`;
 
 const todosConFecha: Array<PartidoConContexto & { fecha: string }> = [];
 
@@ -278,3 +294,7 @@ const todasFechas: FechaSlot[] = fechasConPartidos.map((f) => ({
     gap: 1rem;
   }
 </style>
+
+<script define:vars={{ consolahoy }}>
+    console.log('Hoy:', consolahoy);
+</script>

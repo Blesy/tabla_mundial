@@ -24,6 +24,15 @@ interface Props {
 }
 
 const { todasFechas, dueñoEquipo, equiposInfo, inicioIndex } = Astro.props;
+const dateOptions: Intl.DateTimeFormatOptions = {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZone: 'America/Hermosillo',
+  }
 
 function formatFecha(f: string): string {
   const [year, month, day] = f.split('-').map(Number);
@@ -33,6 +42,9 @@ function formatFecha(f: string): string {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZone: 'America/Hermosillo',
   });
 }
 
