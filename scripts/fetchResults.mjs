@@ -386,8 +386,89 @@ for (const { partidos, nombre } of rondasElim) {
   }
 }
 
+// ── Avanzar ganadores a la siguiente fase ────────────────────────────────────
+console.log('\n─── Avanzando clasificados ──────────────────────────────────────');
+
+/**
+ * Dado un partido terminado, devuelve { ganador, perdedor } o null si el
+ * resultado aún no es definitivo (marcador null o empate sin penales resueltos).
+ */
+function determinarGanador(partido) {
+  if (partido.golesLocal === null || partido.golesVisitante === null) return null;
+  if (!partido.local || !partido.visitante) return null;
+
+  if (partido.golesLocal > partido.golesVisitante)
+    return { ganador: partido.local, perdedor: partido.visitante };
+  if (partido.golesVisitante > partido.golesLocal)
+    return { ganador: partido.visitante, perdedor: partido.local };
+
+  // Empate: solo resolver si los penales están definitivamente registrados
+  if (partido.penalesLocal !== null && partido.penalesVisitante !== null) {
+    if (partido.penalesLocal > partido.penalesVisitante)
+      return { ganador: partido.local, perdedor: partido.visitante };
+    if (partido.penalesVisitante > partido.penalesLocal)
+      return { ganador: partido.visitante, perdedor: partido.local };
+  }
+
+  return null; // empate sin penales resueltos todavía
+}
+
+// Partidos que generan clasificados (todas las rondas excepto la final y 3er lugar)
+const fuentesElim = [
+  ...(mundial.eliminatorias.treintaDos ?? []),
+  ...(mundial.eliminatorias.dieciseis  ?? []),
+  ...(mundial.eliminatorias.cuartos    ?? []),
+  ...(mundial.eliminatorias.semis      ?? []),
+];
+
+// Partidos que reciben clasificados (desde octavos hasta la final y 3er lugar)
+const receptoresElim = [
+  ...(mundial.eliminatorias.dieciseis ?? []),
+  ...(mundial.eliminatorias.cuartos   ?? []),
+  ...(mundial.eliminatorias.semis     ?? []),
+  mundial.eliminatorias.tercerLugar,
+  mundial.eliminatorias.final,
+];
+
+for (const fuente of fuentesElim) {
+  const res = determinarGanador(fuente);
+  if (!res) continue;
+
+  const { ganador, perdedor } = res;
+
+  for (const destino of receptoresElim) {
+    // Si el partido destino ya tiene marcador definitivo, no tocar sus equipos
+    const destinoJugado =
+      destino.golesLocal !== null && destino.golesVisitante !== null;
+
+    const slots = [
+      { descKey: 'descLocal',     campoKey: 'local',      prefijo: 'G', equipo: ganador  },
+      { descKey: 'descVisitante', campoKey: 'visitante',  prefijo: 'G', equipo: ganador  },
+      { descKey: 'descLocal',     campoKey: 'local',      prefijo: 'P', equipo: perdedor },
+      { descKey: 'descVisitante', campoKey: 'visitante',  prefijo: 'P', equipo: perdedor },
+    ];
+
+    for (const { descKey, campoKey, prefijo, equipo } of slots) {
+      if (destino[descKey] !== `${prefijo} ${fuente.id}`) continue;
+      if (destino[campoKey] === equipo) continue; // ya es correcto, sin cambio
+
+      if (destinoJugado) {
+        console.log(
+          `  [AVISO] ${destino.id}.${campoKey}: se esperaba ${equipo} pero el partido ya tiene marcador — se omite`,
+        );
+        continue;
+      }
+
+      const nombre = nombreEquipo[equipo] ?? equipo;
+      console.log(`  ${fuente.id} → ${destino.id}.${campoKey} = ${nombre}`);
+      if (!DRY_RUN) destino[campoKey] = equipo;
+      cambios++;
+    }
+  }
+}
+
 // ── Resumen ───────────────────────────────────────────────────────────────────
-console.log(`\n=== Resumen: ${cambios} partido(s) actualizado(s) ===`);
+console.log(`\n=== Resumen: ${cambios} partido(s)/clasificado(s) actualizado(s) ===`);
 
 if (cambios > 0 && !DRY_RUN) {
   writeFileSync(DATA_PATH, JSON.stringify(mundial, null, 2) + '\n', 'utf-8');

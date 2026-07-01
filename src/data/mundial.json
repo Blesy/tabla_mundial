@@ -1215,8 +1215,8 @@
         "id": "M89",
         "descLocal": "G M73",
         "descVisitante": "G M74",
-        "local": null,
-        "visitante": null,
+        "local": "CAN",
+        "visitante": "MAR",
         "golesLocal": null,
         "golesVisitante": null,
         "penalesLocal": null,
@@ -1228,8 +1228,8 @@
         "id": "M90",
         "descLocal": "G M75",
         "descVisitante": "G M76",
-        "local": null,
-        "visitante": null,
+        "local": "PAR",
+        "visitante": "FRA",
         "golesLocal": null,
         "golesVisitante": null,
         "penalesLocal": null,
@@ -1247,8 +1247,8 @@
         "golesVisitante": null,
         "penalesLocal": null,
         "penalesVisitante": null,
-        "fecha": "2026-07-05",
-        "hora": "13:00"
+        "fecha": "2026-07-06",
+        "hora": "17:00"
       },
       {
         "id": "M92",
@@ -1260,33 +1260,33 @@
         "golesVisitante": null,
         "penalesLocal": null,
         "penalesVisitante": null,
-        "fecha": "2026-07-05",
-        "hora": "17:00"
+        "fecha": "2026-07-06",
+        "hora": "12:00"
       },
       {
         "id": "M93",
         "descLocal": "G M81",
         "descVisitante": "G M82",
-        "local": null,
-        "visitante": null,
+        "local": "BRA",
+        "visitante": "NOR",
         "golesLocal": null,
         "golesVisitante": null,
         "penalesLocal": null,
         "penalesVisitante": null,
-        "fecha": "2026-07-06",
-        "hora": "12:00"
+        "fecha": "2026-07-05",
+        "hora": "13:00"
       },
       {
         "id": "M94",
         "descLocal": "G M83",
         "descVisitante": "G M84",
-        "local": null,
-        "visitante": null,
+        "local": "MEX",
+        "visitante": "ENG",
         "golesLocal": null,
         "golesVisitante": null,
         "penalesLocal": null,
         "penalesVisitante": null,
-        "fecha": "2026-07-06",
+        "fecha": "2026-07-05",
         "hora": "17:00"
       },
       {
@@ -1300,7 +1300,7 @@
         "penalesLocal": null,
         "penalesVisitante": null,
         "fecha": "2026-07-07",
-        "hora": "9:00"
+        "hora": "13:00"
       },
       {
         "id": "M96",
@@ -1313,7 +1313,7 @@
         "penalesLocal": null,
         "penalesVisitante": null,
         "fecha": "2026-07-07",
-        "hora": "13:00"
+        "hora": "09:00"
       }
     ],
     "cuartos": [
