@@ -1015,7 +1015,7 @@
         "hora": "12:00"
       },
       {
-        "id": "M74",
+        "id": "M75",
         "descLocal": "1F",
         "descVisitante": "2C",
         "local": "NED",
@@ -1028,7 +1028,7 @@
         "hora": "18:00"
       },
       {
-        "id": "M75",
+        "id": "M74",
         "descLocal": "1E",
         "descVisitante": "3er A/B/C/D/F",
         "local": "GER",
@@ -1041,7 +1041,7 @@
         "hora": "13:30"
       },
       {
-        "id": "M76",
+        "id": "M77",
         "descLocal": "1I",
         "descVisitante": "3er C/D/F/G/H",
         "local": "FRA",
@@ -1054,7 +1054,7 @@
         "hora": "14:00"
       },
       {
-        "id": "M77",
+        "id": "M82",
         "descLocal": "1G",
         "descVisitante": "3er A/E/H/I/J",
         "local": "BEL",
@@ -1067,7 +1067,7 @@
         "hora": "13:00"
       },
       {
-        "id": "M78",
+        "id": "M81",
         "descLocal": "1D",
         "descVisitante": "3er B/E/F/I/J",
         "local": "USA",
@@ -1080,7 +1080,7 @@
         "hora": "17:00"
       },
       {
-        "id": "M79",
+        "id": "M84",
         "descLocal": "1H",
         "descVisitante": "2J",
         "local": "ESP",
@@ -1093,7 +1093,7 @@
         "hora": "12:00"
       },
       {
-        "id": "M80",
+        "id": "M83",
         "descLocal": "2K",
         "descVisitante": "2L",
         "local": "POR",
@@ -1106,7 +1106,7 @@
         "hora": "16:00"
       },
       {
-        "id": "M81",
+        "id": "M76",
         "descLocal": "1C",
         "descVisitante": "2F",
         "local": "BRA",
@@ -1119,7 +1119,7 @@
         "hora": "10:00"
       },
       {
-        "id": "M82",
+        "id": "M78",
         "descLocal": "2E",
         "descVisitante": "2I",
         "local": "CIV",
@@ -1132,7 +1132,7 @@
         "hora": "10:00"
       },
       {
-        "id": "M83",
+        "id": "M79",
         "descLocal": "1A",
         "descVisitante": "3er C/E/F/H/I",
         "local": "MEX",
@@ -1145,7 +1145,7 @@
         "hora": "18:00"
       },
       {
-        "id": "M84",
+        "id": "M80",
         "descLocal": "1L",
         "descVisitante": "3er E/H/I/J/K",
         "local": "ENG",
@@ -1171,7 +1171,7 @@
         "hora": "20:00"
       },
       {
-        "id": "M86",
+        "id": "M87",
         "descLocal": "1K",
         "descVisitante": "3er D/E/I/J/L",
         "local": "COL",
@@ -1184,7 +1184,7 @@
         "hora": "18:30"
       },
       {
-        "id": "M87",
+        "id": "M88",
         "descLocal": "2D",
         "descVisitante": "2G",
         "local": "AUS",
@@ -1197,7 +1197,7 @@
         "hora": "11:00"
       },
       {
-        "id": "M88",
+        "id": "M86",
         "descLocal": "1J",
         "descVisitante": "2H",
         "local": "ARG",
@@ -1213,23 +1213,10 @@
     "dieciseis": [
       {
         "id": "M89",
-        "descLocal": "G M73",
-        "descVisitante": "G M74",
-        "local": "CAN",
-        "visitante": "MAR",
-        "golesLocal": null,
-        "golesVisitante": null,
-        "penalesLocal": null,
-        "penalesVisitante": null,
-        "fecha": "2026-07-04",
-        "hora": "10:00"
-      },
-      {
-        "id": "M90",
-        "descLocal": "G M75",
-        "descVisitante": "G M76",
-        "local": "PAR",
-        "visitante": "FRA",
+        "descLocal": "G M74",
+        "descVisitante": "G M77",
+        "local": null,
+        "visitante": null,
         "golesLocal": null,
         "golesVisitante": null,
         "penalesLocal": null,
@@ -1238,8 +1225,21 @@
         "hora": "14:00"
       },
       {
+        "id": "M90",
+        "descLocal": "G M73",
+        "descVisitante": "G M75",
+        "local": null,
+        "visitante": null,
+        "golesLocal": null,
+        "golesVisitante": null,
+        "penalesLocal": null,
+        "penalesVisitante": null,
+        "fecha": "2026-07-04",
+        "hora": "10:00"
+      },
+      {
         "id": "M91",
-        "descLocal": "G M77",
+        "descLocal": "G M76",
         "descVisitante": "G M78",
         "local": null,
         "visitante": null,
@@ -1247,8 +1247,8 @@
         "golesVisitante": null,
         "penalesLocal": null,
         "penalesVisitante": null,
-        "fecha": "2026-07-06",
-        "hora": "17:00"
+        "fecha": "2026-07-05",
+        "hora": "13:00"
       },
       {
         "id": "M92",
@@ -1260,51 +1260,38 @@
         "golesVisitante": null,
         "penalesLocal": null,
         "penalesVisitante": null,
-        "fecha": "2026-07-06",
-        "hora": "12:00"
-      },
-      {
-        "id": "M93",
-        "descLocal": "G M81",
-        "descVisitante": "G M82",
-        "local": "BRA",
-        "visitante": "NOR",
-        "golesLocal": null,
-        "golesVisitante": null,
-        "penalesLocal": null,
-        "penalesVisitante": null,
-        "fecha": "2026-07-05",
-        "hora": "13:00"
-      },
-      {
-        "id": "M94",
-        "descLocal": "G M83",
-        "descVisitante": "G M84",
-        "local": "MEX",
-        "visitante": "ENG",
-        "golesLocal": null,
-        "golesVisitante": null,
-        "penalesLocal": null,
-        "penalesVisitante": null,
         "fecha": "2026-07-05",
         "hora": "17:00"
       },
       {
-        "id": "M95",
-        "descLocal": "G M85",
-        "descVisitante": "G M86",
+        "id": "M93",
+        "descLocal": "G M83",
+        "descVisitante": "G M84",
         "local": null,
         "visitante": null,
         "golesLocal": null,
         "golesVisitante": null,
         "penalesLocal": null,
         "penalesVisitante": null,
-        "fecha": "2026-07-07",
-        "hora": "13:00"
+        "fecha": "2026-07-06",
+        "hora": "12:00"
       },
       {
-        "id": "M96",
-        "descLocal": "G M87",
+        "id": "M94",
+        "descLocal": "G M81",
+        "descVisitante": "G M82",
+        "local": null,
+        "visitante": null,
+        "golesLocal": null,
+        "golesVisitante": null,
+        "penalesLocal": null,
+        "penalesVisitante": null,
+        "fecha": "2026-07-06",
+        "hora": "17:00"
+      },
+      {
+        "id": "M95",
+        "descLocal": "G M86",
         "descVisitante": "G M88",
         "local": null,
         "visitante": null,
@@ -1313,7 +1300,20 @@
         "penalesLocal": null,
         "penalesVisitante": null,
         "fecha": "2026-07-07",
-        "hora": "09:00"
+        "hora": "9:00"
+      },
+      {
+        "id": "M96",
+        "descLocal": "G M85",
+        "descVisitante": "G M87",
+        "local": null,
+        "visitante": null,
+        "golesLocal": null,
+        "golesVisitante": null,
+        "penalesLocal": null,
+        "penalesVisitante": null,
+        "fecha": "2026-07-07",
+        "hora": "13:00"
       }
     ],
     "cuartos": [
@@ -1332,8 +1332,8 @@
       },
       {
         "id": "M98",
-        "descLocal": "G M91",
-        "descVisitante": "G M92",
+        "descLocal": "G M93",
+        "descVisitante": "G M94",
         "local": null,
         "visitante": null,
         "golesLocal": null,
@@ -1345,8 +1345,8 @@
       },
       {
         "id": "M99",
-        "descLocal": "G M93",
-        "descVisitante": "G M94",
+        "descLocal": "G M91",
+        "descVisitante": "G M92",
         "local": null,
         "visitante": null,
         "golesLocal": null,
