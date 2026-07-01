@@ -14,7 +14,7 @@
     "fetch-results:dry": "node scripts/fetchResults.mjs --dry-run"
   },
   "dependencies": {
-    "@astrojs/vercel": "^8.0.4",
+    "@astrojs/vercel": "^11",
     "astro": "^7.0.3"
   },
   "allowScripts": {
